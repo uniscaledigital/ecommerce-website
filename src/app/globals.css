@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Outfit:wght@300;400;500;600;700&family=Urbanist:wght@500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-commerce: #214d3b;
+  --color-forest: #17392d;
+  --color-ivory: #faf7ef;
+  --color-christmas: #f8f3e6;
+  --color-gold: #e5c781;
+  --color-offer: #962d2d;
+  --color-ink: #1f2421;
+  --color-border: #e8e5df;
+}
+
+body {
+  color: #1f2421;
+  background-color: #faf7ef;
+  font-family: "Outfit", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Urbanist", sans-serif;
+}
+
+.font-serif-display {
+  font-family: "Lora", "Georgia", serif;
+}
+
+/* Custom spotlight effect for product cards matching Figma & PDF Page 4, 10, 14, 18 */
+.product-spotlight-frame {
+  background: radial-gradient(circle at 50% 35%, #2a2c2b 0%, #151616 55%, #0d0e0d 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle dashed button for Log In to View Prices */
+.dashed-login-btn {
+  border: 1.5px dashed #214d3b;
+  color: #214d3b;
+  transition: all 0.2s ease-in-out;
+}
+
+.dashed-login-btn:hover {
+  background-color: rgba(33, 77, 59, 0.05);
+  border-color: #17392d;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1ede3;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9c3b6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #214d3b;
+}
+
+/* Smooth transitions */
+button, a {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
