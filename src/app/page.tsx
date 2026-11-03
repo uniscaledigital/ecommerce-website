@@ -1,8 +1,7 @@
 import React from "react";
-import { ChristmasSection } from "@/components/home/ChristmasSection";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FamiliarBrandsSection } from "@/components/home/FamiliarBrandsSection";
-import { DepartmentGridSection } from "@/components/home/DepartmentGridSection";
+import { CategoryCarousel } from "@/components/home/CategoryCarousel";
 import { CrispsSection } from "@/components/home/CrispsSection";
 import { NewArrivalsSection } from "@/components/home/NewArrivalsSection";
 import { StoreInfoSection } from "@/components/home/StoreInfoSection";
@@ -17,36 +16,32 @@ export default async function HomePage() {
 
   return (
     <div className="w-full pb-12">
-      {/* 1. Christmas Promotional Section & Group Buying */}
-      <ChristmasSection />
-
-      {/* 2. Main Hero Section — A little taste of home */}
+      {/* 1. Homepage Hero — Main Irish Grocer Hero with Grocery Background */}
       <HeroSection />
 
-      {/* 3. Familiar Irish Brands Showcase */}
-      <FamiliarBrandsSection />
+      {/* 2. Shop by Category Carousel — 9 Aisle Infinite Horizontal Scroll */}
+      <CategoryCarousel />
 
-      {/* 4. Department / Category Grid */}
-      <DepartmentGridSection />
-
-      {/* 5. Crisps & Snacks Curated Section */}
+      {/* 3. Crisps & Savory Snacks — 4-Column Product Cards */}
       <CrispsSection products={crispsProducts} />
 
-      {/* 6. New Arrivals Curated Section */}
+      {/* 4. Fresh New Arrivals — Recently Added Products */}
       <NewArrivalsSection products={newArrivalsProducts} />
 
-      {/* 7. The Irish Grocer Quincy Store Information */}
+      {/* 5. Ireland's Most Loved Pantry Staples — 3 Featured Brand Cards */}
+      <FamiliarBrandsSection />
+
+      {/* 6. The Irish Grocer Quincy Store Information */}
       <StoreInfoSection />
 
-      {/* 8. Easy Gifting Promotional Section */}
+      {/* 7. Easy Gifting Promotional Section */}
       <GiftingSection />
 
-      {/* 9. Exclusive Finds Section */}
+      {/* 8. Exclusive Finds Section */}
       <ExclusiveFindsSection />
 
-      {/* 10. Order with Confidence Workflow */}
+      {/* 9. Order with Confidence Workflow */}
       <OrderConfidenceSection />
     </div>
   );
 }
-

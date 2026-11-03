@@ -1,10 +1,10 @@
 export const SITE_CONFIG = {
   name: "The Irish Grocer",
-  tagline: "Irish & UK grocery favourites in Quincy, Massachusetts",
+  tagline: "Taste of Home: Traditional Pantry & Farmhouse Essentials",
   motto: "Enter as a Stranger • Leave as a Friend.",
   description:
-    "Imported Irish and UK grocery favourites in Quincy, Massachusetts. Familiar brands, friendly service and an easy way to shop the foods you miss from home.",
-  phone: "+1 (857) 387-2065",
+    "Imported Irish and UK grocery favourites in Quincy, Massachusetts. Delivered straight from Dublin and Cork to New England weekly.",
+  phone: "(857) 387-2065",
   phoneRaw: "8573872065",
   email: "theirishgrocer@gmail.com",
   address: {
@@ -15,6 +15,7 @@ export const SITE_CONFIG = {
     full: "132 East Howard Street, Quincy, MA 02169",
   },
   hours: "7:00 AM – 10:00 PM • 365 days a year",
+  announcement: "Free in-store pickup in Quincy, MA • Open 365 days a year",
   social: {
     facebook: "https://facebook.com",
     twitter: "https://x.com",
@@ -22,49 +23,61 @@ export const SITE_CONFIG = {
   },
 };
 
-export const NAVIGATION_LINKS = [
-  { label: "Exclusive Finds", href: "/#exclusive-finds" },
-  { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop" },
+// Top Category Navigation bar (Matching Section 4)
+export const CATEGORY_NAVIGATION_LINKS = [
+  { label: "All Products", href: "/shop" },
   { label: "Christmas Treats", href: "/collections/christmas" },
-  { label: "Drinks", href: "/collections/drinks" },
-  { label: "Chocolates", href: "/collections/candies-sweets" },
-  { label: "Sweets", href: "/collections/candies-sweets" },
-  { label: "Crisps & Snacks", href: "/collections/crisps-snacks" },
   { label: "Tea & Coffee", href: "/collections/tea-coffee" },
+  { label: "Crisps & Snacks", href: "/collections/crisps-snacks" },
+  { label: "Chocolates & Sweets", href: "/collections/candies-sweets" },
   { label: "Bread & Bakery", href: "/collections/bread-bakery" },
-  { label: "Two and a Half Irishmen", href: "/shop?vendor=Two+and+a+Half+Irishmen" },
-  { label: "Frozen", href: "/collections/grocery?type=frozen" },
-  { label: "Meats", href: "/collections/meats" },
-  { label: "Gift", href: "/collections/gifts-merchandise" },
+  { label: "Meats & Refrigerated", href: "/collections/meats" },
+  { label: "Sauces & Merchandise", href: "/collections/sauces-condiments" },
+  { label: "Exclusive Finds", href: "/collections/exclusive-finds" },
+];
+
+export const NAVIGATION_LINKS = CATEGORY_NAVIGATION_LINKS;
+
+export const AISLES = [
+  { label: "All Aisles", value: "all" },
+  { label: "Pantry & Groceries", value: "grocery" },
+  { label: "Tea & Coffee", value: "tea-coffee" },
+  { label: "Crisps & Snacks", value: "crisps-snacks" },
+  { label: "Chocolates & Sweets", value: "candies-sweets" },
+  { label: "Bakery & Breads", value: "bread-bakery" },
+  { label: "Irish Meats", value: "meats" },
+  { label: "Beverages", value: "drinks" },
+  { label: "Holiday Specials", value: "christmas" },
 ];
 
 export const FOOTER_SHOP_LINKS = [
-  { label: "Drinks", href: "/collections/drinks" },
-  { label: "Chocolates", href: "/collections/candies-sweets" },
-  { label: "Crisps & Snacks", href: "/collections/crisps-snacks" },
+  { label: "All Products", href: "/shop" },
   { label: "Tea & Coffee", href: "/collections/tea-coffee" },
+  { label: "Crisps & Snacks", href: "/collections/crisps-snacks" },
+  { label: "Chocolates & Sweets", href: "/collections/candies-sweets" },
   { label: "Bread & Bakery", href: "/collections/bread-bakery" },
-  { label: "Frozen", href: "/collections/grocery?type=frozen" },
+  { label: "Meats & Refrigerated", href: "/collections/meats" },
+  { label: "Drinks", href: "/collections/drinks" },
+  { label: "Christmas Treats", href: "/collections/christmas" },
 ];
 
 export const FOOTER_HELP_LINKS = [
   { label: "Exclusive Finds", href: "/#exclusive-finds" },
-  { label: "About Us", href: "/#about-us" },
-  { label: "Wholesale", href: "/#wholesale" },
-  { label: "Contact", href: "/#store-info" },
-  { label: "Your privacy choices", href: "/privacy" },
+  { label: "Store Locator & Hours", href: "/#store-info" },
+  { label: "Order with Confidence", href: "/#order-confidence" },
+  { label: "Quincy In-Store Pickup", href: "/#store-info" },
+  { label: "Contact Quincy Store", href: "tel:8573872065" },
   { label: "theirishgrocer@gmail.com", href: "mailto:theirishgrocer@gmail.com" },
-  { label: "Privacy policy", href: "/privacy" },
+  { label: "Privacy Policy", href: "/privacy" },
 ];
 
 export const DEPARTMENTS = [
   {
-    title: "Christmas",
+    title: "Christmas Treats",
     handle: "christmas",
     image: "/assets/categories/christmas.png",
     description: "Festive selection boxes, advent calendars, and holiday treats.",
-    count: 24,
+    count: 4,
   },
   {
     title: "Bread & Bakery",
@@ -74,7 +87,7 @@ export const DEPARTMENTS = [
     count: 36,
   },
   {
-    title: "Candies & Sweets",
+    title: "Chocolates & Sweets",
     handle: "candies-sweets",
     image: "/assets/categories/candies-sweets.png",
     description: "Classic confectioneries, fruit pastilles, and chocolate bars.",
@@ -109,7 +122,7 @@ export const DEPARTMENTS = [
     count: 54,
   },
   {
-    title: "Meats",
+    title: "Meats & Refrigerated",
     handle: "meats",
     image: "/assets/categories/meats.png",
     description: "Traditional back bacon rashers, pork sausages, and white pudding.",
@@ -144,7 +157,7 @@ export const DEPARTMENTS = [
     count: 48,
   },
   {
-    title: "Sauces & Condiments",
+    title: "Sauces & Merchandise",
     handle: "sauces-condiments",
     image: "/assets/categories/sauces-condiments.png",
     description: "Chef brown sauce, Dairygold, Colman's mustard, and malt vinegar.",
@@ -156,6 +169,13 @@ export const DEPARTMENTS = [
     image: "/assets/categories/tea-coffee.png",
     description: "Barry's Tea Gold Blend, Lyons, Bewley's, and loose leaves.",
     count: 46,
+  },
+  {
+    title: "Exclusive Finds",
+    handle: "exclusive-finds",
+    image: "/assets/categories/gifts-merchandise.png",
+    description: "Speciality European perishables, artisanal puddings, and seasonal batch imports reserved for direct enquiry.",
+    count: 3,
   },
   {
     title: "Bundles",
@@ -176,6 +196,8 @@ export const CHRISTMAS_BUNDLES = [
     originalPrice: 87.89,
     individualCountText: "Receive 11 individual boxes.",
     handle: "cadbury-medium-santa-selection-box-125g",
+    badge: "Special Bundle",
+    image: "/assets/banners/christmas-basket.png",
   },
   {
     id: "bundle-2",
@@ -186,6 +208,8 @@ export const CHRISTMAS_BUNDLES = [
     originalPrice: 263.88,
     individualCountText: "Receive 12 individual tubs.",
     handle: "cadbury-roses-tub-475g",
+    badge: "Popular Deal",
+    image: "/assets/banners/christmas-basket.png",
   },
   {
     id: "bundle-3",
@@ -196,6 +220,8 @@ export const CHRISTMAS_BUNDLES = [
     originalPrice: 185.99,
     individualCountText: "Receive 31 individual boxes.",
     handle: "cadbury-santa-small-selection-box-78g",
+    badge: "Best Value",
+    image: "/assets/banners/christmas-basket.png",
   },
   {
     id: "bundle-4",
@@ -206,6 +232,7 @@ export const CHRISTMAS_BUNDLES = [
     originalPrice: 120.99,
     individualCountText: "Receive 11 individual boxes.",
     handle: "cadbury-stocking-selection-box-174g",
+    badge: "Limited Stock",
+    image: "/assets/banners/christmas-basket.png",
   },
 ];
-

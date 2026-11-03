@@ -9,50 +9,90 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Official Brand Color Tokens (Specification)
+        brand: {
+          background: "#FDF4E3",
+          surface: "#FFFAF1",
+          card: "#FFFFFF",
+          "soft-green": "#E8F5E9",
+          "soft-cream": "#F7EBD8",
+          border: "#E8DFCF",
+          primary: "#14532D",
+          dark: "#064E3B",
+          accent: "#22C55E",
+          text: "#1F2937",
+          muted: "#64748B",
+        },
+        // Core Theme Tokens
+        primary: {
+          DEFAULT: "#14532D",
+          hover: "#064E3B",
+          light: "#1B6B3B",
+        },
+        accent: {
+          DEFAULT: "#22C55E",
+          hover: "#16A34A",
+          light: "#86EFAC",
+        },
+        surface: {
+          DEFAULT: "#FFFAF1",
+          card: "#FFFFFF",
+          cream: "#FDF4E3",
+          muted: "#F7EBD8",
+        },
+        irish: {
+          bg: "#FDF4E3",
+          card: "#FFFAF1",
+          text: "#1F2937",
+          muted: "#4B5563",
+          border: "#E8DFCF",
+        },
         commerce: {
-          DEFAULT: "#214D3B",
-          dark: "#1A3E2F",
-          light: "#2B634D",
+          DEFAULT: "#14532D",
+          dark: "#064E3B",
+          light: "#1B6B3B",
         },
         forest: {
-          DEFAULT: "#17392D",
-          dark: "#0F261E",
+          DEFAULT: "#14532D",
+          dark: "#064E3B",
         },
         ivory: {
-          DEFAULT: "#FAF7EF",
-          card: "#FDFBF7",
-          muted: "#F3EDE0",
+          DEFAULT: "#FDF4E3",
+          card: "#FFFAF1",
+          muted: "#F7EBD8",
         },
         christmas: {
-          cream: "#F8F3E6",
+          cream: "#FDF4E3",
           badge: "#962D2D",
         },
         gold: {
-          DEFAULT: "#E5C781",
-          hover: "#D6B467",
-          dark: "#8D7017",
+          DEFAULT: "#22C55E",
+          hover: "#16A34A",
+          dark: "#14532D",
         },
         offer: {
-          DEFAULT: "#962D2D",
-          light: "#B83B3B",
+          DEFAULT: "#DC2626",
+          light: "#EF4444",
         },
         ink: {
-          DEFAULT: "#1F2421",
-          muted: "#5A655F",
-          light: "#7B8680",
+          DEFAULT: "#1F2937",
+          muted: "#4B5563",
+          light: "#6B7280",
         },
         irishBorder: {
-          DEFAULT: "#E8E5DF",
-          subtle: "#F0EDE8",
-          dark: "#D1CDBF",
+          DEFAULT: "#E8DFCF",
+          subtle: "#F5EFE4",
+          dark: "#D9CDBA",
         },
-        spotlight: "#121413",
+        spotlight: "#FFFAF1",
       },
       fontFamily: {
-        serif: ["Georgia", "Lora", "serif"],
-        heading: ["Urbanist", "sans-serif"],
-        commerce: ["Outfit", "sans-serif"],
-        nav: ["Arial", "Arimo", "sans-serif"],
+        manrope: ["Manrope", "sans-serif"],
+        serif: ["Playfair Display", "Georgia", "serif"],
+        heading: ["Manrope", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        commerce: ["Inter", "sans-serif"],
+        nav: ["Inter", "sans-serif"],
       },
       screens: {
         xs: "375px",
@@ -63,9 +103,10 @@ const config: Config = {
         "2xl": "1440px",
       },
       boxShadow: {
-        card: "0 2px 8px -2px rgba(31, 36, 33, 0.06), 0 1px 4px -1px rgba(31, 36, 33, 0.04)",
-        dropdown: "0 10px 25px -5px rgba(23, 57, 45, 0.1), 0 8px 10px -6px rgba(23, 57, 45, 0.08)",
-        modal: "0 20px 40px -10px rgba(23, 57, 45, 0.2)",
+        card: "0 2px 10px -2px rgba(31, 41, 55, 0.05), 0 1px 4px -1px rgba(31, 41, 55, 0.03)",
+        cardHover: "0 10px 25px -5px rgba(20, 83, 45, 0.08), 0 8px 10px -6px rgba(20, 83, 45, 0.04)",
+        dropdown: "0 10px 25px -5px rgba(20, 83, 45, 0.1), 0 8px 10px -6px rgba(20, 83, 45, 0.08)",
+        modal: "0 25px 50px -12px rgba(20, 83, 45, 0.25)",
       },
     },
   },
@@ -73,4 +114,3 @@ const config: Config = {
 };
 
 export default config;
-

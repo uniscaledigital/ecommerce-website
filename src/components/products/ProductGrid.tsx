@@ -15,9 +15,9 @@ export function ProductGrid({ products, columns = 4 }: ProductGridProps) {
 
   if (products.length === 0) {
     return (
-      <div className="py-16 text-center border border-dashed border-irishBorder rounded-lg bg-ivory p-8">
-        <p className="text-base font-semibold text-ink">No products found</p>
-        <p className="text-xs text-ink-muted mt-1">
+      <div className="py-16 text-center border border-dashed border-[#E8DFCF] rounded-xl bg-[#FFFAF1] p-8">
+        <p className="text-base font-bold text-[#1F2937]">No products found</p>
+        <p className="text-xs text-[#4B5563] mt-1">
           Try adjusting your search keywords or filter settings.
         </p>
       </div>

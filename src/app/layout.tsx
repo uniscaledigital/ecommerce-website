@@ -29,13 +29,13 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/assets/logo/the-irish-grocer-logo.png",
-    apple: "/assets/logo/the-irish-grocer-logo.png",
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#214D3B",
+  themeColor: "#FDF4E3",
   width: "device-width",
   initialScale: 1,
 };
@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-ivory text-ink">
+      <body className="min-h-screen flex flex-col bg-[#FDF4E3] text-[#1F2937]">
         <AuthProvider>
           <CartProvider>
             <AnnouncementBar />

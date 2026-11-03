@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="32 48 120 120" width="120" height="120" role="img" aria-label="Irish Grocer Emblem">
+  <rect x="32" y="48" width="120" height="120" rx="26" fill="#FDF4E3"/>
+  <!-- shadow -->
+  <g transform="translate(90.6 143.6)">
+    <g><animateTransform attributeName="transform" type="scale" values="1 1;1 1;1 1;0.8 0.8;0.8 0.8;1 1;1 1;1 1;1 1" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+      <ellipse rx="15" ry="1.9" fill="#E4E5D2"><animate attributeName="opacity" values="1;1;1;0.55;0.55;1;1;1;1" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite"/></ellipse>
+    </g>
+  </g>
+
+  <!-- clover -->
+  <g><animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 0;0 -9;0 -9;0 0;0 0;0 0;0 0" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+   <g transform="translate(90.0 142.4)"><g><animateTransform attributeName="transform" type="scale" values="1 1;1 1;1.05 0.88;0.96 1.06;0.96 1.06;1.07 0.86;0.98 1.04;1 1;1 1" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+    <g transform="translate(-90.0 -142.4)">
+
+      <!-- left leaf -->
+      <g transform="translate(96.5 103.6)"><g><animateTransform attributeName="transform" type="rotate" values="0;0;3;-9;-9;4;-1;0;0" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+        <g><animateTransform attributeName="transform" type="rotate" values="0;-1.6;0;1;0" dur="1.2s" repeatCount="indefinite"/>
+          <g transform="rotate(-117) scale(1.0 1.03)">
+            <path d="M0 0 C-4 -4 -17 -14 -17 -24 C-17 -30 -13 -32.6 -9 -32.6 C-4 -32.6 -0.5 -29.5 0 -26 Z" fill="#298944"/>
+            <path d="M0 0 C4 -4 17 -14 17 -24 C17 -30 13 -32.6 9 -32.6 C4 -32.6 0.5 -29.5 0 -26 Z" fill="#4A9D63"/>
+          </g>
+        </g>
+      </g></g>
+
+      <!-- right leaf -->
+      <g transform="translate(96.5 103.6)"><g><animateTransform attributeName="transform" type="rotate" values="0;0;-3;9;9;-4;1;0;0" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+        <g><animateTransform attributeName="transform" type="rotate" values="0;1.6;0;-1;0" dur="1.2s" repeatCount="indefinite"/>
+          <g transform="rotate(114) scale(1.0 1.03)">
+            <path d="M0 0 C-4 -4 -17 -14 -17 -24 C-17 -30 -13 -32.6 -9 -32.6 C-4 -32.6 -0.5 -29.5 0 -26 Z" fill="#3EA24C"/>
+            <path d="M0 0 C4 -4 17 -14 17 -24 C17 -30 13 -32.6 9 -32.6 C4 -32.6 0.5 -29.5 0 -26 Z" fill="#5BB167"/>
+          </g>
+        </g>
+      </g></g>
+
+      <!-- stem -->
+      <path d="M96.5 103.6 C96.5 118 93.5 130 88.8 142.4" fill="none" stroke="#1E7B45" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- heart leaf with face -->
+      <g transform="translate(96.5 103.6)"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 1.5;0 -1;0 -1;0 1;0 0;0 0;0 0" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" /><g><animateTransform attributeName="transform" type="scale" values="1 1;1 1;1.03 0.9;0.97 1.07;0.97 1.07;1.04 0.92;1 1.02;1 1;1 1" keyTimes="0.0000;0.3750;0.4375;0.5417;0.6250;0.7292;0.7917;0.8542;1.0000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" repeatCount="indefinite" />
+        <g><animateTransform attributeName="transform" type="rotate" values="0;1.2;0;-1.2;0" dur="1.8s" repeatCount="indefinite"/>
+          <path d="M0 0 C-4 -4 -17 -14 -17 -24 C-17 -30 -13 -32.6 -9 -32.6 C-4 -32.6 -0.5 -29.5 0 -26 Z" fill="#6EBC47"/>
+          <path d="M0 0 C4 -4 17 -14 17 -24 C17 -30 13 -32.6 9 -32.6 C4 -32.6 0.5 -29.5 0 -26 Z" fill="#87C462"/>
+          <circle cx="-4.6" cy="-20.6" r="2.2" fill="#14502C"/>
+          <circle cx="5.5" cy="-20.6" r="2.2" fill="#14502C"/>
+          <path d="M-3.4 -15.8 Q0.5 -12.4 4.3 -15.8" fill="none" stroke="#14502C" stroke-width="1.15" stroke-linecap="round"/>
+          <rect x="-10.6" y="-18.6" width="4.4" height="4.2" rx="2" fill="#D9A68B" opacity="0.8"/>
+          <rect x="7.6" y="-18.6" width="4.4" height="4.2" rx="2" fill="#D9A68B" opacity="0.8"/>
+        </g>
+      </g></g></g>
+
+    </g>
+   </g></g>
+  </g>
+</svg>

@@ -58,11 +58,11 @@ export function ProductDetailsClient({
 
   return (
     <div className="space-y-16">
-      {/* 2-Column Product Container matching PDF Page 6 */}
+      {/* 2-Column Product Container */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Image Spotlight Showcase */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="relative aspect-square w-full product-spotlight-frame rounded-xl border border-irishBorder overflow-hidden p-8 shadow-sm">
+          <div className="relative aspect-square w-full product-spotlight-frame rounded-2xl border border-[#E8DFCF] overflow-hidden p-8 shadow-xs">
             <Image
               src={images[activeImageIndex]?.url || product.featuredImage.url}
               alt={images[activeImageIndex]?.altText || product.title}
@@ -80,10 +80,10 @@ export function ProductDetailsClient({
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-20 rounded-md overflow-hidden product-spotlight-frame border-2 transition-all shrink-0 ${
+                  className={`relative w-20 h-20 rounded-lg overflow-hidden product-spotlight-frame border-2 transition-all shrink-0 ${
                     activeImageIndex === idx
-                      ? "border-commerce scale-105"
-                      : "border-irishBorder opacity-70 hover:opacity-100"
+                      ? "border-[#14532D] scale-105"
+                      : "border-[#E8DFCF] opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
@@ -102,15 +102,15 @@ export function ProductDetailsClient({
         <div className="lg:col-span-5 space-y-6">
           {/* Brand & Title */}
           <div>
-            <p className="text-xs font-semibold text-ink-light uppercase tracking-wider mb-1">
+            <p className="text-xs font-semibold text-[#4B5563] uppercase tracking-wider mb-1">
               {product.vendor}
             </p>
-            <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-[#8D7017] leading-tight">
+            <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1F2937] leading-tight">
               {product.title}
             </h1>
 
             {/* SKU & Barcode */}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-ink-muted mt-2 pt-1 border-t border-irishBorder/40">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-[#4B5563] mt-2 pt-1 border-t border-[#E8DFCF]/50">
               {product.sku && (
                 <span>
                   <strong>SKU:</strong> {product.sku}
@@ -131,22 +131,22 @@ export function ProductDetailsClient({
               <div className="space-y-2">
                 <Link
                   href="/account/login"
-                  className="dashed-login-btn block w-full py-3.5 px-4 text-center text-sm font-medium rounded-md"
+                  className="dashed-login-btn block w-full py-3.5 px-4 text-center text-sm font-semibold rounded-lg"
                 >
                   <span className="underline font-bold">Log in</span> to view prices
                 </Link>
-                <p className="text-xs text-ink-light text-center">
+                <p className="text-xs text-[#4B5563] text-center">
                   Wholesale and customer pricing is available upon signing in.
                 </p>
               </div>
             ) : (
-              <div className="bg-white border border-irishBorder rounded-lg p-5 space-y-4 shadow-sm">
+              <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-5 space-y-4 shadow-xs">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-2xl font-bold text-commerce">
+                    <span className="text-2xl font-bold text-[#14532D]">
                       {formatMoney(currentVariant.price)}
                     </span>
-                    <span className="text-xs text-ink-muted block mt-0.5">
+                    <span className="text-xs text-[#4B5563] block mt-0.5">
                       Prices in USD • Quincy, MA Store
                     </span>
                   </div>
@@ -154,15 +154,15 @@ export function ProductDetailsClient({
                     <span
                       className={`inline-flex items-center gap-1.5 text-xs font-semibold ${
                         product.availableForSale
-                          ? "text-blue-600"
-                          : "text-offer"
+                          ? "text-[#22C55E]"
+                          : "text-red-500"
                       }`}
                     >
                       <span
                         className={`w-2 h-2 rounded-full ${
                           product.availableForSale
-                            ? "bg-blue-600"
-                            : "bg-offer"
+                            ? "bg-[#22C55E]"
+                            : "bg-red-500"
                         }`}
                       />
                       {product.availableForSale ? "In stock" : "Out of stock"}
@@ -172,20 +172,20 @@ export function ProductDetailsClient({
 
                 {/* Quantity & Add to Cart */}
                 <div className="flex items-center gap-3 pt-2">
-                  <div className="flex items-center border border-irishBorder rounded-md bg-ivory">
+                  <div className="flex items-center border border-[#E8DFCF] rounded-lg bg-[#FFFAF1]">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-2 text-ink hover:text-commerce"
+                      className="px-3 py-2 text-[#1F2937] hover:text-[#14532D]"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="px-3 text-sm font-bold text-ink min-w-[28px] text-center">
+                    <span className="px-3 text-sm font-bold text-[#1F2937] min-w-[28px] text-center">
                       {quantity}
                     </span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-3 py-2 text-ink hover:text-commerce"
+                      className="px-3 py-2 text-[#1F2937] hover:text-[#14532D]"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -195,11 +195,11 @@ export function ProductDetailsClient({
                   <button
                     onClick={handleAddToCart}
                     disabled={!product.availableForSale}
-                    className="flex-1 bg-commerce hover:bg-commerce-dark text-white py-3 px-6 text-sm font-semibold rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+                    className="flex-1 bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-6 text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
                   >
                     {isAdded ? (
                       <>
-                        <Check className="w-4 h-4 text-gold" />
+                        <Check className="w-4 h-4 text-[#22C55E]" />
                         <span>Added to Cart!</span>
                       </>
                     ) : (
@@ -213,27 +213,27 @@ export function ProductDetailsClient({
 
           {/* Variant Selector */}
           <div>
-            <label className="block text-xs font-semibold text-ink-light uppercase mb-1.5">
-              Default Title: Default Title
+            <label className="block text-xs font-semibold text-[#4B5563] uppercase mb-1.5">
+              Selection Option
             </label>
-            <div className="inline-block border border-[#8D7017] rounded px-4 py-2 text-xs font-semibold text-ink bg-ivory">
+            <div className="inline-block border border-[#14532D]/40 rounded-lg px-4 py-2 text-xs font-bold text-[#14532D] bg-[#F7EBD8]">
               {currentVariant.title}
             </div>
           </div>
 
           {/* Description */}
-          <div className="border-t border-irishBorder pt-6 space-y-3">
-            <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
+          <div className="border-t border-[#E8DFCF] pt-6 space-y-3">
+            <h3 className="text-sm font-bold text-[#14532D] uppercase tracking-wider font-sans">
               Product Information
             </h3>
-            <p className="text-sm text-ink-muted leading-relaxed">
+            <p className="text-sm text-[#4B5563] leading-relaxed font-sans">
               {product.description}
             </p>
           </div>
 
-          {/* Social Share Icons matching PDF Page 6 */}
-          <div className="border-t border-irishBorder pt-4 flex items-center gap-4 text-xs text-ink-muted">
-            <span className="font-semibold text-ink">Share:</span>
+          {/* Social Share Icons */}
+          <div className="border-t border-[#E8DFCF] pt-4 flex items-center gap-4 text-xs text-[#4B5563]">
+            <span className="font-semibold text-[#1F2937]">Share:</span>
             <div className="flex items-center gap-3">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -241,7 +241,7 @@ export function ProductDetailsClient({
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-commerce transition-colors p-1"
+                className="hover:text-[#14532D] transition-colors p-1"
                 aria-label="Share on Facebook"
               >
                 <FacebookIcon className="w-4 h-4" />
@@ -252,7 +252,7 @@ export function ProductDetailsClient({
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-commerce transition-colors p-1"
+                className="hover:text-[#14532D] transition-colors p-1"
                 aria-label="Share on X"
               >
                 <TwitterIcon className="w-4 h-4" />
@@ -263,7 +263,7 @@ export function ProductDetailsClient({
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-commerce transition-colors p-1"
+                className="hover:text-[#14532D] transition-colors p-1"
                 aria-label="Share on Pinterest"
               >
                 <Pin className="w-4 h-4" />
@@ -275,14 +275,14 @@ export function ProductDetailsClient({
 
       {/* Related Products Grid */}
       {relatedProducts.length > 0 && (
-        <div className="pt-12 border-t border-irishBorder space-y-6">
+        <div className="pt-12 border-t border-[#E8DFCF] space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-serif-display text-2xl font-bold text-ink">
+            <h2 className="font-serif-display text-2xl font-bold text-[#1F2937]">
               Related Favourites
             </h2>
             <Link
               href="/shop"
-              className="text-xs font-semibold text-commerce hover:underline"
+              className="text-xs font-semibold text-[#14532D] hover:underline"
             >
               Browse all items →
             </Link>

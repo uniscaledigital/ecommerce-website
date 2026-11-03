@@ -172,16 +172,16 @@ export async function getCollectionByHandle(
 
   const dept = DEPARTMENTS.find((d) => d.handle.toLowerCase() === handle.toLowerCase());
   if (!dept) {
-    // If not found directly, create generic collection representation
+    // If not found directly, create generic collection representation with empty state
     return {
       collection: {
         id: `col-${handle}`,
         title: handle.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
         handle: handle,
         description: `Explore our selection of ${handle.replace(/-/g, " ")}.`,
-        productCount: 12,
+        productCount: 0,
       },
-      products: PRODUCTS.slice(0, 8),
+      products: [],
     };
   }
 
@@ -193,9 +193,9 @@ export async function getCollectionByHandle(
       handle: dept.handle,
       description: dept.description,
       image: { url: dept.image, altText: dept.title },
-      productCount: prods.length > 0 ? prods.length : dept.count,
+      productCount: prods.length,
     },
-    products: prods.length > 0 ? prods : PRODUCTS.slice(0, 8),
+    products: prods,
   };
 }
 

@@ -34,8 +34,8 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative bg-white border border-irishBorder rounded-md overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-card hover:border-commerce/30">
-      {/* Product Image Frame with Spotlight Background */}
+    <div className="group relative bg-white border border-[#E8DFCF] rounded-lg overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-cardHover hover:border-[#14532D]/40">
+      {/* Product Image Frame with Warm Light Background */}
       <Link
         href={`/products/${product.handle}`}
         className="block relative aspect-square w-full product-spotlight-frame p-4"
@@ -52,10 +52,10 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         {onQuickView && (
           <button
             onClick={handleQuickView}
-            className="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-ink shadow-md flex items-center justify-center transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110"
+            className="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-full bg-white/95 hover:bg-white text-[#1F2937] shadow-md flex items-center justify-center transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110"
             aria-label="Quick view product"
           >
-            <Eye className="w-4 h-4 text-commerce" />
+            <Eye className="w-4 h-4 text-[#14532D]" />
           </button>
         )}
       </Link>
@@ -64,26 +64,26 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between bg-white">
         <div>
           {/* Vendor */}
-          <p className="text-[11px] font-medium text-ink-light uppercase tracking-wider mb-1 truncate">
+          <p className="text-[11px] font-medium text-[#4B5563] uppercase tracking-wider mb-1 truncate">
             {product.vendor}
           </p>
 
-          {/* Title */}
+          {/* Title in text #1F2937 */}
           <Link
             href={`/products/${product.handle}`}
-            className="block text-xs sm:text-sm font-bold text-[#8D7017] hover:text-commerce transition-colors line-clamp-2 min-h-[2.5rem] leading-snug"
+            className="block text-xs sm:text-sm font-semibold text-[#1F2937] hover:text-[#14532D] transition-colors line-clamp-2 min-h-[2.5rem] leading-snug"
           >
             {product.title}
           </Link>
 
-          {/* Stock Status Indicator */}
+          {/* Stock Status Indicator with #22C55E Accent Dot */}
           <div className="flex items-center gap-1.5 mt-2">
             <span
               className={`w-2 h-2 rounded-full ${
-                product.availableForSale ? "bg-blue-600" : "bg-offer"
+                product.availableForSale ? "bg-[#22C55E]" : "bg-red-500"
               }`}
             />
-            <span className="text-[11px] text-ink-muted">
+            <span className="text-[11px] text-[#4B5563]">
               {product.availableForSale ? "In stock" : "Out of stock"}
             </span>
           </div>
@@ -94,28 +94,28 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           {!isAuthenticated ? (
             <Link
               href="/account/login"
-              className="dashed-login-btn block w-full py-2 px-2 text-center text-xs font-medium rounded transition-colors"
+              className="dashed-login-btn block w-full py-2 px-2 text-center text-xs font-semibold rounded-md transition-colors"
             >
               <span className="underline">Log in</span> to view prices
             </Link>
           ) : (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-commerce">
+                <span className="text-sm font-bold text-[#14532D]">
                   {formatMoney(product.priceRange.minVariantPrice)}
                 </span>
-                <span className="text-[10px] text-ink-light">
+                <span className="text-[10px] text-[#4B5563]">
                   {product.variants[0]?.title || "Default Title"}
                 </span>
               </div>
               <button
                 onClick={handleAddToCart}
                 disabled={!product.availableForSale}
-                className="w-full bg-commerce hover:bg-commerce-dark text-white py-1.5 px-3 text-xs font-semibold rounded transition-colors flex items-center justify-center gap-1 disabled:opacity-50"
+                className="w-full bg-[#14532D] hover:bg-[#0F3D21] text-white py-2 px-3 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-xs"
               >
                 {isAdded ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-gold" />
+                    <Check className="w-3.5 h-3.5 text-[#22C55E]" />
                     <span>Added!</span>
                   </>
                 ) : (
@@ -132,4 +132,5 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
     </div>
   );
 }
+
 

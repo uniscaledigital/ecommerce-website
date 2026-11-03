@@ -10,7 +10,8 @@ All visual assets have been extracted from `Untitled.fig` and `Untitled.pdf` int
 ```
 website/public/assets/
 ├── logo/
-│   └── the-irish-grocer-logo.png              # Official 4-leaf clover brand mark (2172x724)
+│   ├── irish-grocer-seal.svg                  # Official animated seal & wordmark logo (747x240)
+│   └── the-irish-grocer-logo.png              # Legacy 4-leaf clover brand mark (2172x724)
 ├── banners/
 │   ├── christmas-basket.png                   # Christmas treat basket (600x400)
 │   └── christmas-banner-large.png             # Full festive promotional hero (2880x1620)

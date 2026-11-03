@@ -28,44 +28,44 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
     <div className="space-y-8">
       {/* Search Input Box */}
       <div className="max-w-2xl mx-auto">
-        <form onSubmit={handleSearchSubmit} className="flex items-center">
+        <form onSubmit={handleSearchSubmit} className="flex items-center shadow-xs">
           <input
             type="text"
             placeholder="Search products or brands"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 text-sm text-ink bg-white border border-irishBorder rounded-l-md focus:outline-none focus:ring-1 focus:ring-commerce"
+            className="w-full px-4 py-3 text-sm text-[#1F2937] bg-white border border-[#E8DFCF] rounded-l-lg focus:outline-none focus:ring-1 focus:ring-[#14532D]"
           />
           <button
             type="submit"
-            className="bg-commerce hover:bg-commerce-dark text-white px-6 py-3 text-sm font-semibold rounded-r-md transition-colors flex items-center gap-1.5"
+            className="bg-[#14532D] hover:bg-[#064E3B] text-white px-6 py-3 text-sm font-semibold rounded-r-lg transition-colors flex items-center gap-1.5"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-4 h-4 text-[#22C55E]" />
             <span>Search</span>
           </button>
         </form>
       </div>
 
-      {/* Query Title matching PDF Page 24 */}
-      <div className="border-b border-irishBorder pb-4 space-y-1">
-        <h1 className="text-xl sm:text-2xl font-bold font-serif-display text-ink">
-          Search results
+      {/* Query Title */}
+      <div className="border-b border-[#E8DFCF] pb-4 space-y-1">
+        <h1 className="text-xl sm:text-2xl font-bold font-serif-display text-[#1F2937]">
+          Search Results
         </h1>
         {query && (
-          <p className="text-sm font-medium text-commerce italic">
+          <p className="text-sm font-medium text-[#14532D] italic">
             &ldquo;{query}&rdquo;
           </p>
         )}
       </div>
 
-      {/* Result Category Tabs matching PDF Page 24 */}
-      <div className="flex items-center space-x-6 border-b border-irishBorder text-xs sm:text-sm font-semibold overflow-x-auto">
+      {/* Result Category Tabs with #22C55E Active Accent */}
+      <div className="flex items-center space-x-6 border-b border-[#E8DFCF] text-xs sm:text-sm font-semibold overflow-x-auto">
         <button
           onClick={() => setActiveTab("products")}
           className={`pb-3 transition-colors border-b-2 -mb-px whitespace-nowrap ${
             activeTab === "products"
-              ? "border-commerce text-commerce font-bold"
-              : "border-transparent text-ink-muted hover:text-ink"
+              ? "border-[#22C55E] text-[#14532D] font-bold"
+              : "border-transparent text-[#4B5563] hover:text-[#1F2937]"
           }`}
         >
           Products ({products.length})
@@ -74,8 +74,8 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
           onClick={() => setActiveTab("collections")}
           className={`pb-3 transition-colors border-b-2 -mb-px whitespace-nowrap ${
             activeTab === "collections"
-              ? "border-commerce text-commerce font-bold"
-              : "border-transparent text-ink-muted hover:text-ink"
+              ? "border-[#22C55E] text-[#14532D] font-bold"
+              : "border-transparent text-[#4B5563] hover:text-[#1F2937]"
           }`}
         >
           Collections (1)
@@ -84,18 +84,18 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
           onClick={() => setActiveTab("blog")}
           className={`pb-3 transition-colors border-b-2 -mb-px whitespace-nowrap ${
             activeTab === "blog"
-              ? "border-commerce text-commerce font-bold"
-              : "border-transparent text-ink-muted hover:text-ink"
+              ? "border-[#22C55E] text-[#14532D] font-bold"
+              : "border-transparent text-[#4B5563] hover:text-[#1F2937]"
           }`}
         >
-          Blog post (0)
+          Blog Post (0)
         </button>
         <button
           onClick={() => setActiveTab("pages")}
           className={`pb-3 transition-colors border-b-2 -mb-px whitespace-nowrap ${
             activeTab === "pages"
-              ? "border-commerce text-commerce font-bold"
-              : "border-transparent text-ink-muted hover:text-ink"
+              ? "border-[#22C55E] text-[#14532D] font-bold"
+              : "border-transparent text-[#4B5563] hover:text-[#1F2937]"
           }`}
         >
           Pages (2)
@@ -105,12 +105,12 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
       {/* Tab Content */}
       {activeTab === "products" && (
         <div className="space-y-6">
-          {/* Sub-bar matching PDF Page 24 */}
-          <div className="flex items-center justify-between text-xs text-ink-muted bg-white p-3 border border-irishBorder rounded-md">
+          {/* Sub-bar */}
+          <div className="flex items-center justify-between text-xs text-[#4B5563] bg-[#FFFAF1] p-3 border border-[#E8DFCF] rounded-xl shadow-xs">
             <div className="flex items-center gap-2">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-commerce" />
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#14532D]" />
               <span>Filter</span>
-              <span className="font-bold text-ink ml-2">
+              <span className="font-bold text-[#1F2937] ml-2">
                 {products.length} results
               </span>
             </div>
@@ -121,13 +121,13 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none bg-ivory border border-irishBorder rounded px-2.5 py-1 pr-6 text-xs font-semibold text-ink focus:outline-none"
+                  className="appearance-none bg-[#F7EBD8] border border-[#E8DFCF] rounded-md px-2.5 py-1 pr-6 text-xs font-semibold text-[#1F2937] focus:outline-none"
                 >
                   <option value="relevance">Relevance</option>
                   <option value="alphabetical">Alphabetical</option>
                   <option value="price-low">Price: Low to High</option>
                 </select>
-                <ChevronDown className="w-3 h-3 text-ink-light absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <ChevronDown className="w-3 h-3 text-[#4B5563] absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -137,43 +137,43 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
       )}
 
       {activeTab === "collections" && (
-        <div className="bg-white border border-irishBorder rounded-lg p-6 space-y-2">
-          <h3 className="text-base font-bold text-commerce">
+        <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-6 space-y-2 shadow-xs">
+          <h3 className="text-base font-bold text-[#14532D]">
             <a href="/collections/tea-coffee" className="hover:underline">
-              Tea & Coffee Department
+              Tea &amp; Coffee Department
             </a>
           </h3>
-          <p className="text-xs text-ink-muted">
+          <p className="text-xs text-[#4B5563]">
             Explore Ireland&apos;s favourite teas including Barry&apos;s Gold Blend, Master Blend, and Lyons original.
           </p>
         </div>
       )}
 
       {activeTab === "blog" && (
-        <div className="bg-white border border-irishBorder rounded-lg p-8 text-center text-xs text-ink-muted">
-          No blog posts found matching your search.
+        <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-8 text-center text-xs text-[#4B5563]">
+          No blog posts found matching your search query.
         </div>
       )}
 
       {activeTab === "pages" && (
         <div className="space-y-4">
-          <div className="bg-white border border-irishBorder rounded-lg p-4">
-            <h3 className="text-sm font-bold text-commerce">
+          <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">
+            <h3 className="text-sm font-bold text-[#14532D]">
               <a href="/#store-info" className="hover:underline">
                 About The Irish Grocer (Quincy, MA)
               </a>
             </h3>
-            <p className="text-xs text-ink-muted mt-1">
+            <p className="text-xs text-[#4B5563] mt-1">
               Store information, operating hours, and location at 132 East Howard Street, Quincy.
             </p>
           </div>
-          <div className="bg-white border border-irishBorder rounded-lg p-4">
-            <h3 className="text-sm font-bold text-commerce">
+          <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">
+            <h3 className="text-sm font-bold text-[#14532D]">
               <a href="/privacy" className="hover:underline">
-                Privacy Policy & Store Terms
+                Privacy Policy &amp; Store Terms
               </a>
             </h3>
-            <p className="text-xs text-ink-muted mt-1">
+            <p className="text-xs text-[#4B5563] mt-1">
               Privacy disclosures, customer data practices, and terms of service.
             </p>
           </div>
@@ -182,4 +182,3 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
     </div>
   );
 }
-

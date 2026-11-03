@@ -1,76 +1,222 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Outfit:wght@300;400;500;600;700&family=Urbanist:wght@500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-commerce: #214d3b;
-  --color-forest: #17392d;
-  --color-ivory: #faf7ef;
-  --color-christmas: #f8f3e6;
-  --color-gold: #e5c781;
-  --color-offer: #962d2d;
-  --color-ink: #1f2421;
-  --color-border: #e8e5df;
+  /* Official Brand Color Tokens */
+  --brand-background: #FDF4E3;
+  --brand-surface: #FFFAF1;
+  --brand-card: #FFFFFF;
+  --brand-soft-green: #E8F5E9;
+  --brand-soft-cream: #F7EBD8;
+  --brand-border: #E8DFCF;
+  --brand-primary: #14532D;
+  --brand-dark: #064E3B;
+  --brand-accent: #22C55E;
+  --brand-text: #1F2937;
+  --brand-muted: #64748B;
+
+  /* Legacy & Semantic Color Mappings */
+  --brand-green: #14532D;
+  --brand-green-dark: #064E3B;
+  --brand-cream: #FDF4E3;
+  --color-primary: #14532D;
+  --color-accent: #22C55E;
+  --color-surface: #FFFAF1;
+  --color-bg: #FDF4E3;
+  --color-card: #FFFFFF;
+  --color-text: #1F2937;
+  --color-border: #E8DFCF;
+
+  /* Glossy iOS Glass Navigation Theme (Warm Cream + Pale Sage Undertones) */
+  --nav-primary: #14532D;
+  --nav-green: #166534;
+  --nav-accent: #22C55E;
+
+  --nav-glass: rgba(253, 248, 238, 0.90);
+  --nav-glass-light: rgba(255, 251, 242, 0.85);
+  --nav-glass-border: rgba(255, 255, 255, 0.90);
+
+  --nav-text: #173B2A;
+  --nav-muted: #52665B;
+
+  --nav-shadow: 0 8px 28px rgba(20, 83, 45, 0.08);
 }
 
 body {
-  color: #1f2421;
-  background-color: #faf7ef;
-  font-family: "Outfit", sans-serif;
+  color: #1F2937;
+  background-color: #FDF4E3;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Urbanist", sans-serif;
+.font-manrope {
+  font-family: "Manrope", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .font-serif-display {
-  font-family: "Lora", "Georgia", serif;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
-/* Custom spotlight effect for product cards matching Figma & PDF Page 4, 10, 14, 18 */
+.font-sans-body {
+  font-family: "Inter", sans-serif;
+}
+
+/* Brand Logo Utility with Adaptive Scaling */
+.brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    max-width: 155px;
+  }
+}
+
+/* Product Card Spotlight Frame */
 .product-spotlight-frame {
-  background: radial-gradient(circle at 50% 35%, #2a2c2b 0%, #151616 55%, #0d0e0d 100%);
+  background: linear-gradient(180deg, #FFFDF9 0%, #FDF4E3 100%);
   position: relative;
   overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Farmhouse Card Surface */
+.farmhouse-card {
+  background-color: #FFFAF1;
+  border: 1px solid #E8DFCF;
 }
 
 /* Subtle dashed button for Log In to View Prices */
 .dashed-login-btn {
-  border: 1.5px dashed #214d3b;
-  color: #214d3b;
+  border: 1.5px dashed #14532D;
+  color: #14532D;
+  background-color: transparent;
   transition: all 0.2s ease-in-out;
 }
 
 .dashed-login-btn:hover {
-  background-color: rgba(33, 77, 59, 0.05);
-  border-color: #17392d;
+  background-color: #E8F5E9;
+  border-color: #064E3B;
 }
 
-/* Custom scrollbar */
+/* Soft custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #f1ede3;
+  background: #F7EBD8;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #c9c3b6;
+  background: #D9CDBA;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #214d3b;
+  background: #14532D;
 }
 
-/* Smooth transitions */
-button, a {
+/* Infinite Category Carousel Animation */
+@keyframes infiniteCategoryScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-infinite-carousel {
+  display: flex;
+  width: max-content;
+  animation: infiniteCategoryScroll 42s linear infinite;
+  will-change: transform;
+}
+
+.animate-infinite-carousel:hover,
+.animate-infinite-carousel:focus-within {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-infinite-carousel {
+    animation: none !important;
+  }
+}
+
+button,
+a {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
+/* Mint Green + Clover Glass Footer Theme (Option 2 - Full Width) */
+.site-footer {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  isolation: isolate;
+  background-color: #EAF7E8;
+  background-image: url("/assets/footer/footer-background.png");
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .site-footer {
+    background-position: right bottom;
+  }
+}
+
+.ios-glass-nav {
+  background: rgba(253, 248, 238, 0.90);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  box-shadow:
+    0 8px 28px rgba(20, 83, 45, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.ios-glass-pill {
+  background: rgba(255, 251, 242, 0.85);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  box-shadow:
+    0 4px 20px rgba(20, 83, 45, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.ios-glass-search {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(20, 83, 45, 0.14);
+  box-shadow:
+    0 2px 8px rgba(20, 83, 45, 0.04),
+    inset 0 1px 1px rgba(0, 0, 0, 0.02);
+}

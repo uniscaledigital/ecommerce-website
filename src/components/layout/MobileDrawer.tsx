@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { X, Phone, User, ShoppingBag, MapPin, Clock } from "lucide-react";
-import { NAVIGATION_LINKS, SITE_CONFIG } from "@/lib/config/site";
+import { CATEGORY_NAVIGATION_LINKS, SITE_CONFIG } from "@/lib/config/site";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 
@@ -23,26 +23,27 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-ink/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#1F2937]/60 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
       {/* Drawer panel */}
-      <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-ivory shadow-xl z-10 flex flex-col justify-between overflow-y-auto">
+      <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-[#FFFAF1] shadow-2xl z-10 flex flex-col justify-between overflow-y-auto border-r border-[#E8DFCF]">
         <div>
           {/* Header */}
-          <div className="p-4 border-b border-irishBorder flex items-center justify-between bg-white">
-            <Link href="/" onClick={onClose} className="block relative w-36 h-10">
+          <div className="p-4 border-b border-[#E8DFCF] flex items-center justify-between bg-[#FFFAF1]">
+            <Link href="/" onClick={onClose} className="block relative w-[160px] h-[58px]">
               <Image
-                src="/assets/logo/the-irish-grocer-logo.png"
+                src="/assets/logo/irish-grocer-animated.svg"
                 alt="The Irish Grocer"
                 fill
-                className="object-contain"
+                unoptimized
+                className="object-contain object-left"
               />
             </Link>
             <button
               onClick={onClose}
-              className="p-2 text-ink hover:text-commerce rounded-md transition-colors"
+              className="p-2 text-[#1F2937] hover:text-[#14532D] rounded-md transition-colors"
               aria-label="Close menu"
             >
               <X className="w-6 h-6" />
@@ -50,11 +51,11 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
 
           {/* User Status Strip */}
-          <div className="bg-ivory-muted px-4 py-3 border-b border-irishBorder flex items-center justify-between text-sm">
+          <div className="bg-[#E8F5E9] px-4 py-3 border-b border-[#E8DFCF] flex items-center justify-between text-sm">
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <User className="w-4 h-4 text-commerce" />
-                <span className="font-medium text-commerce">
+                <User className="w-4 h-4 text-[#14532D]" />
+                <span className="font-semibold text-[#14532D]">
                   Hi, {customer?.firstName || "Customer"}
                 </span>
               </div>
@@ -62,7 +63,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               <Link
                 href="/account/login"
                 onClick={onClose}
-                className="text-commerce font-semibold hover:underline inline-flex items-center gap-2"
+                className="text-[#14532D] font-semibold hover:underline inline-flex items-center gap-2 text-xs"
               >
                 <User className="w-4 h-4" />
                 Sign in to your account
@@ -73,7 +74,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                 onClose();
                 openCart();
               }}
-              className="relative p-1 text-commerce flex items-center gap-1 font-medium"
+              className="relative p-1 text-[#14532D] flex items-center gap-1.5 font-semibold text-xs"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Cart ({cart.totalQuantity})</span>
@@ -81,17 +82,17 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
 
           {/* Navigation links */}
-          <div className="py-2">
-            <p className="px-4 py-1 text-[11px] font-bold text-ink-muted uppercase tracking-wider">
-              Departments & Pages
+          <div className="py-3">
+            <p className="px-4 py-1.5 text-[11px] font-bold text-[#1F2937]/60 uppercase tracking-wider">
+              Departments & Aisles
             </p>
-            <nav className="divide-y divide-irishBorder/40">
-              {NAVIGATION_LINKS.map((link) => (
+            <nav className="divide-y divide-[#E8DFCF]/50">
+              {CATEGORY_NAVIGATION_LINKS.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
                   onClick={onClose}
-                  className="block px-4 py-3 text-sm text-ink hover:bg-commerce/5 hover:text-commerce font-medium transition-colors"
+                  className="block px-4 py-3 text-sm text-[#1F2937] hover:bg-[#E8F5E9] hover:text-[#14532D] font-medium transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -101,20 +102,20 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         </div>
 
         {/* Store Info Footer */}
-        <div className="p-4 bg-white border-t border-irishBorder space-y-3 text-xs text-ink-muted">
+        <div className="p-4 bg-[#F7EBD8] border-t border-[#E8DFCF] space-y-3 text-xs text-[#1F2937]/80">
           <a
             href={`tel:${SITE_CONFIG.phoneRaw}`}
-            className="flex items-center gap-2.5 text-commerce font-semibold text-sm hover:underline"
+            className="flex items-center gap-2.5 text-[#14532D] font-bold text-sm hover:underline"
           >
-            <Phone className="w-4 h-4" />
+            <Phone className="w-4 h-4 text-[#14532D]" />
             Call: {SITE_CONFIG.phone}
           </a>
           <div className="flex items-start gap-2">
-            <MapPin className="w-3.5 h-3.5 text-commerce shrink-0 mt-0.5" />
+            <MapPin className="w-3.5 h-3.5 text-[#14532D] shrink-0 mt-0.5" />
             <span>{SITE_CONFIG.address.full}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-commerce shrink-0" />
+            <Clock className="w-3.5 h-3.5 text-[#14532D] shrink-0" />
             <span>{SITE_CONFIG.hours}</span>
           </div>
         </div>
@@ -122,4 +123,5 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     </div>
   );
 }
+
 

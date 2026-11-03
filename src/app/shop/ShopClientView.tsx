@@ -75,23 +75,23 @@ export function ShopClientView({
     <div className="space-y-6">
       {/* Top Header & Bar */}
       <div>
-        <h1 className="font-serif-display text-2xl sm:text-3xl font-bold text-ink">
+        <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1F2937]">
           {title}
         </h1>
       </div>
 
-      {/* Control Bar (Matching PDF Page 4, 14, 18) */}
-      <div className="bg-white border border-irishBorder rounded-md p-3 flex flex-wrap items-center justify-between gap-4">
+      {/* Control Bar */}
+      <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-4 shadow-xs">
         {/* Left: Filter Toggle for Mobile */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-            className="md:hidden inline-flex items-center gap-1.5 px-3 py-1.5 border border-irishBorder rounded text-xs font-semibold text-ink bg-ivory"
+            className="md:hidden inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E8DFCF] rounded-md text-xs font-semibold text-[#1F2937] bg-[#F7EBD8]"
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span>Filter</span>
           </button>
-          <span className="text-xs text-ink-muted font-medium">
+          <span className="text-xs text-[#4B5563] font-medium">
             {totalCountLabel}
           </span>
         </div>
@@ -99,7 +99,7 @@ export function ShopClientView({
         {/* Right: Sort & Grid Layout */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-ink-muted hidden sm:inline">Sort by:</span>
+            <span className="text-[#4B5563] hidden sm:inline">Sort by:</span>
             <div className="relative">
               <select
                 value={sortBy}
@@ -107,7 +107,7 @@ export function ShopClientView({
                   setSortBy(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="appearance-none bg-white border border-irishBorder rounded px-3 py-1.5 pr-8 text-xs font-medium text-ink focus:outline-none focus:ring-1 focus:ring-commerce"
+                className="appearance-none bg-white border border-[#E8DFCF] rounded-md px-3 py-1.5 pr-8 text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
               >
                 <option value="alphabetical-az">Alphabetically, A-Z</option>
                 <option value="alphabetical-za">Alphabetically, Z-A</option>
@@ -115,16 +115,16 @@ export function ShopClientView({
                 <option value="price-high-low">Price, high to low</option>
                 <option value="relevant">Most relevant</option>
               </select>
-              <ChevronDown className="w-3.5 h-3.5 text-ink-light absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#4B5563] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
           {/* Desktop Grid Switcher */}
-          <div className="hidden lg:flex items-center border border-irishBorder rounded overflow-hidden">
+          <div className="hidden lg:flex items-center border border-[#E8DFCF] rounded-md overflow-hidden bg-white">
             <button
               onClick={() => setGridColumns(4)}
               className={`p-1.5 ${
-                gridColumns === 4 ? "bg-commerce text-white" : "bg-white text-ink hover:bg-ivory"
+                gridColumns === 4 ? "bg-[#14532D] text-white" : "text-[#1F2937] hover:bg-[#F7EBD8]"
               }`}
               aria-label="4 columns view"
             >
@@ -133,7 +133,7 @@ export function ShopClientView({
             <button
               onClick={() => setGridColumns(3)}
               className={`p-1.5 ${
-                gridColumns === 3 ? "bg-commerce text-white" : "bg-white text-ink hover:bg-ivory"
+                gridColumns === 3 ? "bg-[#14532D] text-white" : "text-[#1F2937] hover:bg-[#F7EBD8]"
               }`}
               aria-label="3 columns view"
             >
@@ -151,12 +151,12 @@ export function ShopClientView({
             isMobileFilterOpen ? "block" : "hidden"
           } md:block md:col-span-1`}
         >
-          <div className="bg-white border border-irishBorder rounded-md p-4 space-y-5">
+          <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-5 shadow-xs">
             <div>
-              <h3 className="text-xs font-bold text-ink uppercase tracking-wider mb-3">
+              <h3 className="text-xs font-bold text-[#14532D] uppercase tracking-wider mb-3">
                 Availability
               </h3>
-              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-ink font-medium">
+              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-[#1F2937] font-medium">
                 <input
                   type="checkbox"
                   checked={onlyInStock}
@@ -164,26 +164,26 @@ export function ShopClientView({
                     setOnlyInStock(e.target.checked);
                     setCurrentPage(1);
                   }}
-                  className="w-4 h-4 rounded text-commerce focus:ring-commerce border-irishBorder"
+                  className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                 />
                 <span>In stock only</span>
               </label>
             </div>
 
-            <div className="border-t border-irishBorder/60 pt-4">
-              <h3 className="text-xs font-bold text-ink uppercase tracking-wider mb-3">
+            <div className="border-t border-[#E8DFCF] pt-4">
+              <h3 className="text-xs font-bold text-[#14532D] uppercase tracking-wider mb-3">
                 Categories
               </h3>
-              <div className="space-y-1.5 text-xs text-ink-muted max-h-60 overflow-y-auto">
+              <div className="space-y-1.5 text-xs text-[#4B5563] max-h-64 overflow-y-auto pr-1">
                 <button
                   onClick={() => {
                     setSelectedCategory("all");
                     setCurrentPage(1);
                   }}
-                  className={`block w-full text-left px-2 py-1.5 rounded transition-colors ${
+                  className={`block w-full text-left px-2.5 py-1.5 rounded-md transition-colors ${
                     selectedCategory === "all"
-                      ? "bg-commerce/10 text-commerce font-bold"
-                      : "hover:bg-ivory"
+                      ? "bg-[#E8F5E9] text-[#14532D] font-bold"
+                      : "hover:bg-[#F7EBD8] text-[#1F2937]"
                   }`}
                 >
                   All Categories
@@ -195,10 +195,10 @@ export function ShopClientView({
                       setSelectedCategory(col.handle);
                       setCurrentPage(1);
                     }}
-                    className={`block w-full text-left px-2 py-1.5 rounded transition-colors ${
+                    className={`block w-full text-left px-2.5 py-1.5 rounded-md transition-colors ${
                       selectedCategory === col.handle
-                        ? "bg-commerce/10 text-commerce font-bold"
-                        : "hover:bg-ivory"
+                        ? "bg-[#E8F5E9] text-[#14532D] font-bold"
+                        : "hover:bg-[#F7EBD8] text-[#1F2937]"
                     }`}
                   >
                     {col.title}
@@ -213,13 +213,13 @@ export function ShopClientView({
         <div className="md:col-span-3 space-y-8">
           <ProductGrid products={paginatedProducts} columns={gridColumns} />
 
-          {/* Pagination (Matching PDF Page 14, 18, 24) */}
+          {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-6 border-t border-irishBorder text-xs font-semibold text-ink">
+            <div className="flex items-center justify-center gap-2 pt-6 border-t border-[#E8DFCF] text-xs font-semibold text-[#1F2937]">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-1.5 border border-irishBorder rounded bg-white hover:bg-ivory disabled:opacity-40"
+                className="px-3.5 py-2 border border-[#E8DFCF] rounded-md bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40"
               >
                 Previous
               </button>
@@ -230,10 +230,10 @@ export function ShopClientView({
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded border text-xs font-bold transition-colors ${
+                    className={`w-8 h-8 rounded-md border text-xs font-bold transition-colors ${
                       currentPage === pageNum
-                        ? "bg-commerce text-white border-commerce"
-                        : "border-irishBorder bg-white hover:bg-ivory text-ink"
+                        ? "bg-[#14532D] text-white border-[#14532D]"
+                        : "border-[#E8DFCF] bg-[#FFFAF1] hover:bg-[#F7EBD8] text-[#1F2937]"
                     }`}
                   >
                     {pageNum}
@@ -244,7 +244,7 @@ export function ShopClientView({
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1.5 border border-irishBorder rounded bg-white hover:bg-ivory disabled:opacity-40"
+                className="px-3.5 py-2 border border-[#E8DFCF] rounded-md bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40"
               >
                 Next
               </button>
@@ -255,4 +255,3 @@ export function ShopClientView({
     </div>
   );
 }
-
