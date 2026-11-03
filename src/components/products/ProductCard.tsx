@@ -1,20 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Eye, Plus, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { Product } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { formatMoney } from "@/lib/utils";
+import { ProductImage } from "./ProductImage";
 
-interface ProductCardProps {
+export interface ProductCardProps {
   product: Product;
   onQuickView?: (product: Product) => void;
+  priority?: boolean;
+  variant?: "standard" | "compact" | "featured";
 }
 
-export function ProductCard({ product, onQuickView }: ProductCardProps) {
+export function ProductCard({
+  product,
+  onQuickView,
+  priority = false,
+  variant = "standard",
+}: ProductCardProps) {
   const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
@@ -27,101 +34,111 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
     setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const handleQuickView = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onQuickView) onQuickView(product);
-  };
+  const isCompact = variant === "compact";
+  const isFeatured = variant === "featured";
 
   return (
-    <div className="group relative bg-white border border-[#E8DFCF] rounded-lg overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-cardHover hover:border-[#14532D]/40">
-      {/* Product Image Frame with Warm Light Background */}
-      <Link
-        href={`/products/${product.handle}`}
-        className="block relative aspect-square w-full product-spotlight-frame p-4"
+    <article
+      className={`group relative flex flex-col h-full rounded-[24px] border border-[#D0E7C9] bg-[#EDF8E9] shadow-[0_6px_18px_rgba(20,83,45,0.09)] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(20,83,45,0.13)] hover:border-[#14532D]/30 ${
+        isFeatured ? "ring-1 ring-[#22C55E]/40" : ""
+      }`}
+    >
+      {/* Upper Product Image Area */}
+      <ProductImage
+        product={product}
+        onQuickView={onQuickView}
+        priority={priority}
+      />
+
+      {/* Lower Product Content Area */}
+      <div
+        className={`flex flex-col flex-1 justify-between bg-[#EDF8E9] ${
+          isCompact ? "p-3 sm:p-4" : "p-4 sm:p-5"
+        }`}
       >
-        <Image
-          src={product.featuredImage.url}
-          alt={product.featuredImage.altText || product.title}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-        />
-
-        {/* Quick View Floating Button */}
-        {onQuickView && (
-          <button
-            onClick={handleQuickView}
-            className="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-full bg-white/95 hover:bg-white text-[#1F2937] shadow-md flex items-center justify-center transition-all opacity-90 sm:opacity-0 group-hover:opacity-100 hover:scale-110"
-            aria-label="Quick view product"
-          >
-            <Eye className="w-4 h-4 text-[#14532D]" />
-          </button>
-        )}
-      </Link>
-
-      {/* Product Content Details */}
-      <div className="p-3.5 sm:p-4 flex flex-col flex-1 justify-between bg-white">
         <div>
-          {/* Vendor */}
-          <p className="text-[11px] font-medium text-[#4B5563] uppercase tracking-wider mb-1 truncate">
-            {product.vendor}
+          {/* Brand Name */}
+          <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#42634A] mb-1 truncate">
+            {product.vendor || "Irish Grocer"}
           </p>
 
-          {/* Title in text #1F2937 */}
-          <Link
-            href={`/products/${product.handle}`}
-            className="block text-xs sm:text-sm font-semibold text-[#1F2937] hover:text-[#14532D] transition-colors line-clamp-2 min-h-[2.5rem] leading-snug"
-          >
-            {product.title}
-          </Link>
+          {/* Product Title */}
+          <h3 className="min-h-[2.5rem] sm:min-h-[2.75rem]">
+            <Link
+              href={`/products/${product.handle}`}
+              className={`block font-bold text-[#14532D] hover:text-[#064E3B] transition-colors line-clamp-2 leading-snug font-sans ${
+                isCompact
+                  ? "text-xs sm:text-sm"
+                  : "text-sm sm:text-[17px]"
+              }`}
+            >
+              {product.title}
+            </Link>
+          </h3>
 
-          {/* Stock Status Indicator with #22C55E Accent Dot */}
+          {/* Rating (Rendered when available) */}
+          {product.rating && (
+            <div className="flex items-center gap-1.5 mt-2 text-xs sm:text-sm font-semibold text-[#14532D]">
+              <span className="text-[#22C55E] text-sm" aria-hidden="true">
+                ★
+              </span>
+              <span>{product.rating.value.toFixed(1)}</span>
+              <span className="text-[#42634A] font-normal">
+                ({product.rating.count})
+              </span>
+            </div>
+          )}
+
+          {/* Stock Status Indicator with Dot */}
           <div className="flex items-center gap-1.5 mt-2">
             <span
               className={`w-2 h-2 rounded-full ${
                 product.availableForSale ? "bg-[#22C55E]" : "bg-red-500"
               }`}
             />
-            <span className="text-[11px] text-[#4B5563]">
+            <span className="text-[11px] font-medium text-[#42634A]">
               {product.availableForSale ? "In stock" : "Out of stock"}
             </span>
           </div>
         </div>
 
-        {/* Pricing / Login Experience */}
-        <div className="mt-3 pt-2">
+        {/* Pricing / CTA Experience */}
+        <div className="mt-4 pt-1">
           {!isAuthenticated ? (
             <Link
               href="/account/login"
-              className="dashed-login-btn block w-full py-2 px-2 text-center text-xs font-semibold rounded-md transition-colors"
+              className="w-full h-11 sm:h-12 rounded-full border border-[#62A86A] bg-white/70 hover:bg-white text-[#14532D] font-semibold text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs hover:border-[#14532D]"
             >
-              <span className="underline">Log in</span> to view prices
+              Log in to view prices
             </Link>
           ) : (
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-[#14532D]">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-sm sm:text-base font-bold text-[#14532D]">
                   {formatMoney(product.priceRange.minVariantPrice)}
                 </span>
-                <span className="text-[10px] text-[#4B5563]">
-                  {product.variants[0]?.title || "Default Title"}
-                </span>
+                {product.variants[0]?.title &&
+                  product.variants[0]?.title !== "Default Title" && (
+                    <span className="text-[11px] text-[#42634A] font-medium truncate max-w-[120px]">
+                      {product.variants[0].title}
+                    </span>
+                  )}
               </div>
               <button
+                type="button"
                 onClick={handleAddToCart}
                 disabled={!product.availableForSale}
-                className="w-full bg-[#14532D] hover:bg-[#0F3D21] text-white py-2 px-3 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-xs"
+                className="w-full h-11 sm:h-12 rounded-full bg-[#14532D] hover:bg-[#0F3D21] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs active:scale-[0.99]"
               >
                 {isAdded ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-[#22C55E]" />
+                    <Check className="w-4 h-4 text-[#22C55E]" />
                     <span>Added!</span>
                   </>
                 ) : (
                   <>
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add to cart</span>
+                    <Plus className="w-4 h-4" />
+                    <span>Add to Cart</span>
                   </>
                 )}
               </button>
@@ -129,8 +146,6 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
-
-

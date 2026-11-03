@@ -85,6 +85,17 @@ const config: Config = {
           dark: "#D9CDBA",
         },
         spotlight: "#FFFAF1",
+        product: {
+          cardBg: "#EDF8E9",
+          imageBg: "#DDF1D5",
+          contentBg: "#EDF8E9",
+          border: "#D0E7C9",
+          text: "#14532D",
+          muted: "#42634A",
+          accent: "#22C55E",
+          stock: "#22C55E",
+          buttonBorder: "#62A86A",
+        },
       },
       fontFamily: {
         manrope: ["Manrope", "sans-serif"],
@@ -103,6 +114,8 @@ const config: Config = {
         "2xl": "1440px",
       },
       boxShadow: {
+        product: "0 6px 18px rgba(20, 83, 45, 0.09)",
+        productHover: "0 10px 24px rgba(20, 83, 45, 0.12)",
         card: "0 2px 10px -2px rgba(31, 41, 55, 0.05), 0 1px 4px -1px rgba(31, 41, 55, 0.03)",
         cardHover: "0 10px 25px -5px rgba(20, 83, 45, 0.08), 0 8px 10px -6px rgba(20, 83, 45, 0.04)",
         dropdown: "0 10px 25px -5px rgba(20, 83, 45, 0.1), 0 8px 10px -6px rgba(20, 83, 45, 0.08)",

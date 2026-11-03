@@ -47,12 +47,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-[#FDF4E3] text-[#1F2937]">
+      <body className="min-h-screen flex flex-col bg-[#FDF4E3] text-[#1F2937] w-full max-w-full m-0 p-0 overflow-x-hidden">
         <AuthProvider>
           <CartProvider>
             <AnnouncementBar />
             <Header />
-            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 w-full max-w-none m-0 p-0">
               {children}
             </main>
             <Footer />

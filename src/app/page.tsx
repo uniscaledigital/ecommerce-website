@@ -15,7 +15,7 @@ export default async function HomePage() {
   const newArrivalsProducts = await getProducts({ collectionHandle: "new-arrivals", first: 4 });
 
   return (
-    <div className="w-full pb-12">
+    <div className="w-full pb-16">
       {/* 1. Homepage Hero — Main Irish Grocer Hero with Grocery Background */}
       <HeroSection />
 
@@ -23,25 +23,34 @@ export default async function HomePage() {
       <CategoryCarousel />
 
       {/* 3. Crisps & Savory Snacks — 4-Column Product Cards */}
-      <CrispsSection products={crispsProducts} />
+      <div className="section-inner">
+        <CrispsSection products={crispsProducts} />
+      </div>
 
       {/* 4. Fresh New Arrivals — Recently Added Products */}
-      <NewArrivalsSection products={newArrivalsProducts} />
+      <div className="section-inner">
+        <NewArrivalsSection products={newArrivalsProducts} />
+      </div>
 
       {/* 5. Ireland's Most Loved Pantry Staples — 3 Featured Brand Cards */}
-      <FamiliarBrandsSection />
+      <div className="section-inner">
+        <FamiliarBrandsSection />
+      </div>
 
-      {/* 6. The Irish Grocer Quincy Store Information */}
-      <StoreInfoSection />
+      {/* 6. Redesigned Information & Confidence Sections (24px vertical spacing) */}
+      <div className="section-inner space-y-6 mt-12 sm:mt-14 md:mt-16">
+        {/* Section 1 — The Irish Grocer Store Information (Pale Mint) */}
+        <StoreInfoSection />
 
-      {/* 7. Easy Gifting Promotional Section */}
-      <GiftingSection />
+        {/* Section 2 — Gifting Banner (Warm Cream) */}
+        <GiftingSection />
 
-      {/* 8. Exclusive Finds Section */}
-      <ExclusiveFindsSection />
+        {/* Section 3 — Exclusive Seasonal & Limited Finds (Warm Cream) */}
+        <ExclusiveFindsSection />
 
-      {/* 9. Order with Confidence Workflow */}
-      <OrderConfidenceSection />
+        {/* Section 4 — Order with Confidence & Peace of Mind (Pale Mint) */}
+        <OrderConfidenceSection />
+      </div>
     </div>
   );
 }

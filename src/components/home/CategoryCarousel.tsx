@@ -11,22 +11,24 @@ export function CategoryCarousel() {
   const loopCategories = [...CATEGORIES, ...CATEGORIES];
 
   return (
-    <section className="my-10 md:my-14 overflow-hidden" aria-label="Shop by Category">
+    <section className="my-10 md:my-14 overflow-hidden w-full" aria-label="Shop by Category">
       <div className="space-y-5">
         {/* Section Header: "Shop by Category" and right-side "View All →" */}
-        <div className="flex items-end justify-between border-b border-[#E8DFCF] pb-3 px-1">
-          <div>
-            <h2 className="font-serif-display text-2xl sm:text-3xl font-bold text-[#1F2937]">
-              Shop by Category
-            </h2>
+        <div className="section-inner">
+          <div className="flex items-end justify-between border-b border-[#E8DFCF] pb-3 px-1">
+            <div>
+              <h2 className="font-serif-display text-2xl sm:text-3xl font-bold text-[#1F2937]">
+                Shop by Category
+              </h2>
+            </div>
+            <Link
+              href="/shop"
+              className="text-xs sm:text-sm font-semibold text-[#14532D] hover:underline flex items-center gap-1 group pb-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded"
+            >
+              <span>View All</span>
+              <ArrowRight className="w-4 h-4 text-[#22C55E] transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
-          <Link
-            href="/shop"
-            className="text-xs sm:text-sm font-semibold text-[#14532D] hover:underline flex items-center gap-1 group pb-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded"
-          >
-            <span>View All</span>
-            <ArrowRight className="w-4 h-4 text-[#22C55E] transition-transform group-hover:translate-x-0.5" />
-          </Link>
         </div>
 
         {/* Carousel Viewport with soft left/right edge fade */}

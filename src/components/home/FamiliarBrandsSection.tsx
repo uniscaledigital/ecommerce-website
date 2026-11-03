@@ -51,10 +51,24 @@ export function FamiliarBrandsSection() {
             <Link
               key={brand.title}
               href={brand.href}
-              className="group relative bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl overflow-hidden shadow-xs hover:shadow-cardHover hover:border-[#14532D]/50 transition-all flex flex-col"
+              className="group relative bg-[#EDF8E9] border border-[#D0E7C9] rounded-[24px] overflow-hidden shadow-[0_6px_18px_rgba(20,83,45,0.09)] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(20,83,45,0.13)] hover:border-[#14532D]/30 transition-all duration-200 flex flex-col"
             >
-              {/* Image Frame with warm spotlight */}
-              <div className="relative aspect-[4/3] w-full product-spotlight-frame p-6 flex items-center justify-center">
+              {/* Image Frame with pale mint surface & faint shamrock watermark */}
+              <div className="relative aspect-[4/3] w-full bg-[#DDF1D5] rounded-t-[23px] p-6 flex items-center justify-center overflow-hidden">
+                <div
+                  className="absolute inset-0 pointer-events-none overflow-hidden select-none"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="absolute -bottom-4 -left-4 w-28 h-28 text-[#22C55E] opacity-[0.14]"
+                    fill="currentColor"
+                  >
+                    <path d="M50 44 C41 33 24 35 24 48 C24 59 36 65 50 56 C64 65 76 59 76 48 C76 35 59 33 50 44 Z" />
+                    <path d="M50 44 C39 53 37 70 50 70 C63 70 61 53 50 44 Z" />
+                    <path d="M50 44 C39 35 39 18 50 18 C61 18 61 35 50 44 Z" />
+                  </svg>
+                </div>
                 <Image
                   src={brand.image}
                   alt={brand.title}
@@ -65,16 +79,16 @@ export function FamiliarBrandsSection() {
               </div>
 
               {/* Title & arrow */}
-              <div className="p-4 sm:p-5 flex items-center justify-between bg-white border-t border-[#E8DFCF]">
+              <div className="p-4 sm:p-5 flex items-center justify-between bg-[#EDF8E9]">
                 <div>
-                  <span className="text-[11px] font-semibold text-[#4B5563] uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-[#42634A] uppercase tracking-wider block">
                     {brand.tag}
                   </span>
-                  <h3 className="font-serif-display text-base sm:text-lg font-bold text-[#1F2937] group-hover:text-[#14532D] transition-colors">
+                  <h3 className="font-sans text-base sm:text-lg font-bold text-[#14532D] group-hover:text-[#064E3B] transition-colors mt-0.5">
                     {brand.title}
                   </h3>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-[#E8F5E9] group-hover:bg-[#14532D] flex items-center justify-center transition-colors shadow-xs">
+                <div className="w-9 h-9 rounded-full bg-white border border-[#D0E7C9] group-hover:bg-[#14532D] flex items-center justify-center transition-colors shadow-xs shrink-0">
                   <ArrowUpRight className="w-4 h-4 text-[#14532D] group-hover:text-white transition-colors" />
                 </div>
               </div>

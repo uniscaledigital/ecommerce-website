@@ -18,7 +18,7 @@ export default async function SearchPage({
   const products = query ? await searchProducts(query) : [];
 
   return (
-    <div className="py-8 space-y-12">
+    <div className="section-inner py-8 space-y-12">
       <SearchClientView query={query} products={products} />
       <OrderConfidenceSection />
     </div>

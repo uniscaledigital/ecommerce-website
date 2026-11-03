@@ -37,64 +37,89 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
       <div
-        className="fixed inset-0 bg-[#1F2937]/70 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-[#14532D]/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-2xl bg-[#FFFAF1] rounded-xl shadow-2xl border border-[#E8DFCF] overflow-hidden z-10 grid grid-cols-1 md:grid-cols-2">
+        <div className="relative w-full max-w-2xl bg-[#EDF8E9] rounded-[24px] shadow-2xl border border-[#D0E7C9] overflow-hidden z-10 grid grid-cols-1 md:grid-cols-2">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 hover:bg-white text-[#1F2937] shadow-sm z-20"
+            className="absolute top-3.5 right-3.5 p-2 rounded-full bg-white shadow-xs border border-[#D0E7C9] hover:bg-[#DDF1D5] text-[#14532D] z-20 transition-all hover:scale-105"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
 
-          {/* Left: Product Spotlight Image */}
-          <div className="relative aspect-square w-full product-spotlight-frame p-6 flex items-center justify-center">
+          {/* Left: Product Image with Pale Mint background & clover watermark */}
+          <div className="relative aspect-square w-full bg-[#DDF1D5] p-6 flex items-center justify-center overflow-hidden">
+            <div
+              className="absolute inset-0 pointer-events-none overflow-hidden select-none"
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                className="absolute -bottom-4 -left-4 w-32 h-32 text-[#22C55E] opacity-[0.14]"
+                fill="currentColor"
+              >
+                <path d="M50 44 C41 33 24 35 24 48 C24 59 36 65 50 56 C64 65 76 59 76 48 C76 35 59 33 50 44 Z" />
+                <path d="M50 44 C39 53 37 70 50 70 C63 70 61 53 50 44 Z" />
+                <path d="M50 44 C39 35 39 18 50 18 C61 18 61 35 50 44 Z" />
+              </svg>
+            </div>
             <Image
               src={product.featuredImage.url}
               alt={product.title}
               fill
-              className="object-contain p-4"
+              className="object-contain p-6"
             />
           </div>
 
           {/* Right: Details & Commerce Controls */}
-          <div className="p-6 flex flex-col justify-between bg-[#FFFAF1]">
+          <div className="p-6 flex flex-col justify-between bg-[#EDF8E9]">
             <div className="space-y-3">
-              <p className="text-xs font-semibold text-[#4B5563] uppercase tracking-wider">
+              <p className="text-[11px] font-semibold text-[#42634A] uppercase tracking-wider">
                 {product.vendor}
               </p>
-              <h2 className="text-xl font-bold font-serif-display text-[#1F2937] leading-snug">
+              <h2 className="text-xl font-bold font-sans text-[#14532D] leading-snug">
                 {product.title}
               </h2>
 
+              {/* Rating if present */}
+              {product.rating && (
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#14532D]">
+                  <span className="text-[#22C55E]">★</span>
+                  <span>{product.rating.value.toFixed(1)}</span>
+                  <span className="text-[#42634A] font-normal">
+                    ({product.rating.count})
+                  </span>
+                </div>
+              )}
+
               {/* SKU & Barcode */}
-              <div className="flex items-center gap-3 text-xs text-[#4B5563]">
+              <div className="flex items-center gap-3 text-xs text-[#42634A]">
                 {product.sku && <span>SKU: {product.sku}</span>}
                 {product.barcode && <span>| Barcode: {product.barcode}</span>}
               </div>
 
               {/* Description */}
-              <p className="text-xs text-[#4B5563] leading-relaxed line-clamp-3">
+              <p className="text-xs text-[#42634A] leading-relaxed line-clamp-3">
                 {product.description}
               </p>
 
               {/* Variant Selector */}
               {product.variants.length > 1 && (
                 <div className="pt-2">
-                  <label className="block text-xs font-semibold text-[#1F2937] mb-1">
+                  <label className="block text-xs font-semibold text-[#14532D] mb-1">
                     Variant
                   </label>
                   <select
                     value={currentVariant.id}
                     onChange={(e) => setSelectedVariantId(e.target.value)}
-                    className="w-full text-xs p-2 border border-[#E8DFCF] rounded bg-white text-[#1F2937]"
+                    className="w-full text-xs p-2.5 border border-[#D0E7C9] rounded-lg bg-white text-[#14532D] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
                   >
                     {product.variants.map((v) => (
                       <option key={v.id} value={v.id}>
@@ -106,18 +131,18 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
               )}
             </div>
 
-            {/* Price / Add to cart */}
-            <div className="pt-6 border-t border-[#E8DFCF] space-y-4">
+            {/* Bottom Commerce Controls */}
+            <div className="pt-6 border-t border-[#D0E7C9] space-y-4">
               {!isAuthenticated ? (
                 <div className="space-y-2">
                   <Link
                     href="/account/login"
                     onClick={onClose}
-                    className="dashed-login-btn block w-full py-2.5 px-3 text-center text-xs font-semibold rounded-md"
+                    className="w-full h-11 rounded-full border border-[#62A86A] bg-white/70 hover:bg-white text-[#14532D] font-semibold text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs"
                   >
-                    <span className="underline font-bold">Log in</span> to view prices
+                    Log in to view prices
                   </Link>
-                  <p className="text-[11px] text-center text-[#4B5563]">
+                  <p className="text-[11px] text-center text-[#42634A]">
                     Prices are reserved for registered customers.
                   </p>
                 </div>
@@ -127,36 +152,43 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
                     <span className="text-xl font-bold text-[#14532D]">
                       {formatMoney(currentVariant.price)}
                     </span>
-                    <span className="text-xs text-[#22C55E] font-semibold flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-[#22C55E]" />
+                    <span className="text-xs text-[#22C55E] font-semibold flex items-center gap-1.5">
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          product.availableForSale ? "bg-[#22C55E]" : "bg-red-500"
+                        }`}
+                      />
                       {product.availableForSale ? "In stock" : "Out of stock"}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3">
                     {/* Stepper */}
-                    <div className="flex items-center border border-[#E8DFCF] rounded-md bg-[#FFFAF1]">
+                    <div className="flex items-center border border-[#D0E7C9] rounded-full bg-white px-2 py-1">
                       <button
+                        type="button"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="px-2.5 py-1.5 text-[#1F2937] hover:text-[#14532D]"
+                        className="p-1 text-[#14532D] hover:text-[#064E3B]"
                       >
-                        <Minus className="w-3 h-3" />
+                        <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="px-3 text-xs font-bold text-[#1F2937]">
+                      <span className="px-3 text-xs font-bold text-[#14532D]">
                         {quantity}
                       </span>
                       <button
+                        type="button"
                         onClick={() => setQuantity(quantity + 1)}
-                        className="px-2.5 py-1.5 text-[#1F2937] hover:text-[#14532D]"
+                        className="p-1 text-[#14532D] hover:text-[#064E3B]"
                       >
-                        <Plus className="w-3 h-3" />
+                        <Plus className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
                     <button
+                      type="button"
                       onClick={handleAddToCart}
                       disabled={!product.availableForSale}
-                      className="flex-1 bg-[#14532D] hover:bg-[#0F3D21] text-white py-2 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-xs"
+                      className="flex-1 h-11 rounded-full bg-[#14532D] hover:bg-[#064E3B] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs"
                     >
                       {isAdded ? (
                         <>
@@ -177,7 +209,7 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
                 className="inline-flex items-center gap-1 text-xs text-[#14532D] font-semibold hover:underline"
               >
                 <span>View full product details</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#22C55E]" />
               </Link>
             </div>
           </div>

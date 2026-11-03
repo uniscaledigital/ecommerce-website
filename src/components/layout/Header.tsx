@@ -49,33 +49,33 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full transition-all duration-200">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-4 xl:px-6 pt-2 sm:pt-2.5 pb-2">
-        {/* ============================================================== */}
-        {/* UNIFIED GLASS NAVIGATION SYSTEM (Two Connected Rows)          */}
-        {/* ============================================================== */}
-        <div
-          className={`ios-glass-nav rounded-[24px] transition-all duration-300 relative overflow-hidden ${
-            isScrolled
-              ? "shadow-[0_12px_32px_rgba(20,83,45,0.14)]"
-              : "shadow-[0_8px_28px_rgba(20,83,45,0.10)]"
-          }`}
-        >
-          {/* Subtle Top Glass Specular Reflection Highlight */}
-          <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90 pointer-events-none" />
+      {/* ============================================================== */}
+      {/* UNIFIED FULL-WIDTH MINT-GREEN NAVIGATION (Edge-to-Edge)        */}
+      {/* ============================================================== */}
+      <div
+        className={`w-full rounded-none border-x-0 border-t-0 border-b border-[#14532D]/12 transition-all duration-300 relative overflow-hidden ${
+          isScrolled
+            ? "shadow-[0_8px_24px_rgba(20,83,45,0.08)]"
+            : "shadow-[0_2px_12px_rgba(20,83,45,0.04)]"
+        }`}
+      >
+        {/* Subtle Top Glass Specular Highlight */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none" />
 
-          {/* ------------------------------------------------------------ */}
-          {/* ROW 1: MAIN NAVIGATION BAR (Logo, Search, Action Controls)    */}
-          {/* ------------------------------------------------------------ */}
-          <div className="px-4 sm:px-6 py-2 sm:py-2.5">
-            <div className="flex items-center justify-between gap-3 sm:gap-4 lg:gap-6">
-              {/* LEFT: Official Irish Grocer Animated SVG Logo & Vertical Separator */}
-              <div className="flex items-center shrink-0 w-auto lg:w-[240px]">
+        {/* ------------------------------------------------------------ */}
+        {/* ROW 1: MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)         */}
+        {/* ------------------------------------------------------------ */}
+        <div className="w-full bg-[#ECF4E4]/95 backdrop-blur-md">
+          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8 py-2 sm:py-2.5">
+            <div className="flex lg:grid lg:grid-cols-[210px_minmax(360px,600px)_auto] items-center justify-between gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
+              {/* LEFT: Official Irish Grocer Animated SVG Logo */}
+              <div className="flex items-center shrink-0 w-auto lg:w-[210px] xl:w-[220px]">
                 <Link
                   href="/"
                   className={`relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden transition-all duration-300 ${
                     isScrolled
-                      ? "w-[145px] sm:w-[165px] lg:w-[210px] h-[52px] sm:h-[60px] lg:h-[70px] max-h-[70px]"
-                      : "w-[145px] sm:w-[165px] lg:w-[225px] h-[52px] sm:h-[60px] lg:h-[75px] max-h-[75px]"
+                      ? "w-[135px] sm:w-[165px] lg:w-[200px] h-[48px] sm:h-[60px] lg:h-[68px] max-h-[68px]"
+                      : "w-[135px] sm:w-[165px] lg:w-[215px] h-[48px] sm:h-[60px] lg:h-[72px] max-h-[72px]"
                   }`}
                   aria-label="The Irish Grocer Homepage"
                 >
@@ -88,13 +88,12 @@ export function Header() {
                     className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.02]"
                   />
                 </Link>
-                <span className="hidden xl:block w-[1px] h-6 bg-[#14532D]/15 ml-4 mr-1" />
               </div>
 
               {/* CENTER: Rounded Search Field (Desktop) */}
-              <div className="hidden lg:block flex-1 max-w-xl mx-auto">
-                <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-                  <div className="relative flex-1 flex items-center ios-glass-search rounded-full transition-all focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 px-3.5 py-1">
+              <div className="hidden lg:block w-full">
+                <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
+                  <div className="relative w-full flex items-center ios-glass-search rounded-full transition-all focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 px-3.5 py-1">
                     <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
                     <input
                       type="text"
@@ -115,11 +114,11 @@ export function Header() {
               </div>
 
               {/* RIGHT: Action Controls (Store, Account, Cart) */}
-              <div className="flex items-center space-x-1 sm:space-x-2 text-sm font-medium text-[#173B2A] shrink-0">
+              <div className="flex items-center justify-end gap-1.5 sm:gap-4 lg:gap-6 xl:gap-7 text-sm font-medium text-[#173B2A] shrink-0 justify-self-end">
                 {/* Store Contact Control */}
                 <a
                   href={`tel:${SITE_CONFIG.phoneRaw}`}
-                  className="hidden md:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-3 py-2 rounded-xl transition-all"
+                  className="hidden md:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-2.5 py-2 rounded-xl transition-all"
                   title="Quincy, MA Store: (857) 387-2065"
                 >
                   <Store className="w-4 h-4 text-[#14532D] shrink-0" />
@@ -129,7 +128,7 @@ export function Header() {
                 {/* Customer Account Control */}
                 <Link
                   href={isAuthenticated ? "/account" : "/account/login"}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-3 py-2 rounded-xl transition-all"
+                  className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-2.5 py-2 rounded-xl transition-all"
                 >
                   <User className="w-4 h-4 text-[#14532D] shrink-0" />
                   <span>{isAuthenticated ? customer?.firstName || "Account" : "Account"}</span>
@@ -138,7 +137,7 @@ export function Header() {
                 {/* Shopping Cart Control */}
                 <button
                   onClick={openCart}
-                  className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-3 py-2 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 p-2 sm:px-2.5 sm:py-2 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
                   aria-label="Shopping Cart"
                 >
                   <div className="relative">
@@ -201,38 +200,36 @@ export function Header() {
               </div>
             )}
           </div>
+        </div>
 
-          {/* ------------------------------------------------------------ */}
-          {/* SUBTLE DIVIDER LINE BETWEEN MAIN NAV AND CATEGORY NAV         */}
-          {/* ------------------------------------------------------------ */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#14532D]/10 to-transparent" />
+        {/* ------------------------------------------------------------ */}
+        {/* SUBTLE DIVIDER LINE BETWEEN MAIN NAV AND CATEGORY NAV         */}
+        {/* ------------------------------------------------------------ */}
+        <div className="h-[1px] w-full bg-[#14532D]/[0.08]" />
 
-          {/* ------------------------------------------------------------ */}
-          {/* ROW 2: CATEGORY NAVIGATION ROW (All 9 Categories Visible)    */}
-          {/* ------------------------------------------------------------ */}
-          <div className="pl-3 sm:pl-4 lg:pl-5 pr-7 sm:pr-8 lg:pr-9 xl:pr-11 py-1.5 bg-[#14532D]/[0.02]">
+        {/* ------------------------------------------------------------ */}
+        {/* ROW 2: CATEGORY NAVIGATION ROW (#ECF8E4 Light Mint-Green)    */}
+        {/* ------------------------------------------------------------ */}
+        <div className="w-full py-1.5 bg-[#ECF8E4]/95 backdrop-blur-md hidden md:block">
+          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8">
             <nav
-              className="w-full flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between text-xs sm:text-[12.5px] lg:text-[12px] xl:text-[13px] font-medium"
+              className="w-full flex items-center justify-between overflow-x-auto no-scrollbar text-xs lg:text-[12px] xl:text-[13px] 2xl:text-[13.5px] font-medium tracking-tight"
               aria-label="Aisle categories"
             >
-              {CATEGORY_NAVIGATION_LINKS.map((link, idx) => {
+              {CATEGORY_NAVIGATION_LINKS.map((link) => {
                 const active = isLinkActive(link.href);
                 return (
-                  <React.Fragment key={link.label}>
-                    {idx > 0 && (
-                      <span className="hidden xl:inline-block w-[1px] h-3 bg-[#14532D]/12 mx-0.5 select-none shrink-0" />
-                    )}
-                    <Link
-                      href={link.href}
-                      className={`px-2 sm:px-2 lg:px-1.5 xl:px-2.5 py-1 rounded-[12px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
-                        active
-                          ? "bg-[#22C55E]/20 text-[#14532D] font-bold shadow-2xs"
-                          : "text-[#173B2A]/85 hover:text-[#14532D] hover:bg-[#14532D]/6 font-medium"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </React.Fragment>
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className={`px-1 sm:px-1.5 xl:px-2 py-1 rounded-[8px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
+                      active
+                        ? "bg-[#14532D]/15 text-[#14532D] font-bold shadow-2xs"
+                        : "text-[#173B2A]/90 hover:text-[#14532D] hover:bg-[#14532D]/8 font-medium"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
                 );
               })}
             </nav>

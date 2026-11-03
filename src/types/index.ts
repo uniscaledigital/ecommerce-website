@@ -24,6 +24,11 @@ export interface ProductVariant {
   }[];
 }
 
+export interface ProductRating {
+  value: number;
+  count: number;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -43,6 +48,7 @@ export interface Product {
   collections?: string[];
   sku?: string;
   barcode?: string;
+  rating?: ProductRating;
 }
 
 export interface Collection {

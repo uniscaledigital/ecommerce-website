@@ -13,7 +13,7 @@ export default async function ShopPage() {
   const collections = await getCollections();
 
   return (
-    <div className="py-8 space-y-12">
+    <div className="section-inner py-8 space-y-12">
       <ShopClientView initialProducts={allProducts} collections={collections} />
       <OrderConfidenceSection />
     </div>

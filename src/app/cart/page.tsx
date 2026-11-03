@@ -12,7 +12,7 @@ export default function CartPage() {
   const { cart, updateQuantity, removeItem, clearCart, openEnquiry, checkout } = useCart();
 
   return (
-    <div className="py-8 space-y-12">
+    <div className="section-inner py-8 space-y-12">
       <div>
         <h1 className="font-serif-display text-3xl sm:text-4xl font-bold text-[#1F2937]">
           Shopping Basket

@@ -40,7 +40,7 @@ export default async function CollectionPage({
   }
 
   return (
-    <div className="py-8 space-y-12">
+    <div className="section-inner py-8 space-y-12">
       <ShopClientView
         initialProducts={products}
         collections={collections}

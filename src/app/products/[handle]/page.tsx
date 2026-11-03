@@ -41,7 +41,7 @@ export default async function ProductPage({
   ).filter((p) => p.id !== product.id).slice(0, 4);
 
   return (
-    <div className="py-6 space-y-12">
+    <div className="section-inner py-6 space-y-12">
       {/* Breadcrumbs matching PDF Page 6 */}
       <nav className="text-xs text-ink-muted flex items-center gap-2">
         <Link href="/" className="hover:text-commerce underline">

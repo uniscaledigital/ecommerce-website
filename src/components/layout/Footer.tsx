@@ -24,10 +24,10 @@ export function Footer() {
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
 
       {/* ============================================================== */}
-      {/* 1. MAIN FOOTER CONTENT CONTAINER (Full Width BG, Centered Inner)*/}
+      {/* 1. MAIN FOOTER CONTENT CONTAINER (Full Width BG, Section Inner) */}
       {/* ============================================================== */}
       <div className="w-full">
-        <div className="max-w-[1500px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-12 md:py-16">
+        <div className="section-inner py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-0 items-start">
             {/* -------------------------------------------------------- */}
             {/* COLUMN 1: BRAND AND STORE INFORMATION (~30% width)       */}
@@ -161,7 +161,7 @@ export function Footer() {
       {/* 2. FULL-WIDTH COPYRIGHT BAR (Separate Warm Cream Strip)        */}
       {/* ============================================================== */}
       <div className="w-full bg-[#FDF4E3] border-t border-[rgba(20,83,45,0.14)]">
-        <div className="max-w-[1500px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 py-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#52665B]">
+        <div className="section-inner py-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#52665B]">
           {/* Left: Copyright */}
           <p className="text-center md:text-left">
             © 2026 {SITE_CONFIG.name}. Authentic Irish Provisions.

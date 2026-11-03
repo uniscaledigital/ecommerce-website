@@ -15,9 +15,9 @@ export function ProductGrid({ products, columns = 4 }: ProductGridProps) {
 
   if (products.length === 0) {
     return (
-      <div className="py-16 text-center border border-dashed border-[#E8DFCF] rounded-xl bg-[#FFFAF1] p-8">
-        <p className="text-base font-bold text-[#1F2937]">No products found</p>
-        <p className="text-xs text-[#4B5563] mt-1">
+      <div className="py-16 text-center border border-dashed border-[#D0E7C9] rounded-[24px] bg-[#EDF8E9]/60 p-8 shadow-xs">
+        <p className="text-base font-bold text-[#14532D]">No products found</p>
+        <p className="text-xs text-[#42634A] mt-1">
           Try adjusting your search keywords or filter settings.
         </p>
       </div>
@@ -33,7 +33,7 @@ export function ProductGrid({ products, columns = 4 }: ProductGridProps) {
 
   return (
     <>
-      <div className={`grid ${gridColsClass} gap-3 sm:gap-4 lg:gap-6`}>
+      <div className={`grid ${gridColsClass} gap-3.5 sm:gap-5 lg:gap-6`}>
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -50,4 +50,3 @@ export function ProductGrid({ products, columns = 4 }: ProductGridProps) {
     </>
   );
 }
-

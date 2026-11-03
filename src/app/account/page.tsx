@@ -32,7 +32,7 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="py-8 space-y-10">
+    <div className="section-inner py-8 space-y-10">
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E8DFCF] pb-6">
         <div>

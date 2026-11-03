@@ -30,19 +30,46 @@
   --color-text: #1F2937;
   --color-border: #E8DFCF;
 
-  /* Glossy iOS Glass Navigation Theme (Warm Cream + Pale Sage Undertones) */
+  /* Soft Mint-Green Navigation Theme */
   --nav-primary: #14532D;
   --nav-green: #166534;
   --nav-accent: #22C55E;
 
-  --nav-glass: rgba(253, 248, 238, 0.90);
-  --nav-glass-light: rgba(255, 251, 242, 0.85);
-  --nav-glass-border: rgba(255, 255, 255, 0.90);
+  --nav-main-bg: #ECF4E4;
+  --nav-category-bg: #ECF8E4;
+  --nav-glass: #ECF4E4;
+  --nav-glass-light: #ECF8E4;
+  --nav-glass-border: rgba(20, 83, 45, 0.12);
 
   --nav-text: #173B2A;
   --nav-muted: #52665B;
 
-  --nav-shadow: 0 8px 28px rgba(20, 83, 45, 0.08);
+  --nav-shadow: 0 4px 20px rgba(20, 83, 45, 0.06);
+
+  /* Mint-Green Product Card Design Tokens */
+  --product-card-bg: #EDF8E9;
+  --product-image-bg: #DDF1D5;
+  --product-content-bg: #EDF8E9;
+  --product-border: #D0E7C9;
+
+  --product-text: #14532D;
+  --product-muted: #42634A;
+  --product-accent: #22C55E;
+  --product-stock: #22C55E;
+
+  --product-button-border: #62A86A;
+  --product-button-bg: transparent;
+
+  --product-shadow: 0 6px 18px rgba(20, 83, 45, 0.09);
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -51,7 +78,24 @@ body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+}
+
+#root,
+#__next,
+main,
+.site-shell {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
+}
+
+.page-wrapper,
+.site-container,
+.section-inner {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: clamp(16px, 4vw, 56px);
 }
 
 .font-manrope {
@@ -194,28 +238,26 @@ a {
 }
 
 .ios-glass-nav {
-  background: rgba(253, 248, 238, 0.90);
-  backdrop-filter: blur(18px) saturate(135%);
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
-  border: 1px solid rgba(255, 255, 255, 0.90);
-  box-shadow:
-    0 8px 28px rgba(20, 83, 45, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  background-color: #ECF4E4;
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  border-bottom: 1px solid rgba(20, 83, 45, 0.12);
+  box-shadow: 0 4px 18px rgba(20, 83, 45, 0.05);
 }
 
 .ios-glass-pill {
-  background: rgba(255, 251, 242, 0.85);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  border: 1px solid rgba(255, 255, 255, 0.90);
+  background: rgba(236, 248, 228, 0.90);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid rgba(20, 83, 45, 0.12);
   box-shadow:
-    0 4px 20px rgba(20, 83, 45, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    0 2px 12px rgba(20, 83, 45, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .ios-glass-search {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(20, 83, 45, 0.14);
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 83, 45, 0.16);
   box-shadow:
     0 2px 8px rgba(20, 83, 45, 0.04),
     inset 0 1px 1px rgba(0, 0, 0, 0.02);

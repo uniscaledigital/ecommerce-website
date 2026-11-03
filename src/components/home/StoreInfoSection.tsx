@@ -1,78 +1,95 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Clock, Phone, ArrowRight, Store } from "lucide-react";
+import { MapPin, Clock, Phone, Store } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/config/site";
 
 export function StoreInfoSection() {
   return (
-    <section id="store-info" className="my-12 md:my-16">
-      <div className="bg-[#E8F5E9] border border-[#22C55E]/30 rounded-2xl p-8 sm:p-10 lg:p-12 shadow-xs">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Text */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FDF4E3] border border-[#22C55E]/40 text-xs font-bold text-[#14532D]">
-              <Store className="w-3.5 h-3.5 text-[#22C55E]" />
+    <section id="store-info" aria-label="The Irish Grocer Quincy Store" className="w-full">
+      <div className="w-full bg-[#EAF7E8] border border-[#DCE8D7] rounded-[20px] p-6 sm:p-8 lg:p-10 shadow-xs transition-shadow">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_minmax(300px,360px)] gap-8 lg:gap-8 items-center">
+          {/* Left Text Column */}
+          <div className="space-y-3.5 sm:space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FDF4E3] border border-[#DCE8D7] text-[11px] font-bold text-[#10552F] uppercase tracking-wider">
+              <Store className="w-3.5 h-3.5 text-[#10552F]" />
               <span>A NEIGHBOURHOOD FAVOURITE • QUINCY, MA</span>
             </div>
-            <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-bold text-[#14532D] leading-tight">
-              The Irish Grocer Storefront
+
+            <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#10552F] tracking-tight leading-tight">
+              The Irish Grocer
             </h2>
-            <p className="text-sm sm:text-base text-[#1F2937]/80 leading-relaxed max-w-xl font-sans">
-              {SITE_CONFIG.description}
+
+            <p className="text-xs sm:text-[13.5px] text-[#334155] leading-relaxed max-w-xl font-sans">
+              Imported Irish and UK grocery favourites in Quincy, Massachusetts. Delivered straight from Dublin and Cork to New England weekly.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center gap-3.5">
               <Link
                 href="/shop"
-                className="bg-[#14532D] hover:bg-[#064E3B] text-white font-semibold text-xs sm:text-sm px-6 py-3 rounded-lg transition-colors inline-flex items-center gap-2 shadow-sm"
+                className="inline-flex items-center gap-2 bg-[#10552F] hover:bg-[#0D4426] text-white font-semibold text-xs sm:text-[13.5px] px-6 py-2.5 sm:py-3 rounded-[10px] transition-all shadow-xs"
               >
                 <span>Shop Catalog</span>
-                <ArrowRight className="w-4 h-4 text-[#22C55E]" />
+                <span className="text-[#22C55E] text-base leading-none">→</span>
               </Link>
               <a
                 href={`tel:${SITE_CONFIG.phoneRaw}`}
-                className="bg-[#FDF4E3] hover:bg-white text-[#14532D] border border-[#14532D]/30 font-semibold text-xs sm:text-sm px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2.5 bg-[#FDF4E3] hover:bg-white text-[#10552F] border border-[#DCE8D7] font-semibold text-xs sm:text-[13.5px] px-5 sm:px-6 py-2.5 sm:py-3 rounded-[10px] transition-all shadow-xs"
               >
-                Call (857) 387-2065
+                <Phone className="w-4 h-4 text-[#10552F]" strokeWidth={1.8} />
+                <span>Call (857) 387-2065</span>
               </a>
             </div>
           </div>
 
-          {/* Right: Store Details Card in Warm Farmhouse Ivory */}
-          <div className="lg:col-span-5 bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-6 sm:p-7 space-y-5 shadow-card">
-            <div>
-              <div className="flex items-center gap-2 text-[#14532D] text-xs font-bold uppercase tracking-wider mb-1.5">
-                <MapPin className="w-4 h-4 text-[#22C55E]" />
-                <span>Visit Our Quincy Store</span>
+          {/* Vertical Divider (Desktop) */}
+          <div className="hidden lg:block w-[1px] h-40 bg-[#D5E2D2] shrink-0 self-center" />
+
+          {/* Right Store Details Column */}
+          <div className="space-y-4 pt-4 lg:pt-0 border-t lg:border-t-0 border-[#D5E2D2]/60 font-sans">
+            {/* 1. Visit Our Quincy Store */}
+            <div className="flex items-start gap-3.5">
+              <MapPin className="w-5 h-5 text-[#10552F] shrink-0 mt-0.5" strokeWidth={1.8} />
+              <div>
+                <h3 className="text-xs sm:text-[13px] font-bold text-[#10552F] leading-tight">
+                  Visit Our Quincy Store
+                </h3>
+                <p className="text-xs sm:text-[12.5px] text-[#334155] mt-0.5">
+                  132 East Howard Street, Quincy, MA 02169
+                </p>
               </div>
-              <p className="text-sm font-semibold text-[#1F2937]">
-                {SITE_CONFIG.address.street}
-              </p>
-              <p className="text-xs text-[#4B5563]">
-                {SITE_CONFIG.address.city}, {SITE_CONFIG.address.state} {SITE_CONFIG.address.zip}
-              </p>
             </div>
 
-            <div className="border-t border-[#E8DFCF] pt-4">
-              <div className="flex items-center gap-2 text-[#14532D] text-xs font-bold uppercase tracking-wider mb-1.5">
-                <Clock className="w-4 h-4 text-[#22C55E]" />
-                <span>Operating Hours</span>
+            <div className="w-full h-[1px] bg-[#D5E2D2]/60" />
+
+            {/* 2. Operating Hours */}
+            <div className="flex items-start gap-3.5">
+              <Clock className="w-5 h-5 text-[#10552F] shrink-0 mt-0.5" strokeWidth={1.8} />
+              <div>
+                <h3 className="text-xs sm:text-[13px] font-bold text-[#10552F] leading-tight">
+                  Operating Hours
+                </h3>
+                <p className="text-xs sm:text-[12.5px] text-[#334155] mt-0.5">
+                  7:00 AM – 10:00 PM (Open 365 days a year)
+                </p>
               </div>
-              <p className="text-sm font-semibold text-[#1F2937]">7:00 AM – 10:00 PM</p>
-              <p className="text-xs text-[#4B5563]">Open 365 days a year (including all holidays)</p>
             </div>
 
-            <div className="border-t border-[#E8DFCF] pt-4">
-              <div className="flex items-center gap-2 text-[#14532D] text-xs font-bold uppercase tracking-wider mb-1.5">
-                <Phone className="w-4 h-4 text-[#22C55E]" />
-                <span>Direct Telephone</span>
+            <div className="w-full h-[1px] bg-[#D5E2D2]/60" />
+
+            {/* 3. Direct Telephone */}
+            <div className="flex items-start gap-3.5">
+              <Phone className="w-5 h-5 text-[#10552F] shrink-0 mt-0.5" strokeWidth={1.8} />
+              <div>
+                <h3 className="text-xs sm:text-[13px] font-bold text-[#10552F] leading-tight">
+                  Direct Telephone
+                </h3>
+                <a
+                  href={`tel:${SITE_CONFIG.phoneRaw}`}
+                  className="text-base sm:text-lg font-bold text-[#10552F] hover:underline block leading-tight mt-0.5"
+                >
+                  (857) 387-2065
+                </a>
               </div>
-              <a
-                href={`tel:${SITE_CONFIG.phoneRaw}`}
-                className="text-base font-bold text-[#14532D] hover:underline block"
-              >
-                {SITE_CONFIG.phone}
-              </a>
             </div>
           </div>
         </div>
