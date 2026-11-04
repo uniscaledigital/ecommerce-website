@@ -38,10 +38,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[75vh] flex flex-col justify-between py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[75vh] flex flex-col justify-between py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       {/* Top Center: Brand Logo & Title */}
-      <div className="text-center pt-4">
-        <Link href="/" className="inline-block relative w-[230px] h-[80px] mx-auto mb-2">
+      <div className="text-center pt-2 sm:pt-4">
+        <Link href="/" className="inline-block relative w-[180px] sm:w-[230px] h-[64px] sm:h-[80px] mx-auto mb-2">
           <Image
             src="/assets/logo/irish-grocer-animated.svg"
             alt="The Irish Grocer"
@@ -51,13 +51,13 @@ export default function LoginPage() {
             className="object-contain"
           />
         </Link>
-        <p className="text-xs text-[#4B5563] mt-1">Farmhouse Grocery Customer Account</p>
+        <p className="text-xs text-[#4B5563] mt-1 font-sans">Farmhouse Grocery Customer Account</p>
       </div>
 
       {/* Center Auth Card */}
-      <div className="max-w-md w-full mx-auto bg-white p-8 sm:p-10 rounded-2xl shadow-card border border-[#E8DFCF] space-y-6 my-auto">
+      <div className="max-w-md w-full mx-auto bg-white p-5 sm:p-8 md:p-10 rounded-2xl shadow-card border border-[#E8DFCF] space-y-5 sm:space-y-6 my-auto">
         <div className="space-y-1">
-          <h2 className="text-2xl font-bold text-[#1F2937] tracking-tight font-serif-display">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1F2937] tracking-tight font-serif-display">
             Sign In
           </h2>
           <p className="text-xs text-[#4B5563]">
@@ -71,7 +71,7 @@ export default function LoginPage() {
             type="button"
             onClick={handleShopPayLogin}
             disabled={isLoading}
-            className="w-full bg-[#5A31F4] hover:bg-[#4A24DB] text-white py-3.5 px-4 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+            className="w-full bg-[#5A31F4] hover:bg-[#4A24DB] text-white py-3.5 px-4 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-1.5 shadow-xs min-h-[44px]"
           >
             <span>Continue with</span>
             <span className="font-bold tracking-tight text-base italic ml-0.5">shop</span>
@@ -81,7 +81,7 @@ export default function LoginPage() {
         {/* Divider */}
         <div className="relative flex items-center justify-center">
           <div className="border-t border-[#E8DFCF] w-full" />
-          <span className="bg-white px-3 text-xs text-[#4B5563] font-medium">
+          <span className="bg-white px-3 text-[11px] sm:text-xs text-[#4B5563] font-medium whitespace-nowrap">
             or continue with email
           </span>
           <div className="border-t border-[#E8DFCF] w-full" />
@@ -89,45 +89,63 @@ export default function LoginPage() {
 
         {/* Email Input Form */}
         <form onSubmit={handleEmailSubmit} className="space-y-4">
-          <div className="relative">
+          <div>
+            <label
+              htmlFor="email-input"
+              className="block text-xs font-semibold text-[#1F2937] mb-1.5"
+            >
+              Email address
+            </label>
             <input
+              id="email-input"
               type="email"
               required
-              placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-sm text-[#1F2937] bg-white border border-[#E8DFCF] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#14532D] focus:border-[#14532D] placeholder:text-[#1F2937]/50 pr-12"
+              placeholder="e.g. patrick@example.com"
+              className="w-full px-3.5 py-2.5 text-sm border border-[#E8DFCF] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#14532D] placeholder-[#4B5563]/50 min-h-[44px]"
             />
-            <button
-              type="submit"
-              disabled={isLoading || !email}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#14532D] hover:text-[#064E3B] disabled:opacity-40 transition-colors"
-              aria-label="Submit email"
-            >
-              <ArrowRight className="w-5 h-5 text-[#22C55E]" />
-            </button>
           </div>
 
-          {/* Checkbox: Email me with news and offers */}
-          <label className="flex items-center gap-2.5 cursor-pointer text-xs text-[#4B5563] select-none">
+          <div className="flex items-start gap-2 pt-1">
             <input
+              id="newsletter-consent"
               type="checkbox"
               checked={newsConsent}
               onChange={(e) => setNewsConsent(e.target.checked)}
-              className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
+              className="mt-0.5 w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
             />
-            <span>Email me weekly Irish imports, fresh bangers &amp; crisp news</span>
-          </label>
+            <label
+              htmlFor="newsletter-consent"
+              className="text-[11px] text-[#4B5563] leading-snug cursor-pointer"
+            >
+              Send me weekly updates on direct Cork &amp; Dublin provisions and holiday treats.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || !email}
+            className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-4 rounded-xl font-semibold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50 min-h-[44px]"
+          >
+            <span>{isLoading ? "Signing in..." : "Continue"}</span>
+            <ArrowRight className="w-4 h-4 text-[#22C55E]" />
+          </button>
         </form>
+
+        <p className="text-[11px] text-[#4B5563] text-center pt-2">
+          Demo Customer Account • No password required
+        </p>
       </div>
 
-      {/* Bottom Center Link */}
-      <div className="text-center pb-4">
-        <Link
-          href="/privacy"
-          className="text-xs text-[#14532D] hover:underline font-medium"
-        >
+      {/* Footer Navigation */}
+      <div className="text-center pt-4 text-xs text-[#4B5563] space-x-4">
+        <Link href="/privacy" className="hover:text-[#14532D] hover:underline">
           Privacy Policy
+        </Link>
+        <span>•</span>
+        <Link href="/" className="hover:text-[#14532D] hover:underline">
+          Return to Store
         </Link>
       </div>
     </div>

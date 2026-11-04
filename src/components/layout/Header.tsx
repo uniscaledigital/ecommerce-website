@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { Search, Store, User, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, Store, User, ShoppingBag, Menu } from "lucide-react";
 import { SITE_CONFIG, CATEGORY_NAVIGATION_LINKS } from "@/lib/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -16,7 +16,6 @@ export function Header() {
   const { cart, openCart } = useCart();
   const { isAuthenticated, customer } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -32,7 +31,6 @@ export function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setIsMobileSearchOpen(false);
     }
   };
 
@@ -63,19 +61,23 @@ export function Header() {
         <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none" />
 
         {/* ------------------------------------------------------------ */}
-        {/* ROW 1: MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)         */}
+        {/* MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)                */}
         {/* ------------------------------------------------------------ */}
         <div className="w-full bg-[#ECF4E4]/95 backdrop-blur-md">
-          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8 py-2 sm:py-2.5">
-            <div className="flex lg:grid lg:grid-cols-[210px_minmax(360px,600px)_auto] items-center justify-between gap-2 sm:gap-4 lg:gap-6 xl:gap-8">
+          <div className="w-full max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-6 xl:px-8 py-2 sm:py-2.5">
+            {/* ======================================================== */}
+            {/* 1. DESKTOP HEADER (Screen width >= 1024px / lg)         */}
+            {/* PRESERVES APPROVED DESKTOP DESIGN 100% UNCHANGED         */}
+            {/* ======================================================== */}
+            <div className="hidden lg:grid lg:grid-cols-[210px_minmax(360px,600px)_auto] items-center justify-between gap-6 xl:gap-8">
               {/* LEFT: Official Irish Grocer Animated SVG Logo */}
-              <div className="flex items-center shrink-0 w-auto lg:w-[210px] xl:w-[220px]">
+              <div className="flex items-center shrink-0 w-[210px] xl:w-[220px]">
                 <Link
                   href="/"
                   className={`relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden transition-all duration-300 ${
                     isScrolled
-                      ? "w-[135px] sm:w-[165px] lg:w-[200px] h-[48px] sm:h-[60px] lg:h-[68px] max-h-[68px]"
-                      : "w-[135px] sm:w-[165px] lg:w-[215px] h-[48px] sm:h-[60px] lg:h-[72px] max-h-[72px]"
+                      ? "w-[200px] h-[68px] max-h-[68px]"
+                      : "w-[215px] h-[72px] max-h-[72px]"
                   }`}
                   aria-label="The Irish Grocer Homepage"
                 >
@@ -91,7 +93,7 @@ export function Header() {
               </div>
 
               {/* CENTER: Rounded Search Field (Desktop) */}
-              <div className="hidden lg:block w-full">
+              <div className="w-full">
                 <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
                   <div className="relative w-full flex items-center ios-glass-search rounded-full transition-all focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 px-3.5 py-1">
                     <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
@@ -114,7 +116,7 @@ export function Header() {
               </div>
 
               {/* RIGHT: Action Controls (Store, Account, Cart) */}
-              <div className="flex items-center justify-end gap-1.5 sm:gap-4 lg:gap-6 xl:gap-7 text-sm font-medium text-[#173B2A] shrink-0 justify-self-end">
+              <div className="flex items-center justify-end gap-4 lg:gap-6 xl:gap-7 text-sm font-medium text-[#173B2A] shrink-0 justify-self-end">
                 {/* Store Contact Control */}
                 <a
                   href={`tel:${SITE_CONFIG.phoneRaw}`}
@@ -150,55 +152,82 @@ export function Header() {
                   </div>
                   <span className="hidden sm:inline">Cart</span>
                 </button>
-
-                {/* Mobile Search Toggle Icon */}
-                <button
-                  onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-                  className="lg:hidden p-2 text-[#14532D] hover:bg-[#14532D]/5 rounded-xl transition-colors focus:outline-none"
-                  aria-label="Toggle search field"
-                >
-                  {isMobileSearchOpen ? (
-                    <X className="w-5 h-5 text-[#14532D]" />
-                  ) : (
-                    <Search className="w-5 h-5 text-[#14532D]" />
-                  )}
-                </button>
-
-                {/* Mobile Menu Hamburger */}
-                <button
-                  onClick={() => setIsMobileMenuOpen(true)}
-                  className="lg:hidden p-2 text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 rounded-xl transition-colors focus:outline-none"
-                  aria-label="Open navigation menu"
-                >
-                  <Menu className="w-5 h-5 text-[#14532D]" />
-                </button>
               </div>
             </div>
 
-            {/* Mobile Search Bar Drawer */}
-            {isMobileSearchOpen && (
-              <div className="lg:hidden pt-2.5 mt-2.5 border-t border-[#14532D]/10 animate-in fade-in duration-200">
-                <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
-                  <div className="relative flex-1 flex items-center bg-white/95 rounded-full border border-[#14532D]/20 px-3.5 py-1 shadow-xs">
-                    <Search className="w-4 h-4 text-[#14532D]/60 mr-2 shrink-0" />
+            {/* ======================================================== */}
+            {/* 2. DEDICATED MOBILE & TABLET HEADER (< 1024px / lg)      */}
+            {/* TOP ROW: Hamburger Menu | Animated Logo | Shopping Cart  */}
+            {/* SECOND ROW: Full-Width Search Field                     */}
+            {/* ======================================================== */}
+            <div className="lg:hidden flex flex-col gap-2">
+              {/* TOP ROW: Hamburger | Logo | Cart */}
+              <div className="flex items-center justify-between gap-2">
+                {/* Left: Accessible Hamburger Menu Button (>= 44px touch target) */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  className="w-11 h-11 flex items-center justify-center text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="w-6 h-6 text-[#14532D]" />
+                </button>
+
+                {/* Center: Irish Grocer Animated SVG Logo */}
+                <Link
+                  href="/"
+                  className="relative flex items-center justify-center flex-1 max-w-[200px] h-[46px] sm:h-[54px] focus:outline-none"
+                  aria-label="The Irish Grocer Homepage"
+                >
+                  <Image
+                    src="/assets/logo/irish-grocer-animated.svg"
+                    alt="The Irish Grocer"
+                    fill
+                    priority
+                    unoptimized
+                    className="object-contain object-center"
+                  />
+                </Link>
+
+                {/* Right: Shopping Cart Button with Count Badge (>= 44px touch target) */}
+                <button
+                  onClick={openCart}
+                  className="w-11 h-11 flex items-center justify-center text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
+                  aria-label={`Shopping cart with ${cart.totalQuantity} items`}
+                >
+                  <div className="relative">
+                    <ShoppingBag className="w-5 h-5 text-[#14532D]" />
+                    {cart.totalQuantity > 0 && (
+                      <span className="absolute -top-2 -right-2.5 bg-[#22C55E] text-[#14532D] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
+                        {cart.totalQuantity}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              </div>
+
+              {/* SECOND ROW: Full-Width Search Field */}
+              <div className="w-full">
+                <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
+                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/20 px-3.5 py-1 shadow-xs focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15">
+                    <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
                     <input
                       type="text"
-                      placeholder="Search products or brands..."
+                      placeholder="Search products, brands, or essentials..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-sm text-[#173B2A] focus:outline-none py-1.5"
-                      autoFocus
+                      className="w-full bg-transparent text-xs sm:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1.5"
+                      aria-label="Search products"
                     />
+                    <button
+                      type="submit"
+                      className="bg-[#14532D] hover:bg-[#166534] text-white px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs shrink-0 ml-1.5"
+                    >
+                      Search
+                    </button>
                   </div>
-                  <button
-                    type="submit"
-                    className="bg-[#14532D] hover:bg-[#166534] text-white px-4 py-2 rounded-full text-xs font-semibold shadow-xs shrink-0"
-                  >
-                    Search
-                  </button>
                 </form>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
@@ -209,6 +238,7 @@ export function Header() {
 
         {/* ------------------------------------------------------------ */}
         {/* ROW 2: CATEGORY NAVIGATION ROW (#ECF8E4 Light Mint-Green)    */}
+        {/* Shown on desktop and tablet screens (>= md)                  */}
         {/* ------------------------------------------------------------ */}
         <div className="w-full py-1.5 bg-[#ECF8E4]/95 backdrop-blur-md hidden md:block">
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8">

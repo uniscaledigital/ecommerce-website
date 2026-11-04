@@ -57,12 +57,12 @@ export function ProductDetailsClient({
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12 sm:space-y-16">
       {/* 2-Column Product Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
         {/* Left Column: Image Spotlight Showcase */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="relative aspect-square w-full bg-[#DDF1D5] rounded-2xl border border-[#D0E7C9] overflow-hidden p-8 shadow-xs flex items-center justify-center">
+          <div className="relative aspect-square w-full bg-[#DDF1D5] rounded-2xl border border-[#D0E7C9] overflow-hidden p-5 sm:p-8 shadow-xs flex items-center justify-center">
             {/* Subtle Shamrock Watermark in Pale Mint Background */}
             <div
               className="absolute inset-0 pointer-events-none overflow-hidden select-none"
@@ -70,7 +70,7 @@ export function ProductDetailsClient({
             >
               <svg
                 viewBox="0 0 100 100"
-                className="absolute -bottom-6 -left-6 w-44 h-44 text-[#22C55E] opacity-[0.14]"
+                className="absolute -bottom-6 -left-6 w-36 sm:w-44 h-36 sm:h-44 text-[#22C55E] opacity-[0.14]"
                 fill="currentColor"
               >
                 <path d="M50 44 C41 33 24 35 24 48 C24 59 36 65 50 56 C64 65 76 59 76 48 C76 35 59 33 50 44 Z" />
@@ -91,18 +91,18 @@ export function ProductDetailsClient({
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 55vw"
-              className="object-contain p-6 relative z-0"
+              className="object-contain p-4 sm:p-6 relative z-0"
             />
           </div>
 
           {/* Gallery Thumbnails if multiple images */}
           {images.length > 1 && (
-            <div className="flex items-center gap-3 overflow-x-auto pb-2">
+            <div className="flex items-center gap-2.5 sm:gap-3 overflow-x-auto pb-2 scrollbar-none">
               {images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-20 rounded-xl overflow-hidden bg-[#DDF1D5] border-2 transition-all shrink-0 p-1 flex items-center justify-center ${
+                  className={`relative w-16 sm:w-20 h-16 sm:h-20 rounded-xl overflow-hidden bg-[#DDF1D5] border-2 transition-all shrink-0 p-1 flex items-center justify-center ${
                     activeImageIndex === idx
                       ? "border-[#14532D] scale-105 shadow-sm"
                       : "border-[#D0E7C9] opacity-70 hover:opacity-100"
@@ -112,7 +112,7 @@ export function ProductDetailsClient({
                     src={img.url}
                     alt={img.altText || `${product.title} ${idx + 1}`}
                     fill
-                    className="object-contain p-1.5"
+                    className="object-contain p-1"
                   />
                 </button>
               ))}
@@ -121,7 +121,7 @@ export function ProductDetailsClient({
         </div>
 
         {/* Right Column: Title, Metadata, Pricing, Actions */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-5 space-y-5 sm:space-y-6">
           {/* Brand & Title */}
           <div>
             <p className="text-xs font-semibold text-[#4B5563] uppercase tracking-wider mb-1">
@@ -132,7 +132,7 @@ export function ProductDetailsClient({
             </h1>
 
             {/* SKU & Barcode */}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-[#4B5563] mt-2 pt-1 border-t border-[#E8DFCF]/50">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#4B5563] mt-2 pt-1 border-t border-[#E8DFCF]/50">
               {product.sku && (
                 <span>
                   <strong>SKU:</strong> {product.sku}
@@ -153,7 +153,7 @@ export function ProductDetailsClient({
               <div className="space-y-2">
                 <Link
                   href="/account/login"
-                  className="dashed-login-btn block w-full py-3.5 px-4 text-center text-sm font-semibold rounded-lg"
+                  className="dashed-login-btn block w-full py-3.5 px-4 text-center text-sm font-semibold rounded-lg min-h-[44px]"
                 >
                   <span className="underline font-bold">Log in</span> to view prices
                 </Link>
@@ -162,10 +162,10 @@ export function ProductDetailsClient({
                 </p>
               </div>
             ) : (
-              <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-5 space-y-4 shadow-xs">
+              <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-4 shadow-xs">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-2xl font-bold text-[#14532D]">
+                    <span className="text-xl sm:text-2xl font-bold text-[#14532D]">
                       {formatMoney(currentVariant.price)}
                     </span>
                     <span className="text-xs text-[#4B5563] block mt-0.5">
@@ -193,11 +193,11 @@ export function ProductDetailsClient({
                 </div>
 
                 {/* Quantity & Add to Cart */}
-                <div className="flex items-center gap-3 pt-2">
-                  <div className="flex items-center border border-[#E8DFCF] rounded-lg bg-[#FFFAF1]">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                  <div className="flex items-center justify-between sm:justify-start border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] h-12">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-3 py-2 text-[#1F2937] hover:text-[#14532D]"
+                      className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3.5 h-3.5" />
@@ -207,7 +207,7 @@ export function ProductDetailsClient({
                     </span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="px-3 py-2 text-[#1F2937] hover:text-[#14532D]"
+                      className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -217,7 +217,7 @@ export function ProductDetailsClient({
                   <button
                     onClick={handleAddToCart}
                     disabled={!product.availableForSale}
-                    className="flex-1 bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-6 text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
+                    className="flex-1 bg-[#14532D] hover:bg-[#064E3B] text-white h-12 px-6 text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
                   >
                     {isAdded ? (
                       <>
@@ -244,7 +244,7 @@ export function ProductDetailsClient({
           </div>
 
           {/* Description */}
-          <div className="border-t border-[#E8DFCF] pt-6 space-y-3">
+          <div className="border-t border-[#E8DFCF] pt-5 sm:pt-6 space-y-3">
             <h3 className="text-sm font-bold text-[#14532D] uppercase tracking-wider font-sans">
               Product Information
             </h3>
@@ -253,17 +253,17 @@ export function ProductDetailsClient({
             </p>
           </div>
 
-          {/* Social Share Icons */}
-          <div className="border-t border-[#E8DFCF] pt-4 flex items-center gap-4 text-xs text-[#4B5563]">
+          {/* Social Share Icons with >= 44px touch targets */}
+          <div className="border-t border-[#E8DFCF] pt-4 flex items-center gap-3 text-xs text-[#4B5563]">
             <span className="font-semibold text-[#1F2937]">Share:</span>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                   typeof window !== "undefined" ? window.location.href : ""
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-[#14532D] transition-colors p-1"
+                className="w-10 h-10 flex items-center justify-center hover:text-[#14532D] hover:bg-[#14532D]/5 rounded-lg transition-colors"
                 aria-label="Share on Facebook"
               >
                 <FacebookIcon className="w-4 h-4" />
@@ -274,7 +274,7 @@ export function ProductDetailsClient({
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-[#14532D] transition-colors p-1"
+                className="w-10 h-10 flex items-center justify-center hover:text-[#14532D] hover:bg-[#14532D]/5 rounded-lg transition-colors"
                 aria-label="Share on X"
               >
                 <TwitterIcon className="w-4 h-4" />
@@ -285,7 +285,7 @@ export function ProductDetailsClient({
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-[#14532D] transition-colors p-1"
+                className="w-10 h-10 flex items-center justify-center hover:text-[#14532D] hover:bg-[#14532D]/5 rounded-lg transition-colors"
                 aria-label="Share on Pinterest"
               >
                 <Pin className="w-4 h-4" />
@@ -297,9 +297,9 @@ export function ProductDetailsClient({
 
       {/* Related Products Grid */}
       {relatedProducts.length > 0 && (
-        <div className="pt-12 border-t border-[#E8DFCF] space-y-6">
+        <div className="pt-8 sm:pt-12 border-t border-[#E8DFCF] space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-serif-display text-2xl font-bold text-[#1F2937]">
+            <h2 className="font-serif-display text-xl sm:text-2xl font-bold text-[#1F2937]">
               Related Favourites
             </h2>
             <Link

@@ -12,7 +12,7 @@ import {
 const IS_PRODUCTION = process.env.NEXT_PUBLIC_COMMERCE_MODE === "production";
 const DOMAIN = process.env.SHOPIFY_STORE_DOMAIN || "the-irish-grocer.myshopify.com";
 const STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || "";
-const API_VERSION = process.env.SHOPIFY_STOREFRONT_API_VERSION || "2025-01";
+const API_VERSION = process.env.SHOPIFY_STOREFRONT_API_VERSION || "2026-10";
 
 export async function shopifyFetch<T>({
   query,

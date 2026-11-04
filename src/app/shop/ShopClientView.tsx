@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { SlidersHorizontal, ChevronDown, LayoutGrid, Grid3X3 } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, LayoutGrid, Grid3X3, X, Check } from "lucide-react";
 import { Product, Collection } from "@/types";
 import { ProductGrid } from "@/components/products/ProductGrid";
 
@@ -81,15 +81,16 @@ export function ShopClientView({
       </div>
 
       {/* Control Bar */}
-      <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-4 shadow-xs">
+      <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4 shadow-xs">
         {/* Left: Filter Toggle for Mobile */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-            className="md:hidden inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E8DFCF] rounded-md text-xs font-semibold text-[#1F2937] bg-[#F7EBD8]"
+            className="md:hidden inline-flex items-center gap-1.5 px-3 py-2 border border-[#E8DFCF] rounded-lg text-xs font-semibold text-[#1F2937] bg-[#F7EBD8] hover:bg-[#EADFC9] active:scale-95 transition-all min-h-[40px]"
+            aria-expanded={isMobileFilterOpen}
           >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-            <span>Filter</span>
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#14532D]" />
+            <span>Filter {selectedCategory !== "all" || onlyInStock ? "• Active" : ""}</span>
           </button>
           <span className="text-xs text-[#4B5563] font-medium">
             {totalCountLabel}
@@ -97,7 +98,7 @@ export function ShopClientView({
         </div>
 
         {/* Right: Sort & Grid Layout */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2 text-xs">
             <span className="text-[#4B5563] hidden sm:inline">Sort by:</span>
             <div className="relative">
@@ -107,7 +108,7 @@ export function ShopClientView({
                   setSortBy(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="appearance-none bg-white border border-[#E8DFCF] rounded-md px-3 py-1.5 pr-8 text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
+                className="appearance-none bg-white border border-[#E8DFCF] rounded-lg px-3 py-2 pr-8 text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D] min-h-[40px]"
               >
                 <option value="alphabetical-az">Alphabetically, A-Z</option>
                 <option value="alphabetical-za">Alphabetically, Z-A</option>
@@ -144,19 +145,33 @@ export function ShopClientView({
       </div>
 
       {/* Main Layout: Filter Sidebar + Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Filter Sidebar (Desktop) */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-start">
+        {/* Filter Sidebar (Desktop + Mobile Collapsible) */}
         <aside
           className={`space-y-6 ${
             isMobileFilterOpen ? "block" : "hidden"
           } md:block md:col-span-1`}
         >
           <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-5 shadow-xs">
+            {/* Mobile Filter Header with Close Button */}
+            <div className="flex md:hidden items-center justify-between border-b border-[#E8DFCF] pb-3">
+              <span className="font-bold text-xs uppercase tracking-wider text-[#14532D]">
+                Refine Selection
+              </span>
+              <button
+                onClick={() => setIsMobileFilterOpen(false)}
+                className="p-1 text-[#4B5563] hover:text-[#1F2937]"
+                aria-label="Close filters"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
             <div>
               <h3 className="text-xs font-bold text-[#14532D] uppercase tracking-wider mb-3">
                 Availability
               </h3>
-              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-[#1F2937] font-medium">
+              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-[#1F2937] font-medium min-h-[36px]">
                 <input
                   type="checkbox"
                   checked={onlyInStock}
@@ -179,14 +194,16 @@ export function ShopClientView({
                   onClick={() => {
                     setSelectedCategory("all");
                     setCurrentPage(1);
+                    setIsMobileFilterOpen(false);
                   }}
-                  className={`block w-full text-left px-2.5 py-1.5 rounded-md transition-colors ${
+                  className={`flex items-center justify-between w-full text-left px-2.5 py-2 rounded-md transition-colors min-h-[36px] ${
                     selectedCategory === "all"
                       ? "bg-[#E8F5E9] text-[#14532D] font-bold"
                       : "hover:bg-[#F7EBD8] text-[#1F2937]"
                   }`}
                 >
-                  All Categories
+                  <span>All Categories</span>
+                  {selectedCategory === "all" && <Check className="w-3.5 h-3.5 text-[#22C55E]" />}
                 </button>
                 {collections.map((col) => (
                   <button
@@ -194,14 +211,16 @@ export function ShopClientView({
                     onClick={() => {
                       setSelectedCategory(col.handle);
                       setCurrentPage(1);
+                      setIsMobileFilterOpen(false);
                     }}
-                    className={`block w-full text-left px-2.5 py-1.5 rounded-md transition-colors ${
+                    className={`flex items-center justify-between w-full text-left px-2.5 py-2 rounded-md transition-colors min-h-[36px] ${
                       selectedCategory === col.handle
                         ? "bg-[#E8F5E9] text-[#14532D] font-bold"
                         : "hover:bg-[#F7EBD8] text-[#1F2937]"
                     }`}
                   >
-                    {col.title}
+                    <span>{col.title}</span>
+                    {selectedCategory === col.handle && <Check className="w-3.5 h-3.5 text-[#22C55E]" />}
                   </button>
                 ))}
               </div>
@@ -213,38 +232,48 @@ export function ShopClientView({
         <div className="md:col-span-3 space-y-8">
           <ProductGrid products={paginatedProducts} columns={gridColumns} />
 
-          {/* Pagination */}
+          {/* Responsive Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-6 border-t border-[#E8DFCF] text-xs font-semibold text-[#1F2937]">
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-6 border-t border-[#E8DFCF] text-xs font-semibold text-[#1F2937]">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3.5 py-2 border border-[#E8DFCF] rounded-md bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40"
+                className="px-3.5 py-2 border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[40px]"
               >
                 Previous
               </button>
 
-              {Array.from({ length: totalPages }).map((_, i) => {
-                const pageNum = i + 1;
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded-md border text-xs font-bold transition-colors ${
-                      currentPage === pageNum
-                        ? "bg-[#14532D] text-white border-[#14532D]"
-                        : "border-[#E8DFCF] bg-[#FFFAF1] hover:bg-[#F7EBD8] text-[#1F2937]"
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
+              <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none py-1">
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const pageNum = i + 1;
+                  // On mobile with many pages, only show current page and direct neighbors
+                  const isNearCurrent = Math.abs(pageNum - currentPage) <= 1 || pageNum === 1 || pageNum === totalPages;
+                  if (!isNearCurrent && totalPages > 5) {
+                    if (pageNum === 2 || pageNum === totalPages - 1) {
+                      return <span key={pageNum} className="px-1 text-[#4B5563]">…</span>;
+                    }
+                    return null;
+                  }
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-9 h-9 rounded-lg border text-xs font-bold transition-colors ${
+                        currentPage === pageNum
+                          ? "bg-[#14532D] text-white border-[#14532D]"
+                          : "border-[#E8DFCF] bg-[#FFFAF1] hover:bg-[#F7EBD8] text-[#1F2937]"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
 
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3.5 py-2 border border-[#E8DFCF] rounded-md bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40"
+                className="px-3.5 py-2 border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[40px]"
               >
                 Next
               </button>

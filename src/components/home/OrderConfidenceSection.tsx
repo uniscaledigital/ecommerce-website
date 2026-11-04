@@ -6,9 +6,9 @@ export function OrderConfidenceSection() {
     <section id="order-confidence" aria-label="Order with Confidence & Peace of Mind" className="w-full">
       <div className="w-full bg-[#EAF7E8] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-4.5 sm:py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-6 shadow-xs transition-shadow">
         {/* Left Icon + Divider + Heading */}
-        <div className="flex items-center gap-4 sm:gap-5 shrink-0">
+        <div className="flex items-center gap-3.5 sm:gap-5 shrink-0">
           {/* Shield-Check Icon inside pale mint circular background */}
-          <div className="w-12 h-12 rounded-full bg-white/70 border border-[#DCE8D7] flex items-center justify-center shrink-0">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/70 border border-[#DCE8D7] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-5 h-5 text-[#10552F]" strokeWidth={1.8} />
           </div>
 
@@ -16,13 +16,13 @@ export function OrderConfidenceSection() {
           <div className="hidden sm:block w-[1px] h-9 bg-[#D5E2D2] shrink-0" />
 
           {/* Heading */}
-          <h3 className="font-serif-display text-lg sm:text-[21px] font-bold text-[#10552F] tracking-tight whitespace-normal lg:whitespace-nowrap">
+          <h3 className="font-serif-display text-base sm:text-lg lg:text-[21px] font-bold text-[#10552F] tracking-tight whitespace-normal lg:whitespace-nowrap">
             Order with Confidence &amp; Peace of Mind
           </h3>
         </div>
 
-        {/* Right: Three Benefits in a Horizontal Row */}
-        <div className="w-full lg:w-auto flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-4 sm:gap-5 md:gap-6 lg:gap-6 xl:gap-8 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-[#D5E2D2]/60">
+        {/* Right: Three Benefits in a Responsive Row / Stack */}
+        <div className="w-full lg:w-auto grid grid-cols-1 sm:flex items-start sm:items-center justify-start sm:justify-end gap-3 sm:gap-5 md:gap-6 lg:gap-6 xl:gap-8 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-[#D5E2D2]/60">
           {/* Divider between heading and benefits on large screens */}
           <div className="hidden xl:block w-[1px] h-8 bg-[#D5E2D2] shrink-0" />
 

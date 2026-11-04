@@ -31,3 +31,4 @@ Standardization of all product image assets across the entire storefront to matc
 ## 3. Verification
 - `tsc --noEmit`: 0 errors
 - `next build`: 32/32 static and dynamic routes compiled successfully
+
