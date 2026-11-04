@@ -358,8 +358,8 @@ npm install @shopify/hydrogen-react @shopify/storefront-api-client
 ## 15. Security Considerations
 
 1. **Token Segregation**:
-   - **Public Storefront Access Token**: Can be exposed in browser headers (`NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN`) for read-only catalog queries.
-   - **Private Storefront Access Token / Delegate Token**: If utilized for server-side operations, it MUST remain in `SHOPIFY_STOREFRONT_PRIVATE_TOKEN` without the `NEXT_PUBLIC_` prefix and never bundled in client JS.
+   - **Public Storefront Access Token**: Public storefront queries utilize `SHOPIFY_STOREFRONT_ACCESS_TOKEN`.
+   - **Private Storefront Access Token / Delegate Token**: If utilized for server-side operations, it MUST remain in `SHOPIFY_PRIVATE_STOREFRONT_TOKEN` without any public exposure and never bundled in client JS.
 2. **Zero Admin API Exposure**:
    - The Shopify Admin API must **NEVER** be accessed from frontend components or client-exposed API routes.
 3. **Headless Checkout Boundary**:

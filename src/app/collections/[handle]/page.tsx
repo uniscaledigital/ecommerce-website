@@ -23,6 +23,22 @@ export async function generateMetadata({
   return {
     title: `${collection.title} — The Irish Grocer`,
     description: collection.description,
+    alternates: {
+      canonical: `/collections/${handle}`,
+    },
+    openGraph: {
+      title: `${collection.title} — The Irish Grocer`,
+      description: collection.description,
+      images: collection.image
+        ? [
+            {
+              url: collection.image.url,
+              alt: collection.image.altText || collection.title,
+            },
+          ]
+        : [],
+      type: "website",
+    },
   };
 }
 

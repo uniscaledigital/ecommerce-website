@@ -5,7 +5,7 @@ import { Gift } from "lucide-react";
 export function GiftingSection() {
   return (
     <section aria-label="Gifting and Hampers" className="w-full">
-      <div className="w-full bg-[#FBF2E2] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-4.5 sm:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 shadow-xs transition-shadow">
+      <div className="w-full bg-[#FBF2E2] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-[18px] sm:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 shadow-xs transition-shadow">
         {/* Left Icon + Divider + Text Content */}
         <div className="flex items-center gap-4 sm:gap-5 flex-1 min-w-0">
           {/* Gift Icon inside pale mint circular background */}

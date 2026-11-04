@@ -89,13 +89,15 @@ main,
   margin-inline: 0;
 }
 
-.page-wrapper,
-.site-container,
-.section-inner {
-  width: 100%;
-  max-width: none;
-  margin-inline: 0;
-  padding-inline: clamp(16px, 4vw, 56px);
+@layer components {
+  .page-wrapper,
+  .site-container,
+  .section-inner {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: clamp(16px, 4vw, 56px);
+  }
 }
 
 .font-manrope {
@@ -203,6 +205,14 @@ h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   .animate-infinite-carousel {
     animation: none !important;
   }

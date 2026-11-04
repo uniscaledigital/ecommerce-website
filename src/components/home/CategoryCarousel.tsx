@@ -34,12 +34,13 @@ export function CategoryCarousel() {
         {/* Carousel Viewport with soft left/right edge fade */}
         <div className="relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-6 sm:before:w-12 before:z-10 before:bg-gradient-to-r before:from-[#FDF4E3] before:to-transparent before:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-0 after:w-6 sm:after:w-12 after:z-10 after:bg-gradient-to-l after:from-[#FDF4E3] after:to-transparent after:pointer-events-none">
           <div className="overflow-x-auto scrollbar-none py-2 px-1">
-            <div className="animate-infinite-carousel flex items-center gap-4 sm:gap-5">
+            <div className="animate-infinite-carousel flex items-center gap-4 sm:gap-5 pr-4 sm:pr-5">
               {loopCategories.map((category, idx) => (
                 <CategoryCard
                   key={`${category.id}-${idx}`}
                   category={category}
                   priority={idx < 6}
+                  isClone={idx >= CATEGORIES.length}
                 />
               ))}
             </div>

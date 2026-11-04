@@ -8,14 +8,17 @@ import { CategoryItem } from "./category-data";
 interface CategoryCardProps {
   category: CategoryItem;
   priority?: boolean;
+  isClone?: boolean;
 }
 
-export function CategoryCard({ category, priority = false }: CategoryCardProps) {
+export function CategoryCard({ category, priority = false, isClone = false }: CategoryCardProps) {
   return (
     <Link
       href={category.href}
+      tabIndex={isClone ? -1 : undefined}
+      aria-hidden={isClone ? true : undefined}
       className="group block w-[150px] sm:w-[170px] lg:w-[190px] shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] focus-visible:ring-offset-2 rounded-2xl"
-      aria-label={`Shop ${category.name}`}
+      aria-label={isClone ? undefined : `Shop ${category.name}`}
     >
       {/* Category Image with rounded corners and subtle shadow */}
       <div className="relative w-full aspect-[1.28/1] rounded-2xl overflow-hidden bg-[#FFFAF1] border border-[#E8DFCF] shadow-xs group-hover:shadow-md group-hover:-translate-y-1 transition-all duration-300">

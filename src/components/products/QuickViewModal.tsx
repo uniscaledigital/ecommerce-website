@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { X, Plus, Minus, Check, ArrowRight } from "lucide-react";
@@ -21,6 +21,60 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   const [selectedVariantId, setSelectedVariantId] = useState<string>("");
   const [isAdded, setIsAdded] = useState(false);
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+
+  // Store trigger element and manage focus
+  useEffect(() => {
+    if (product) {
+      triggerElementRef.current = document.activeElement as HTMLElement;
+      // Focus modal close button
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
+
+    return () => {
+      // Restore focus on close
+      triggerElementRef.current?.focus();
+    };
+  }, [product]);
+
+  // Handle Escape key and Tab focus trap
+  useEffect(() => {
+    if (!product) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [product, onClose]);
+
   if (!product) return null;
 
   const currentVariant =
@@ -37,18 +91,28 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="quickview-title"
+    >
       <div
         className="fixed inset-0 bg-[#14532D]/40 backdrop-blur-xs transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
 
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-2xl bg-[#EDF8E9] rounded-[24px] shadow-2xl border border-[#D0E7C9] overflow-hidden z-10 grid grid-cols-1 md:grid-cols-2">
+        <div
+          ref={modalRef}
+          className="relative w-full max-w-2xl bg-[#EDF8E9] rounded-[24px] shadow-2xl border border-[#D0E7C9] overflow-hidden z-10 grid grid-cols-1 md:grid-cols-2"
+        >
           {/* Close button */}
           <button
+            ref={closeButtonRef}
             onClick={onClose}
-            className="absolute top-3.5 right-3.5 p-2 rounded-full bg-white shadow-xs border border-[#D0E7C9] hover:bg-[#DDF1D5] text-[#14532D] z-20 transition-all hover:scale-105"
+            className="absolute top-3.5 right-3.5 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white shadow-xs border border-[#D0E7C9] hover:bg-[#DDF1D5] text-[#14532D] z-20 transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
@@ -84,7 +148,10 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
               <p className="text-[11px] font-semibold text-[#42634A] uppercase tracking-wider">
                 {product.vendor}
               </p>
-              <h2 className="text-xl font-bold font-sans text-[#14532D] leading-snug">
+              <h2
+                id="quickview-title"
+                className="text-xl font-bold font-sans text-[#14532D] leading-snug"
+              >
                 {product.title}
               </h2>
 
@@ -164,11 +231,12 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
 
                   <div className="flex items-center gap-3">
                     {/* Stepper */}
-                    <div className="flex items-center border border-[#D0E7C9] rounded-full bg-white px-2 py-1">
+                    <div className="flex items-center border border-[#D0E7C9] rounded-full bg-white px-1.5 py-0.5">
                       <button
                         type="button"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="p-1 text-[#14532D] hover:text-[#064E3B]"
+                        className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
+                        aria-label="Decrease quantity"
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
@@ -178,7 +246,8 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
                       <button
                         type="button"
                         onClick={() => setQuantity(quantity + 1)}
-                        className="p-1 text-[#14532D] hover:text-[#064E3B]"
+                        className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
+                        aria-label="Increase quantity"
                       >
                         <Plus className="w-3.5 h-3.5" />
                       </button>

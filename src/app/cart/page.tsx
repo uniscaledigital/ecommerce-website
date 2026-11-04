@@ -92,7 +92,7 @@ export default function CartPage() {
                     <div className="flex items-center border border-[#E8DFCF] rounded-md bg-[#FFFAF1]">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-1.5 text-[#1F2937] hover:text-[#14532D]"
+                        className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                         aria-label="Decrease quantity"
                       >
                         <Minus className="w-3.5 h-3.5" />
@@ -102,7 +102,7 @@ export default function CartPage() {
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-1.5 text-[#1F2937] hover:text-[#14532D]"
+                        className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                         aria-label="Increase quantity"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -123,7 +123,7 @@ export default function CartPage() {
                     {/* Remove */}
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-[#4B5563] hover:text-red-600 p-1 transition-colors"
+                      className="text-[#4B5563] hover:text-red-600 p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-md hover:bg-red-50 transition-colors"
                       aria-label="Remove item"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -166,19 +166,19 @@ export default function CartPage() {
 
             <div className="space-y-2.5 pt-2">
               <button
-                onClick={openEnquiry}
-                className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+                onClick={checkout}
+                className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
               >
-                <span>Review Basket &amp; Request Confirmation</span>
-                <ArrowRight className="w-4 h-4 text-[#22C55E]" />
+                <ShieldCheck className="w-4 h-4 text-[#22C55E]" />
+                <span>Proceed to Checkout</span>
               </button>
 
               <button
-                onClick={checkout}
-                className="w-full bg-[#F7EBD8] hover:bg-[#EADFC9] text-[#14532D] border border-[#14532D]/30 py-2.5 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                onClick={openEnquiry}
+                className="w-full bg-[#F7EBD8] hover:bg-[#EADFC9] text-[#14532D] border border-[#14532D]/30 py-2.5 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4 text-[#22C55E]" />
-                <span>Shopify Hosted Checkout</span>
+                <span>Review Basket &amp; Request Confirmation</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#22C55E]" />
               </button>
 
               <Link

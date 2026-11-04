@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { Product } from "@/types";
@@ -139,9 +140,9 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
       {activeTab === "collections" && (
         <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-6 space-y-2 shadow-xs">
           <h3 className="text-base font-bold text-[#14532D]">
-            <a href="/collections/tea-coffee" className="hover:underline">
+            <Link href="/collections/tea-coffee" className="hover:underline">
               Tea &amp; Coffee Department
-            </a>
+            </Link>
           </h3>
           <p className="text-xs text-[#4B5563]">
             Explore Ireland&apos;s favourite teas including Barry&apos;s Gold Blend, Master Blend, and Lyons original.
@@ -159,9 +160,9 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
         <div className="space-y-4">
           <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">
             <h3 className="text-sm font-bold text-[#14532D]">
-              <a href="/#store-info" className="hover:underline">
+              <Link href="/#store-info" className="hover:underline">
                 About The Irish Grocer (Quincy, MA)
-              </a>
+              </Link>
             </h3>
             <p className="text-xs text-[#4B5563] mt-1">
               Store information, operating hours, and location at 132 East Howard Street, Quincy.
@@ -169,9 +170,9 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
           </div>
           <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">
             <h3 className="text-sm font-bold text-[#14532D]">
-              <a href="/privacy" className="hover:underline">
+              <Link href="/privacy" className="hover:underline">
                 Privacy Policy &amp; Store Terms
-              </a>
+              </Link>
             </h3>
             <p className="text-xs text-[#4B5563] mt-1">
               Privacy disclosures, customer data practices, and terms of service.

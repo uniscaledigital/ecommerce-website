@@ -24,6 +24,11 @@ export function Header() {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    if (typeof window !== "undefined" && window.location.hash === "#menu") {
+      setIsMobileMenuOpen(true);
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -131,7 +136,7 @@ export function Header() {
                   className="hidden sm:inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all"
                 >
                   <User className="w-4 h-4 text-[#14532D] shrink-0" />
-                  <span>{customer?.firstName || (isAuthenticated ? "Account" : "Patrick")}</span>
+                  <span>{customer?.firstName || (isAuthenticated ? "Account" : "Sign in")}</span>
                 </Link>
 
                 {/* Shopping Cart Control */}
@@ -164,7 +169,7 @@ export function Header() {
                 {/* Left: Accessible Hamburger Menu Button (>= 44px touch target) */}
                 <button
                   onClick={() => setIsMobileMenuOpen(true)}
-                  className="w-10 h-10 flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
                   aria-label="Open navigation menu"
                 >
                   <Menu className="w-5 h-5 text-[#14532D]" />
@@ -189,7 +194,7 @@ export function Header() {
                 {/* Right: Shopping Cart Button with Count Badge */}
                 <button
                   onClick={openCart}
-                  className="w-10 h-10 flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
                   aria-label={`Shopping cart with ${cart.totalQuantity} items`}
                 >
                   <div className="relative">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { X, Phone, User, ShoppingBag, MapPin, Clock, ArrowRight, Store } from "lucide-react";
@@ -16,8 +16,23 @@ interface MobileDrawerProps {
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { isAuthenticated, customer } = useAuth();
   const { cart, openCart } = useCart();
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Prevent background scrolling while the drawer is open & handle Escape key
+  // Initial focus management & focus restoration
+  useEffect(() => {
+    if (isOpen) {
+      triggerElementRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
+    return () => {
+      triggerElementRef.current?.focus();
+    };
+  }, [isOpen]);
+
+  // Prevent background scrolling while the drawer is open & handle Escape key / breakpoint changes
   useEffect(() => {
     if (isOpen) {
       const originalOverflow = document.body.style.overflow;
@@ -29,10 +44,20 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         }
       };
 
+      const mediaQuery = window.matchMedia("(min-width: 1024px)");
+      const handleBreakpoint = (e: MediaQueryListEvent) => {
+        if (e.matches) {
+          onClose();
+        }
+      };
+
       window.addEventListener("keydown", handleKeyDown);
+      mediaQuery.addEventListener("change", handleBreakpoint);
+
       return () => {
         document.body.style.overflow = originalOverflow;
         window.removeEventListener("keydown", handleKeyDown);
+        mediaQuery.removeEventListener("change", handleBreakpoint);
       };
     }
   }, [isOpen, onClose]);
@@ -74,6 +99,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               />
             </Link>
             <button
+              ref={closeButtonRef}
               onClick={onClose}
               className="w-11 h-11 flex items-center justify-center text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/10 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
               aria-label="Close menu"

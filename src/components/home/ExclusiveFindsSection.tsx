@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/config/site";
 export function ExclusiveFindsSection() {
   return (
     <section id="exclusive-finds" aria-label="Exclusive Seasonal & Limited Finds" className="w-full">
-      <div className="w-full bg-[#FBF2E2] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-4.5 sm:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 shadow-xs transition-shadow">
+      <div className="w-full bg-[#FBF2E2] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-[18px] sm:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 shadow-xs transition-shadow">
         {/* Left Icon + Divider + Text Content */}
         <div className="flex items-center gap-4 sm:gap-5 flex-1 min-w-0">
           {/* Clover Icon inside pale mint circular background */}
@@ -47,7 +47,7 @@ export function ExclusiveFindsSection() {
         {/* Right CTA: Bordered Telephone Call Card */}
         <a
           href={`tel:${SITE_CONFIG.phoneRaw}`}
-          className="w-full md:w-auto inline-flex items-center justify-center sm:justify-start gap-3 bg-white/80 hover:bg-white border border-[#DCE8D7] hover:border-[#10552F]/40 rounded-[14px] px-4.5 py-2 sm:py-2.5 transition-all shrink-0 shadow-xs group self-stretch md:self-auto"
+          className="w-full md:w-auto inline-flex items-center justify-center sm:justify-start gap-3 bg-white/80 hover:bg-white border border-[#DCE8D7] hover:border-[#10552F]/40 rounded-[14px] px-[18px] py-2 sm:py-2.5 transition-all shrink-0 shadow-xs group self-stretch md:self-auto"
           title={`Call ${SITE_CONFIG.phone} to Reserve`}
         >
           <Phone

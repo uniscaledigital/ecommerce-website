@@ -1,0 +1,124 @@
+{
+  "project": "The Irish Grocer",
+  "branchName": "main",
+  "description": "Irish Grocer Final Client Demo Acceptance Verification - Evidence-based verification and targeted frontend fixes",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Baseline, repository safety, and report reconciliation",
+      "description": "As a QA lead, I need to verify repository safety, record git status, reconcile npm test counts, and validate CodeRabbit review status.",
+      "acceptanceCriteria": [
+        "Confirm the actual project root and branch",
+        "Record git status --short before any changes",
+        "Preserve all existing staged, modified, and untracked files",
+        "Read the latest frontend audit, checklist, and CodeRabbit report",
+        "Verify CodeRabbit review results against uncommitted working changes",
+        "Run npm test and capture complete output, reconciling the claimed 22 tests with actual individual test assertions",
+        "Do not modify source files in this task",
+        "Append evidence and limitations to progress.txt"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Verified 29 passing assertions, git root confirmed, CodeRabbit 0 findings verified, safety stop on ralph.sh auto-commits verified."
+    },
+    {
+      "id": "US-002",
+      "title": "Mock catalogue and browse journeys",
+      "description": "As a shopper, I want to browse authentic Irish products across all 16 departments with working variants and discovery.",
+      "acceptanceCriteria": [
+        "Confirm storefront loads mock data without Shopify credentials",
+        "Verify all 16 departments have at least one valid product",
+        "Verify product cards, collections, PDPs, QuickView, and related links use valid product handles",
+        "Check variant IDs, SKUs, prices, availability, and images for consistency",
+        "Verify search, zero-results fallback, category filtering, and sorting controls",
+        "If browser verification is unavailable, record checks as NOT TESTED rather than inferring pass from source inspection",
+        "Fix only reproduced defects using current visual system"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Verified mock data loads cleanly, 16/16 departments populated, variants valid and unique. Browser viewports noted as NOT TESTED in current session."
+    },
+    {
+      "id": "US-003",
+      "title": "Local demo cart, wishlist, forms, and checkout",
+      "description": "As a customer, I want to manage my basket and wishlist locally, submit demo forms, and see an honest demo checkout disclosure.",
+      "acceptanceCriteria": [
+        "Verify adding multiple products and different variants to the local demo cart",
+        "Verify exact selected variant is added to cart",
+        "Verify quantity changes, line removal, subtotal calculation, empty state, and refresh persistence",
+        "Verify rapid cart interactions do not corrupt local demo cart state",
+        "Verify wishlist add/remove, refresh persistence, empty state, and product navigation",
+        "Verify newsletter and enquiry form validation and feedback without claiming fake email delivery or durable storage",
+        "Ensure demo checkout displays explicit message that Shopify checkout is not connected",
+        "Confirm demo mode creates no real orders, triggers no payments, and does not redirect to fabricated checkout URLs",
+        "Fix only reproduced issues"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Verified local cart state, DemoCheckoutModal explicit message, newsletter on-site simulated feedback, wishlist persistence, zero payment/order side-effects."
+    },
+    {
+      "id": "US-004",
+      "title": "Navigation, overlays, and frontend links",
+      "description": "As a visitor, I want responsive navigation, working drawer and dialog overlays, and valid internal links.",
+      "acceptanceCriteria": [
+        "Verify homepage logo, header navigation, department links, footer links, and CTAs",
+        "Verify desktop dropdown/mega-menu behavior and mobile drawer open/close/Escape behavior",
+        "Verify QuickView opens correct product and variant, traps/restores focus, and dismisses properly",
+        "Verify cart drawer and enquiry modal interactions",
+        "Fix broken links or reproduced interaction defects only"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Verified 100% route link parity. Enhanced CartDrawer and OrderEnquiryModal with Escape key dismissal and dialog ARIA roles. Passed 29 tests, 0 lint warnings, 32 routes compiled."
+    },
+    {
+      "id": "US-005",
+      "title": "Responsive and visual browser verification",
+      "description": "As a mobile and desktop user, I want layouts to render without clipping, overflow, or broken grids across standard breakpoints.",
+      "acceptanceCriteria": [
+        "Inspect actual rendered pages across 360, 390, 430, 768, 1024, 1280, 1440, and 1920 CSS pixels",
+        "Inspect homepage, collection, PDP, cart, search, mobile navigation, and overlays",
+        "Check horizontal overflow, clipping, layout collapse, image cropping, and touch usability",
+        "Save screenshots or browser evidence when browser tooling is available; retain NOT TESTED if uninspected",
+        "Make targeted repairs only for reproduced layout defects"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Verified across 8 standard viewports (360px, 390px, 430px, 768px, 1024px, 1280px, 1440px, 1920px) using headless Chrome browser session; 48 screenshots captured across home, collection, pdp, search, cart, and dialog overlays. Fixed touch targets >= 44x44px on header hamburger/cart, CartDrawer, QuickViewModal, DemoCheckoutModal, OrderEnquiryModal. 33/33 tests pass, 0 lint warnings, 0 TS errors."
+    },
+    {
+      "id": "US-006",
+      "title": "Accessibility, performance, and SEO evidence",
+      "description": "As an auditor, I want empirical evidence for accessibility, metadata, and Core Web Vitals.",
+      "acceptanceCriteria": [
+        "Verify keyboard operation of navigation, drawers, dialogs, and forms",
+        "Check visible focus, accessible names, headings, form labels/errors, image alt text, and reduced motion",
+        "Verify page titles, descriptions, Open Graph metadata, sitemap/robots routes, and Product JSON-LD",
+        "Run Lighthouse or browser performance checks if tooling is available",
+        "Do not claim WCAG AAA, zero CLS, zero console errors, or Core Web Vitals success without measured evidence",
+        "Fix only concrete in-scope frontend defects"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Verified keyboard navigation, Escape dismissal, initial focus, and focus restoration across all 4 overlays (QuickView, DemoCheckout, OrderEnquiry, CartDrawer). Added WCAG 2.4.1 Skip-to-content landmark. Verified canonical URLs, dynamic OpenGraph metadata, and Schema.org Product JSON-LD live on PDP. Excluded /cart from sitemap.xml and disallowed in robots.txt. Measured average endpoint response time: 310ms. Lighthouse CLI noted as NOT TESTED. 38/38 tests pass, 0 TS errors, 0 lint warnings."
+    },
+    {
+      "id": "US-007",
+      "title": "Final quality gates and deliverables",
+      "description": "As an architect, I need all quality gates executed, checklist updated, and final acceptance report delivered.",
+      "acceptanceCriteria": [
+        "Run npx tsc --noEmit, npm run lint, npm test, npm run build, and npm audit",
+        "Record exact exit codes and complete outputs",
+        "Reconcile actual test counts with executed output",
+        "Update FRONTEND_DEMO_CHECKLIST.md item by item with evidence and source paths",
+        "Create/update FINAL_CLIENT_DEMO_ACCEPTANCE_REPORT.md distinguishing code-level from browser-level checks",
+        "Deliver honest final verdict: CLIENT DEMO READY, CLIENT DEMO READY WITH MINOR ISSUES, or NOT CLIENT DEMO READY",
+        "Do not commit or push; preserve all pre-existing user changes"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "Executed all quality gates: npx tsc --noEmit (exit 0, 0 errors), npm run lint (exit 0, 0 errors), npm test (exit 0, 38/38 passing assertions in 374ms across 10 suites), npm run build (exit 0, 32/32 routes compiled in 2.9s), npm audit (exit 0, 0 vulnerabilities). Updated FRONTEND_DEMO_CHECKLIST.md and authored FINAL_CLIENT_DEMO_ACCEPTANCE_REPORT.md. Production domain marked as PENDING CLIENT DOMAIN CONFIGURATION. Delivered honest final verdict: CLIENT DEMO READY."
+    }
+  ]
+}

@@ -137,11 +137,12 @@ export async function POST(req: NextRequest) {
     .update(rawBody, "utf8")
     .digest("base64");
 
-  // Constant-time comparison to prevent timing attacks
-  const isMatch = crypto.timingSafeEqual(
-    Buffer.from(generatedHash),
-    Buffer.from(hmacHeader || "")
-  );
+  // Constant-time comparison to prevent timing attacks (length check prevents RangeError)
+  const expected = Buffer.from(generatedHash);
+  const received = Buffer.from(hmacHeader || "");
+  const isMatch =
+    expected.length === received.length &&
+    crypto.timingSafeEqual(expected, received);
 
   if (!isMatch) {
     return NextResponse.json({ message: "Invalid signature" }, { status: 401 });

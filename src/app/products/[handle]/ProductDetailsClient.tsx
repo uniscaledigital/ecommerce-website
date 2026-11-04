@@ -176,8 +176,8 @@ export function ProductDetailsClient({
                     <span
                       className={`inline-flex items-center gap-1.5 text-xs font-semibold ${
                         product.availableForSale
-                          ? "text-[#22C55E]"
-                          : "text-red-500"
+                          ? "text-[#14532D]"
+                          : "text-red-600"
                       }`}
                     >
                       <span

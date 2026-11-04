@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import type { Product } from "../../types/index.ts";
 
 export const PRODUCTS: Product[] = [
   // --- CRISPS & SNACKS ---
@@ -1039,7 +1039,7 @@ export const PRODUCTS: Product[] = [
         price: { amount: "79.99", currencyCode: "USD" },
       },
     ],
-    collections: ["christmas"],
+    collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
     id: "prod-cadbury-roses-tub-475g",
@@ -1080,7 +1080,7 @@ export const PRODUCTS: Product[] = [
         price: { amount: "219.99", currencyCode: "USD" },
       },
     ],
-    collections: ["christmas"],
+    collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
     id: "prod-cadbury-santa-small-78g",
@@ -1121,7 +1121,7 @@ export const PRODUCTS: Product[] = [
         price: { amount: "155.99", currencyCode: "USD" },
       },
     ],
-    collections: ["christmas"],
+    collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
     id: "prod-cadbury-stocking-selection-174g",
@@ -1162,7 +1162,7 @@ export const PRODUCTS: Product[] = [
         price: { amount: "109.99", currencyCode: "USD" },
       },
     ],
-    collections: ["christmas"],
+    collections: ["christmas", "gifts-merchandise", "bundles"],
   },
 
   // --- EXCLUSIVE FINDS ---
@@ -1288,6 +1288,137 @@ export const PRODUCTS: Product[] = [
       },
     ],
     collections: ["exclusive-finds", "grocery"],
+  },
+  {
+    id: "prod-alpen-original-550g",
+    title: "Alpen Original Swiss Style Muesli 550g",
+    handle: "alpen-original-550g",
+    description: "Classic Swiss style muesli packed with rolled oats, toasted wheat flakes, juicy raisins, and roasted sliced hazelnuts and almonds. A breakfast favourite across Ireland and the UK.",
+    vendor: "Alpen",
+    productType: "Oats & Cereals",
+    tags: ["Oats & Cereals", "Breakfast", "Pantry", "Healthy", "Import"],
+    availableForSale: true,
+    sku: "5010029000123",
+    barcode: "5010029000123",
+    featuredImage: {
+      url: "/assets/products/alpen-original-550g.png",
+      altText: "Alpen Original Swiss Style Muesli 550g",
+      width: 500,
+      height: 500,
+    },
+    images: [
+      {
+        url: "/assets/products/alpen-original-550g.png",
+        altText: "Alpen Original Swiss Style Muesli 550g",
+        width: 500,
+        height: 500,
+      },
+    ],
+    priceRange: {
+      minVariantPrice: { amount: "6.99", currencyCode: "USD" },
+      maxVariantPrice: { amount: "6.99", currencyCode: "USD" },
+    },
+    variants: [
+      {
+        id: "var-alpen-original-550g",
+        title: "550g Box",
+        sku: "5010029000123",
+        barcode: "5010029000123",
+        availableForSale: true,
+        price: { amount: "6.99", currencyCode: "USD" },
+      },
+    ],
+    collections: ["oats-cereals", "grocery"],
+  },
+  {
+    id: "prod-kelkin-chocolate-rice-cake-100g",
+    title: "Kelkin Belgian Milk Chocolate Rice Cakes 100g",
+    handle: "kelkin-belgian-milk-chocolate-rice-cakes-100g",
+    description: "Crispy puffed whole grain rice cakes generously coated with smooth Belgian milk chocolate. Gluten-free traditional Irish tea-time biscuit alternative.",
+    vendor: "Kelkin",
+    productType: "Biscuits & Cookies",
+    tags: ["Biscuits & Cookies", "Gluten Free", "Snacks", "Chocolate", "Irish Brand"],
+    availableForSale: true,
+    sku: "5099381001234",
+    barcode: "5099381001234",
+    featuredImage: {
+      url: "/assets/products/kelkin-chocolate-rice-cake-100g.png",
+      altText: "Kelkin Belgian Milk Chocolate Rice Cakes 100g",
+      width: 500,
+      height: 500,
+    },
+    images: [
+      {
+        url: "/assets/products/kelkin-chocolate-rice-cake-100g.png",
+        altText: "Kelkin Belgian Milk Chocolate Rice Cakes 100g",
+        width: 500,
+        height: 500,
+      },
+    ],
+    priceRange: {
+      minVariantPrice: { amount: "4.49", currencyCode: "USD" },
+      maxVariantPrice: { amount: "4.49", currencyCode: "USD" },
+    },
+    variants: [
+      {
+        id: "var-kelkin-rice-cake-100g",
+        title: "100g Pack",
+        sku: "5099381001234",
+        barcode: "5099381001234",
+        availableForSale: true,
+        price: { amount: "4.49", currencyCode: "USD" },
+      },
+    ],
+    collections: ["biscuits-cookies", "crisps-snacks"],
+  },
+  {
+    id: "prod-irish-grocer-heritage-cap",
+    title: "The Irish Grocer Quincy Heritage Embroidered Cap",
+    handle: "the-irish-grocer-quincy-heritage-cap",
+    description: "Official 100% washed cotton twill cap featuring The Irish Grocer Quincy clover crest embroidery. Features an adjustable antique brass clasp buckle and comfortable unstructured low profile.",
+    vendor: "The Irish Grocer",
+    productType: "Clothing",
+    tags: ["Clothing", "Gifts & Merchandise", "Apparel", "Merchandise", "Quincy Store"],
+    availableForSale: true,
+    sku: "IG-CAP-GRN-01",
+    barcode: "857387206501",
+    featuredImage: {
+      url: "/assets/logo/irish-grocer-seal.svg",
+      altText: "The Irish Grocer Quincy Heritage Embroidered Cap",
+      width: 500,
+      height: 500,
+    },
+    images: [
+      {
+        url: "/assets/logo/irish-grocer-seal.svg",
+        altText: "The Irish Grocer Quincy Heritage Embroidered Cap",
+        width: 500,
+        height: 500,
+      },
+    ],
+    priceRange: {
+      minVariantPrice: { amount: "24.00", currencyCode: "USD" },
+      maxVariantPrice: { amount: "24.00", currencyCode: "USD" },
+    },
+    variants: [
+      {
+        id: "var-ig-cap-forest-green",
+        title: "Forest Green / One Size",
+        sku: "IG-CAP-GRN-01",
+        barcode: "857387206501",
+        availableForSale: true,
+        price: { amount: "24.00", currencyCode: "USD" },
+      },
+      {
+        id: "var-ig-cap-vintage-navy",
+        title: "Vintage Navy / One Size",
+        sku: "IG-CAP-NVY-02",
+        barcode: "857387206502",
+        availableForSale: true,
+        price: { amount: "24.00", currencyCode: "USD" },
+      },
+    ],
+    collections: ["clothing", "gifts-merchandise"],
   },
 ];
 

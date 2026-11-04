@@ -1,0 +1,9 @@
+# Ralph progress log — Irish Grocer client demo
+
+Initial setup: no Ralph story has been verified or completed by this progress log.
+
+Baseline from user-provided report (reported, not independently re-run in this setup): CodeRabbit 0 findings; TypeScript pass; 22 tests reported; ESLint pass; Next.js build 32 routes; npm audit 0 vulnerabilities; 16 departments populated. The detailed test output/count discrepancy and actual browser evidence must be reconciled.
+
+Scope: local mock/demo storefront only. No live Shopify store, payment, order creation, production persistence, Supabase, PostgreSQL, Redis, Upstash, Admin API, or Customer Account OAuth.
+
+Safety: preserve all existing uncommitted changes. No destructive Git commands, no commit, no push. If the selected Ralph runner enforces automatic commits, stop and report before making changes.

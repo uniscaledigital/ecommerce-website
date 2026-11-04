@@ -9,6 +9,7 @@ interface AuthContextType {
   login: (email: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
+  isDemoMode: boolean;
 }
 
 const DEMO_CUSTOMER: Customer = {
@@ -53,25 +54,58 @@ const DEMO_CUSTOMER: Customer = {
   ],
 };
 
+const IS_DEMO_MODE = process.env.NEXT_PUBLIC_COMMERCE_MODE !== "production";
+
+function isValidCustomer(val: unknown): val is Customer {
+  return (
+    typeof val === "object" &&
+    val !== null &&
+    typeof (val as Customer).id === "string" &&
+    typeof (val as Customer).email === "string" &&
+    typeof (val as Customer).firstName === "string"
+  );
+}
+
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   customer: null,
   login: async () => false,
   logout: () => {},
   isLoading: true,
+  isDemoMode: true,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isDemoMode = IS_DEMO_MODE;
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("irish_grocer_auth");
-      if (stored === "true") {
-        setIsAuthenticated(true);
-        setCustomer(DEMO_CUSTOMER);
+      if (IS_DEMO_MODE) {
+        const stored = localStorage.getItem("irish_grocer_auth");
+        if (stored === "true") {
+          const storedCustomer = localStorage.getItem("irish_grocer_customer");
+          if (storedCustomer) {
+            try {
+              const parsed = JSON.parse(storedCustomer);
+              if (isValidCustomer(parsed)) {
+                setCustomer(parsed);
+                setIsAuthenticated(true);
+              } else {
+                setCustomer(DEMO_CUSTOMER);
+                setIsAuthenticated(true);
+              }
+            } catch {
+              setCustomer(DEMO_CUSTOMER);
+              setIsAuthenticated(true);
+            }
+          } else {
+            setCustomer(DEMO_CUSTOMER);
+            setIsAuthenticated(true);
+          }
+        }
       }
     } catch {
       // ignore
@@ -81,6 +115,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string): Promise<boolean> => {
+    if (!isDemoMode) {
+      // In production mode, customer authentication requires Shopify Customer Account API (OAuth PKCE)
+      console.warn("Direct passwordless login is disabled in production. Use Shopify Customer Account API OAuth.");
+      return false;
+    }
+
     setIsLoading(true);
     // Simulate slight network delay
     await new Promise((res) => setTimeout(res, 400));
@@ -116,6 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         isLoading,
+        isDemoMode,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
-import { PRODUCTS } from "@/lib/data/products";
-import { DEPARTMENTS } from "@/lib/config/site";
-import { Product, Collection } from "@/types";
+import { PRODUCTS } from "../data/products";
+import { DEPARTMENTS } from "../config/site";
+import type { Product, Collection } from "@/types";
 import {
   PRODUCTS_QUERY,
   PRODUCT_BY_HANDLE_QUERY,
@@ -12,7 +12,7 @@ import {
 const IS_PRODUCTION = process.env.NEXT_PUBLIC_COMMERCE_MODE === "production";
 const DOMAIN = process.env.SHOPIFY_STORE_DOMAIN || "the-irish-grocer.myshopify.com";
 const STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || "";
-const API_VERSION = process.env.SHOPIFY_STOREFRONT_API_VERSION || "2026-10";
+const API_VERSION = process.env.SHOPIFY_STOREFRONT_API_VERSION || "2025-01";
 
 export async function shopifyFetch<T>({
   query,
@@ -35,8 +35,13 @@ export async function shopifyFetch<T>({
         "X-Shopify-Storefront-Access-Token": STOREFRONT_TOKEN,
       },
       body: JSON.stringify({ query, variables }),
+      signal: AbortSignal.timeout(10_000),
       ...(revalidate ? { next: { revalidate } } : { cache }),
     });
+
+    if (!res.ok) {
+      throw new Error(`Shopify API responded with status ${res.status}`);
+    }
 
     const json = await res.json();
     if (json.errors) {
@@ -172,15 +177,9 @@ export async function getCollectionByHandle(
 
   const dept = DEPARTMENTS.find((d) => d.handle.toLowerCase() === handle.toLowerCase());
   if (!dept) {
-    // If not found directly, create generic collection representation with empty state
+    // Return null collection for unknown handles so page router can trigger notFound()
     return {
-      collection: {
-        id: `col-${handle}`,
-        title: handle.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-        handle: handle,
-        description: `Explore our selection of ${handle.replace(/-/g, " ")}.`,
-        productCount: 0,
-      },
+      collection: null,
       products: [],
     };
   }

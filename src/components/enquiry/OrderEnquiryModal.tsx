@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { X, CheckCircle, ShieldCheck, Truck, Phone, Mail } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { formatMoney } from "@/lib/utils";
@@ -8,6 +8,10 @@ import { SITE_CONFIG } from "@/lib/config/site";
 
 export function OrderEnquiryModal() {
   const { cart, isEnquiryOpen, closeEnquiry, clearCart } = useCart();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   const [customerName, setCustomerName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,12 +19,62 @@ export function OrderEnquiryModal() {
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleClose = useCallback(() => {
+    setSubmitError(null);
+    setIsSuccess(false);
+    closeEnquiry();
+  }, [closeEnquiry]);
+
+  // Initial focus management & focus restoration
+  useEffect(() => {
+    if (isEnquiryOpen) {
+      triggerElementRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
+    return () => {
+      triggerElementRef.current?.focus();
+    };
+  }, [isEnquiryOpen]);
+
+  useEffect(() => {
+    if (!isEnquiryOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+        return;
+      }
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          last.focus();
+          e.preventDefault();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          first.focus();
+          e.preventDefault();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isEnquiryOpen, handleClose]);
 
   if (!isEnquiryOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       const res = await fetch("/api/enquiry", {
@@ -41,38 +95,47 @@ export function OrderEnquiryModal() {
         }),
       });
 
+      if (!res.ok) {
+        throw new Error(`Enquiry request failed with status ${res.status}`);
+      }
+
       setIsSuccess(true);
       clearCart();
     } catch {
-      setIsSuccess(true);
-      clearCart();
+      setSubmitError("We could not send your request. Please try again or call the store.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="order-enquiry-title"
+    >
       <div
         className="fixed inset-0 bg-[#1F2937]/70 backdrop-blur-xs transition-opacity"
-        onClick={closeEnquiry}
+        onClick={handleClose}
       />
 
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-xl bg-[#FFFAF1] rounded-xl shadow-2xl border border-[#E8DFCF] overflow-hidden z-10 my-8">
+        <div ref={modalRef} className="relative w-full max-w-xl bg-[#FFFAF1] rounded-xl shadow-2xl border border-[#E8DFCF] overflow-hidden z-10 my-8">
           {/* Header in Rich Forest Green #14532D */}
           <div className="bg-[#14532D] text-white p-5 flex items-center justify-between">
             <div>
               <p className="text-[11px] font-bold text-[#22C55E] uppercase tracking-wider">
                 WE&apos;RE HAPPY TO HELP
               </p>
-              <h2 className="text-xl font-bold font-serif-display mt-0.5">
+              <h2 id="order-enquiry-title" className="text-xl font-bold font-serif-display mt-0.5">
                 Order with Confidence
               </h2>
             </div>
             <button
-              onClick={closeEnquiry}
-              className="text-white/80 hover:text-white p-1 rounded transition-colors"
+              ref={closeButtonRef}
+              onClick={handleClose}
+              className="text-white/80 hover:text-white w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -103,10 +166,7 @@ export function OrderEnquiryModal() {
                 </p>
               </div>
               <button
-                onClick={() => {
-                  setIsSuccess(false);
-                  closeEnquiry();
-                }}
+                onClick={handleClose}
                 className="bg-[#14532D] hover:bg-[#064E3B] text-white px-6 py-2.5 text-xs font-semibold rounded-lg transition-colors shadow-xs"
               >
                 Close &amp; Return to Store
@@ -221,10 +281,20 @@ export function OrderEnquiryModal() {
                 />
               </div>
 
+              {submitError && (
+                <div
+                  role="alert"
+                  aria-live="polite"
+                  className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-xs"
+                >
+                  {submitError}
+                </div>
+              )}
+
               <div className="pt-2 flex items-center justify-end gap-3">
                 <button
                   type="button"
-                  onClick={closeEnquiry}
+                  onClick={handleClose}
                   className="px-4 py-2 text-xs font-semibold text-[#1F2937] hover:text-[#14532D] border border-[#E8DFCF] rounded-md bg-white transition-colors"
                 >
                   Cancel

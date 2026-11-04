@@ -1,20 +1,57 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_CONFIG, FOOTER_SHOP_LINKS, FOOTER_HELP_LINKS } from "@/lib/config/site";
 import { MapPin, Phone, Clock, CheckCircle } from "lucide-react";
 
+const SHOPIFY_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "the-irish-grocer.myshopify.com";
+const IS_DEMO = process.env.NEXT_PUBLIC_COMMERCE_MODE !== "production";
+
 export function Footer() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email.trim() && email.includes("@")) {
+    const trimmed = email.trim();
+    if (!trimmed || !trimmed.includes("@")) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (IS_DEMO) {
       setIsSubscribed(true);
       setEmail("");
+      setErrorMessage(null);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("form_type", "customer");
+      formData.append("utf8", "✓");
+      formData.append("contact[tags]", "newsletter");
+      formData.append("contact[email]", trimmed);
+
+      await fetch(`https://${SHOPIFY_DOMAIN}/contact#contact_form`, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+      });
+
+      setIsSubscribed(true);
+      setEmail("");
+    } catch {
+      setErrorMessage("Unable to complete subscription at this time. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -132,23 +169,39 @@ export function Footer() {
                   <span className="font-medium">Thank you for joining our farmhouse newsletter!</span>
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="space-y-2.5">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-2.5"
+                >
+                  <input type="hidden" name="form_type" value="customer" />
+                  <input type="hidden" name="utf8" value="✓" />
+                  <input type="hidden" name="contact[tags]" value="newsletter" />
                   <div className="relative">
                     <input
                       type="email"
+                      name="contact[email]"
                       required
                       placeholder="Enter your email address"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (errorMessage) setErrorMessage(null);
+                      }}
                       className="w-full px-4 py-2.5 text-xs sm:text-sm text-[#173B2A] bg-white border border-[rgba(20,83,45,0.18)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#14532D]/20 focus:border-[#14532D] placeholder:text-[#52665B]/60 shadow-2xs transition-all min-h-[44px]"
                       aria-label="Email address for newsletter"
                     />
                   </div>
+                  {errorMessage && (
+                    <p className="text-xs text-red-600 bg-red-50 p-2 rounded-lg border border-red-200">
+                      {errorMessage}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-2.5 px-4 text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E] min-h-[44px] flex items-center justify-center"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#14532D] hover:bg-[#064E3B] disabled:opacity-60 text-white py-2.5 px-4 text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E] min-h-[44px] flex items-center justify-center"
                   >
-                    Join Farmhouse Club
+                    {isSubmitting ? "Subscribing..." : "Join Farmhouse Club"}
                   </button>
                 </form>
               )}

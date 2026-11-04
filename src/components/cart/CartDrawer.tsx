@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
@@ -8,12 +8,43 @@ import { useCart } from "@/context/CartContext";
 import { formatMoney } from "@/lib/utils";
 
 export function CartDrawer() {
-  const { cart, isCartOpen, closeCart, updateQuantity, removeItem, openEnquiry } = useCart();
+  const { cart, isCartOpen, closeCart, updateQuantity, removeItem, openEnquiry, checkout } = useCart();
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Initial focus management & focus restoration
+  useEffect(() => {
+    if (isCartOpen) {
+      triggerElementRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
+    return () => {
+      triggerElementRef.current?.focus();
+    };
+  }, [isCartOpen]);
+
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeCart();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isCartOpen, closeCart]);
 
   if (!isCartOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 overflow-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Shopping basket drawer"
+    >
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-[#1F2937]/60 backdrop-blur-xs transition-opacity"
@@ -30,8 +61,9 @@ export function CartDrawer() {
             </h2>
           </div>
           <button
+            ref={closeButtonRef}
             onClick={closeCart}
-            className="p-1.5 text-[#4B5563] hover:text-[#1F2937] rounded-md transition-colors"
+            className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#4B5563] hover:text-[#1F2937] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
             aria-label="Close cart"
           >
             <X className="w-5 h-5" />
@@ -79,7 +111,7 @@ export function CartDrawer() {
                     </h3>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-[#4B5563] hover:text-red-600 p-0.5 transition-colors"
+                      className="text-[#4B5563] hover:text-red-600 p-1 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-md hover:bg-red-50 transition-colors"
                       aria-label="Remove item"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -94,7 +126,7 @@ export function CartDrawer() {
                     <div className="flex items-center border border-[#E8DFCF] rounded-md bg-[#FFFAF1]">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 text-[#1F2937] hover:text-[#14532D]"
+                        className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                         aria-label="Decrease quantity"
                       >
                         <Minus className="w-3 h-3" />
@@ -104,7 +136,7 @@ export function CartDrawer() {
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-1 text-[#1F2937] hover:text-[#14532D]"
+                        className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
                         aria-label="Increase quantity"
                       >
                         <Plus className="w-3 h-3" />
@@ -145,18 +177,28 @@ export function CartDrawer() {
               <button
                 onClick={() => {
                   closeCart();
+                  checkout();
+                }}
+                className="w-full bg-[#14532D] hover:bg-[#0F3D21] text-white py-2.5 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              >
+                <span>Proceed to Checkout</span>
+                <ArrowRight className="w-4 h-4 text-[#22C55E]" />
+              </button>
+
+              <button
+                onClick={() => {
+                  closeCart();
                   openEnquiry();
                 }}
-                className="w-full bg-[#14532D] hover:bg-[#0F3D21] text-white py-2.5 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm"
+                className="w-full border border-[#14532D]/30 bg-[#FDF4E3] hover:bg-white text-[#14532D] py-2 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Review Basket &amp; Request Confirmation</span>
-                <ArrowRight className="w-4 h-4 text-[#22C55E]" />
               </button>
 
               <Link
                 href="/cart"
                 onClick={closeCart}
-                className="w-full block text-center border border-[#E8DFCF] bg-[#FDF4E3] hover:bg-white text-[#14532D] py-2 text-xs font-semibold rounded-md transition-colors"
+                className="w-full block text-center text-[11px] text-[#4B5563] hover:text-[#14532D] pt-1"
               >
                 View Full Basket Page
               </Link>
