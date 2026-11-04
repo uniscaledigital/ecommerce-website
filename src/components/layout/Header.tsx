@@ -47,35 +47,33 @@ export function Header() {
 
   return (
     <header
-      className={`site-header sticky top-0 z-[1000] w-full transition-shadow duration-200 ${
-        isScrolled
-          ? "shadow-[0_4px_20px_rgba(20,83,45,0.09)] border-b border-[#14532D]/14"
-          : "border-b border-[#14532D]/10"
+      className={`site-header sticky z-[1000] transition-all duration-200 ${
+        isScrolled ? "is-scrolled" : ""
       }`}
     >
       {/* ============================================================== */}
-      {/* TWO-ROW UNIFIED STICKY NAVIGATION (Edge-to-Edge Pale Mint)     */}
-      {/* Both Row 1 and Row 2 stick together at top: 0 while scrolling  */}
+      {/* FLOATING ROUNDED STICKY NAVIGATION (Two Connected Rows)        */}
+      {/* Unified container with 34px rounded corners and soft shadow    */}
       {/* ============================================================== */}
       <div className="w-full relative">
         {/* Subtle Top Glass Specular Highlight */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none rounded-t-[34px]" />
 
         {/* ------------------------------------------------------------ */}
-        {/* ROW 1: MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)         */}
+        {/* ROW 1: MAIN NAVIGATION BAR                                    */}
+        {/* Logo (left) | Search (center) | Store, Account, Cart (right)  */}
         {/* ------------------------------------------------------------ */}
-        <div className="header-main w-full bg-[#ECF4E4]/98 backdrop-blur-md">
-          <div className="w-full max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-6 xl:px-8 py-2 sm:py-2.5">
+        <div className="header-main w-full">
+          <div className="w-full px-4 sm:px-6 lg:px-7 xl:px-8 py-2.5 sm:py-3">
             {/* ======================================================== */}
             {/* DESKTOP ROW 1 (Screen width >= 1024px / lg)             */}
-            {/* Preserves approved layout: Logo | Search | Actions       */}
             {/* ======================================================== */}
-            <div className="hidden lg:grid lg:grid-cols-[210px_minmax(360px,600px)_auto] items-center justify-between gap-6 xl:gap-8">
+            <div className="hidden lg:grid lg:grid-cols-[200px_minmax(340px,580px)_auto] items-center justify-between gap-5 xl:gap-7">
               {/* LEFT: Official Irish Grocer Animated SVG Logo */}
-              <div className="flex items-center shrink-0 w-[210px] xl:w-[220px]">
+              <div className="flex items-center shrink-0 w-[190px] xl:w-[205px]">
                 <Link
                   href="/"
-                  className="relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden w-[205px] xl:w-[215px] h-[68px] lg:h-[72px]"
+                  className="relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden w-[185px] xl:w-[200px] h-[56px] lg:h-[60px]"
                   aria-label="The Irish Grocer Homepage"
                 >
                   <Image
@@ -84,27 +82,27 @@ export function Header() {
                     fill
                     priority
                     unoptimized
-                    className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.02]"
+                    className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.01]"
                   />
                 </Link>
               </div>
 
-              {/* CENTER: Rounded Search Field (Desktop) */}
-              <div className="w-full">
+              {/* CENTER: Rounded Search Capsule (Desktop) */}
+              <div className="w-full max-w-[540px] xl:max-w-[600px] mx-auto">
                 <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
-                  <div className="relative w-full flex items-center ios-glass-search rounded-full transition-all focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 px-3.5 py-1">
-                    <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
+                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-[0_1px_3px_rgba(20,83,45,0.06)] transition-all focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 px-4 py-1">
+                    <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2.5" />
                     <input
                       type="text"
                       placeholder="Search products, brands, or essentials..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1.5"
+                      className="w-full bg-transparent text-[13px] xl:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1.5"
                       aria-label="Search products"
                     />
                     <button
                       type="submit"
-                      className="bg-[#14532D] hover:bg-[#166534] text-white px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs hover:shadow-md shrink-0 ml-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E]"
+                      className="bg-[#14532D] hover:bg-[#166534] text-white px-5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs shrink-0 ml-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E]"
                     >
                       Search
                     </button>
@@ -113,30 +111,33 @@ export function Header() {
               </div>
 
               {/* RIGHT: Action Controls (Store, Account, Cart) */}
-              <div className="flex items-center justify-end gap-4 lg:gap-6 xl:gap-7 text-sm font-medium text-[#173B2A] shrink-0 justify-self-end">
+              <div className="flex items-center justify-end gap-3.5 lg:gap-4 xl:gap-5 text-sm font-semibold text-[#14532D] shrink-0 justify-self-end">
+                {/* Subtle vertical separator before store */}
+                <div className="hidden lg:block h-5 w-[1px] bg-[#14532D]/15 shrink-0 mr-0.5" />
+
                 {/* Store Contact Control */}
                 <a
                   href={`tel:${SITE_CONFIG.phoneRaw}`}
-                  className="hidden md:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-2.5 py-2 rounded-xl transition-all"
+                  className="hidden md:inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all"
                   title="Quincy, MA Store: (857) 387-2065"
                 >
                   <Store className="w-4 h-4 text-[#14532D] shrink-0" />
                   <span className="hidden xl:inline">Quincy Store</span>
                 </a>
 
-                {/* Customer Account Control */}
+                {/* Customer Account Control (Patrick / Account) */}
                 <Link
                   href={isAuthenticated ? "/account" : "/account/login"}
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 px-2.5 py-2 rounded-xl transition-all"
+                  className="hidden sm:inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all"
                 >
                   <User className="w-4 h-4 text-[#14532D] shrink-0" />
-                  <span>{isAuthenticated ? customer?.firstName || "Account" : "Account"}</span>
+                  <span>{customer?.firstName || (isAuthenticated ? "Account" : "Patrick")}</span>
                 </Link>
 
                 {/* Shopping Cart Control */}
                 <button
                   onClick={openCart}
-                  className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-[13px] font-semibold text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/5 p-2 sm:px-2.5 sm:py-2 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
+                  className="inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
                   aria-label="Shopping Cart"
                 >
                   <div className="relative">
@@ -147,7 +148,7 @@ export function Header() {
                       </span>
                     )}
                   </div>
-                  <span className="hidden sm:inline">Cart</span>
+                  <span>Cart</span>
                 </button>
               </div>
             </div>
@@ -163,16 +164,16 @@ export function Header() {
                 {/* Left: Accessible Hamburger Menu Button (>= 44px touch target) */}
                 <button
                   onClick={() => setIsMobileMenuOpen(true)}
-                  className="w-11 h-11 flex items-center justify-center text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
+                  className="w-10 h-10 flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
                   aria-label="Open navigation menu"
                 >
-                  <Menu className="w-6 h-6 text-[#14532D]" />
+                  <Menu className="w-5 h-5 text-[#14532D]" />
                 </button>
 
                 {/* Center: Irish Grocer Animated SVG Logo */}
                 <Link
                   href="/"
-                  className="relative flex items-center justify-center flex-1 max-w-[200px] h-[46px] sm:h-[54px] focus:outline-none"
+                  className="relative flex items-center justify-center flex-1 max-w-[170px] sm:max-w-[190px] h-[44px] sm:h-[48px] focus:outline-none"
                   aria-label="The Irish Grocer Homepage"
                 >
                   <Image
@@ -185,16 +186,16 @@ export function Header() {
                   />
                 </Link>
 
-                {/* Right: Shopping Cart Button with Count Badge (>= 44px touch target) */}
+                {/* Right: Shopping Cart Button with Count Badge */}
                 <button
                   onClick={openCart}
-                  className="w-11 h-11 flex items-center justify-center text-[#173B2A] hover:text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
+                  className="w-10 h-10 flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
                   aria-label={`Shopping cart with ${cart.totalQuantity} items`}
                 >
                   <div className="relative">
                     <ShoppingBag className="w-5 h-5 text-[#14532D]" />
                     {cart.totalQuantity > 0 && (
-                      <span className="absolute -top-2 -right-2.5 bg-[#22C55E] text-[#14532D] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
+                      <span className="absolute -top-1.5 -right-2 bg-[#22C55E] text-[#14532D] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
                         {cart.totalQuantity}
                       </span>
                     )}
@@ -205,19 +206,19 @@ export function Header() {
               {/* SECOND ROW: Full-Width Search Field */}
               <div className="w-full">
                 <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
-                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/20 px-3.5 py-1 shadow-xs focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15">
+                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-2xs px-3.5 py-1 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15">
                     <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
                     <input
                       type="text"
                       placeholder="Search products, brands, or essentials..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-xs sm:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1.5"
+                      className="w-full bg-transparent text-xs sm:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1"
                       aria-label="Search products"
                     />
                     <button
                       type="submit"
-                      className="bg-[#14532D] hover:bg-[#166534] text-white px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs shrink-0 ml-1.5"
+                      className="bg-[#14532D] hover:bg-[#166534] text-white px-4 py-1 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs shrink-0 ml-1.5"
                     >
                       Search
                     </button>
@@ -229,38 +230,31 @@ export function Header() {
         </div>
 
         {/* ------------------------------------------------------------ */}
-        {/* SUBTLE DIVIDER LINE BETWEEN MAIN NAV AND CATEGORY NAV         */}
+        {/* ROW 2: CATEGORY NAVIGATION ROW                               */}
+        {/* Connected inside the same rounded outer container            */}
         {/* ------------------------------------------------------------ */}
-        <div className="h-[1px] w-full bg-[#14532D]/[0.08]" />
-
-        {/* ------------------------------------------------------------ */}
-        {/* ROW 2: CATEGORY NAVIGATION ROW (#ECF8E4 Light Mint-Green)    */}
-        {/* Sticks together with Row 1; visible on desktop (>= md)       */}
-        {/* ------------------------------------------------------------ */}
-        <div className="header-categories w-full py-1.5 bg-[#ECF8E4]/98 backdrop-blur-md hidden md:block">
-          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8">
-            <nav
-              className="w-full flex items-center justify-between text-xs lg:text-[12px] xl:text-[13px] 2xl:text-[13.5px] font-medium tracking-tight overflow-x-auto no-scrollbar"
-              aria-label="Aisle categories"
-            >
-              {CATEGORY_NAVIGATION_LINKS.map((link) => {
-                const active = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className={`px-1.5 lg:px-2 xl:px-2.5 py-1 rounded-[8px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
-                      active
-                        ? "bg-[#14532D]/15 text-[#14532D] font-bold shadow-2xs"
-                        : "text-[#173B2A]/90 hover:text-[#14532D] hover:bg-[#14532D]/8 font-medium"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
+        <div className="header-categories w-full px-5 sm:px-7 lg:px-8 xl:px-10 py-2 hidden md:block">
+          <nav
+            className="w-full flex items-center justify-between text-xs lg:text-[12.5px] xl:text-[13px] 2xl:text-[13.5px] font-semibold tracking-tight"
+            aria-label="Aisle categories"
+          >
+            {CATEGORY_NAVIGATION_LINKS.map((link) => {
+              const active = isLinkActive(link.href);
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`px-1.5 xl:px-2.5 py-1 rounded-[8px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
+                    active
+                      ? "bg-[#14532D]/14 text-[#14532D] font-bold"
+                      : "text-[#14532D]/90 hover:text-[#064E3B] hover:bg-[#14532D]/6"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
       </div>
 

@@ -263,22 +263,66 @@ a {
     inset 0 1px 1px rgba(0, 0, 0, 0.02);
 }
 
-/* Two-Row Unified Sticky Navigation Architecture */
+/* ==========================================================================
+   FLOATING ROUNDED STICKY NAVIGATION ARCHITECTURE
+   ========================================================================== */
+:root {
+  --navbar-main: #EDF4E5;
+  --navbar-categories: #EAF7E8;
+  --navbar-text: #14532D;
+  --navbar-border: rgba(20, 83, 45, 0.12);
+  --navbar-search: #FFFFFF;
+  --navbar-button: #14532D;
+}
+
 .site-header {
   position: sticky;
-  top: 0;
-  width: 100%;
+  top: 12px;
   z-index: 1000;
-  background: #ECF4E4;
+  width: calc(100% - 20px);
+  max-width: 1440px;
+  margin: 12px auto 0;
+  border-radius: 26px;
+  overflow: visible;
+  background: rgba(234, 247, 232, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 83, 45, 0.12);
+  box-shadow: 0 8px 24px rgba(20, 83, 45, 0.10);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+@media (min-width: 640px) {
+  .site-header {
+    top: 14px;
+    width: calc(100% - clamp(24px, 3.5vw, 48px));
+    margin-top: 14px;
+    border-radius: 30px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-header {
+    top: 16px;
+    width: calc(100% - clamp(28px, 5.4vw, 88px));
+    margin-top: 16px;
+    border-radius: 34px;
+    box-shadow: 0 8px 24px rgba(20, 83, 45, 0.10);
+  }
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 12px 32px rgba(20, 83, 45, 0.14), 0 2px 6px rgba(20, 83, 45, 0.06);
+  border-color: rgba(20, 83, 45, 0.16);
 }
 
 .header-main {
   width: 100%;
-  background: #ECF4E4;
+  background: transparent;
 }
 
 .header-categories {
   width: 100%;
-  background: #ECF8E4;
+  background: transparent;
   border-top: 1px solid rgba(20, 83, 45, 0.08);
 }
