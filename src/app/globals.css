@@ -69,7 +69,7 @@ body {
   max-width: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -261,4 +261,24 @@ a {
   box-shadow:
     0 2px 8px rgba(20, 83, 45, 0.04),
     inset 0 1px 1px rgba(0, 0, 0, 0.02);
+}
+
+/* Two-Row Unified Sticky Navigation Architecture */
+.site-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #ECF4E4;
+}
+
+.header-main {
+  width: 100%;
+  background: #ECF4E4;
+}
+
+.header-categories {
+  width: 100%;
+  background: #ECF8E4;
+  border-top: 1px solid rgba(20, 83, 45, 0.08);
 }

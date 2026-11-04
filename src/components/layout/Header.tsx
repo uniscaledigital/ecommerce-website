@@ -21,7 +21,7 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -46,39 +46,36 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full transition-all duration-200">
+    <header
+      className={`site-header sticky top-0 z-[1000] w-full transition-shadow duration-200 ${
+        isScrolled
+          ? "shadow-[0_4px_20px_rgba(20,83,45,0.09)] border-b border-[#14532D]/14"
+          : "border-b border-[#14532D]/10"
+      }`}
+    >
       {/* ============================================================== */}
-      {/* UNIFIED FULL-WIDTH MINT-GREEN NAVIGATION (Edge-to-Edge)        */}
+      {/* TWO-ROW UNIFIED STICKY NAVIGATION (Edge-to-Edge Pale Mint)     */}
+      {/* Both Row 1 and Row 2 stick together at top: 0 while scrolling  */}
       {/* ============================================================== */}
-      <div
-        className={`w-full rounded-none border-x-0 border-t-0 border-b border-[#14532D]/12 transition-all duration-300 relative overflow-hidden ${
-          isScrolled
-            ? "shadow-[0_8px_24px_rgba(20,83,45,0.08)]"
-            : "shadow-[0_2px_12px_rgba(20,83,45,0.04)]"
-        }`}
-      >
+      <div className="w-full relative">
         {/* Subtle Top Glass Specular Highlight */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
 
         {/* ------------------------------------------------------------ */}
-        {/* MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)                */}
+        {/* ROW 1: MAIN NAVIGATION BAR (#ECF4E4 Pale Mint-Green)         */}
         {/* ------------------------------------------------------------ */}
-        <div className="w-full bg-[#ECF4E4]/95 backdrop-blur-md">
+        <div className="header-main w-full bg-[#ECF4E4]/98 backdrop-blur-md">
           <div className="w-full max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-6 xl:px-8 py-2 sm:py-2.5">
             {/* ======================================================== */}
-            {/* 1. DESKTOP HEADER (Screen width >= 1024px / lg)         */}
-            {/* PRESERVES APPROVED DESKTOP DESIGN 100% UNCHANGED         */}
+            {/* DESKTOP ROW 1 (Screen width >= 1024px / lg)             */}
+            {/* Preserves approved layout: Logo | Search | Actions       */}
             {/* ======================================================== */}
             <div className="hidden lg:grid lg:grid-cols-[210px_minmax(360px,600px)_auto] items-center justify-between gap-6 xl:gap-8">
               {/* LEFT: Official Irish Grocer Animated SVG Logo */}
               <div className="flex items-center shrink-0 w-[210px] xl:w-[220px]">
                 <Link
                   href="/"
-                  className={`relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden transition-all duration-300 ${
-                    isScrolled
-                      ? "w-[200px] h-[68px] max-h-[68px]"
-                      : "w-[215px] h-[72px] max-h-[72px]"
-                  }`}
+                  className="relative shrink-0 flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] rounded-xl overflow-hidden w-[205px] xl:w-[215px] h-[68px] lg:h-[72px]"
                   aria-label="The Irish Grocer Homepage"
                 >
                   <Image
@@ -156,7 +153,7 @@ export function Header() {
             </div>
 
             {/* ======================================================== */}
-            {/* 2. DEDICATED MOBILE & TABLET HEADER (< 1024px / lg)      */}
+            {/* MOBILE & TABLET ROW 1 (< 1024px / lg)                   */}
             {/* TOP ROW: Hamburger Menu | Animated Logo | Shopping Cart  */}
             {/* SECOND ROW: Full-Width Search Field                     */}
             {/* ======================================================== */}
@@ -238,12 +235,12 @@ export function Header() {
 
         {/* ------------------------------------------------------------ */}
         {/* ROW 2: CATEGORY NAVIGATION ROW (#ECF8E4 Light Mint-Green)    */}
-        {/* Shown on desktop and tablet screens (>= md)                  */}
+        {/* Sticks together with Row 1; visible on desktop (>= md)       */}
         {/* ------------------------------------------------------------ */}
-        <div className="w-full py-1.5 bg-[#ECF8E4]/95 backdrop-blur-md hidden md:block">
+        <div className="header-categories w-full py-1.5 bg-[#ECF8E4]/98 backdrop-blur-md hidden md:block">
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-6 xl:px-8">
             <nav
-              className="w-full flex items-center justify-between overflow-x-auto no-scrollbar text-xs lg:text-[12px] xl:text-[13px] 2xl:text-[13.5px] font-medium tracking-tight"
+              className="w-full flex items-center justify-between text-xs lg:text-[12px] xl:text-[13px] 2xl:text-[13.5px] font-medium tracking-tight overflow-x-auto no-scrollbar"
               aria-label="Aisle categories"
             >
               {CATEGORY_NAVIGATION_LINKS.map((link) => {
@@ -252,7 +249,7 @@ export function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`px-1 sm:px-1.5 xl:px-2 py-1 rounded-[8px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
+                    className={`px-1.5 lg:px-2 xl:px-2.5 py-1 rounded-[8px] transition-all whitespace-nowrap text-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
                       active
                         ? "bg-[#14532D]/15 text-[#14532D] font-bold shadow-2xs"
                         : "text-[#173B2A]/90 hover:text-[#14532D] hover:bg-[#14532D]/8 font-medium"
