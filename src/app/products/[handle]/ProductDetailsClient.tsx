@@ -62,14 +62,36 @@ export function ProductDetailsClient({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Image Spotlight Showcase */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="relative aspect-square w-full product-spotlight-frame rounded-2xl border border-[#E8DFCF] overflow-hidden p-8 shadow-xs">
+          <div className="relative aspect-square w-full bg-[#DDF1D5] rounded-2xl border border-[#D0E7C9] overflow-hidden p-8 shadow-xs flex items-center justify-center">
+            {/* Subtle Shamrock Watermark in Pale Mint Background */}
+            <div
+              className="absolute inset-0 pointer-events-none overflow-hidden select-none"
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                className="absolute -bottom-6 -left-6 w-44 h-44 text-[#22C55E] opacity-[0.14]"
+                fill="currentColor"
+              >
+                <path d="M50 44 C41 33 24 35 24 48 C24 59 36 65 50 56 C64 65 76 59 76 48 C76 35 59 33 50 44 Z" />
+                <path d="M50 44 C39 53 37 70 50 70 C63 70 61 53 50 44 Z" />
+                <path d="M50 44 C39 35 39 18 50 18 C61 18 61 35 50 44 Z" />
+                <path
+                  d="M50 55 Q48 76 40 88"
+                  stroke="currentColor"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
+            </div>
             <Image
               src={images[activeImageIndex]?.url || product.featuredImage.url}
               alt={images[activeImageIndex]?.altText || product.title}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 55vw"
-              className="object-contain p-4"
+              className="object-contain p-6 relative z-0"
             />
           </div>
 
@@ -80,17 +102,17 @@ export function ProductDetailsClient({
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-20 rounded-lg overflow-hidden product-spotlight-frame border-2 transition-all shrink-0 ${
+                  className={`relative w-20 h-20 rounded-xl overflow-hidden bg-[#DDF1D5] border-2 transition-all shrink-0 p-1 flex items-center justify-center ${
                     activeImageIndex === idx
-                      ? "border-[#14532D] scale-105"
-                      : "border-[#E8DFCF] opacity-70 hover:opacity-100"
+                      ? "border-[#14532D] scale-105 shadow-sm"
+                      : "border-[#D0E7C9] opacity-70 hover:opacity-100"
                   }`}
                 >
                   <Image
                     src={img.url}
                     alt={img.altText || `${product.title} ${idx + 1}`}
                     fill
-                    className="object-contain p-1"
+                    className="object-contain p-1.5"
                   />
                 </button>
               ))}

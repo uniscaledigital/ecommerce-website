@@ -62,7 +62,7 @@ export function CartDrawer() {
             cart.lines.map((item) => (
               <div key={item.id} className="py-4 flex gap-3">
                 {/* Thumbnail */}
-                <div className="relative w-16 h-16 bg-[#FFFAF1] rounded-md overflow-hidden shrink-0 border border-[#E8DFCF]">
+                <div className="relative w-16 h-16 bg-[#DDF1D5] rounded-xl overflow-hidden shrink-0 border border-[#D0E7C9] flex items-center justify-center p-1">
                   <Image
                     src={item.merchandise.product.featuredImage.url}
                     alt={item.merchandise.product.title}
