@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getCollectionByHandle, getCollections } from "@/lib/shopify";
 import { ShopClientView } from "@/app/shop/ShopClientView";
@@ -57,12 +57,15 @@ export default async function CollectionPage({
 
   return (
     <div className="section-inner py-8 space-y-12">
-      <ShopClientView
-        initialProducts={products}
-        collections={collections}
-        title={collection.title}
-        totalCountLabel={`${collection.productCount} products`}
-      />
+      <Suspense fallback={<div className="py-12 text-center text-sm text-[#42634A]">Loading products...</div>}>
+        <ShopClientView
+          initialProducts={products}
+          collections={collections}
+          title={collection.title}
+          totalCountLabel={`${collection.productCount} products`}
+          initialCategory={handle}
+        />
+      </Suspense>
       <OrderConfidenceSection />
     </div>
   );

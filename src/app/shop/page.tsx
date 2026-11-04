@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { getProducts, getCollections } from "@/lib/shopify";
 import { ShopClientView } from "./ShopClientView";
 import { OrderConfidenceSection } from "@/components/home/OrderConfidenceSection";
@@ -14,7 +14,9 @@ export default async function ShopPage() {
 
   return (
     <div className="section-inner py-8 space-y-12">
-      <ShopClientView initialProducts={allProducts} collections={collections} />
+      <Suspense fallback={<div className="py-12 text-center text-sm text-[#42634A]">Loading products...</div>}>
+        <ShopClientView initialProducts={allProducts} collections={collections} />
+      </Suspense>
       <OrderConfidenceSection />
     </div>
   );

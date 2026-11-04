@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { SlidersHorizontal, ChevronDown, LayoutGrid, Grid3X3, X, Check } from "lucide-react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Product, Collection } from "@/types";
+import { useProductFilters } from "@/hooks/useProductFilters";
+import { DesktopFilterSidebar } from "@/components/products/filters/DesktopFilterSidebar";
+import { FilterToolbar } from "@/components/products/filters/FilterToolbar";
+import { MobileFilterDrawer } from "@/components/products/filters/MobileFilterDrawer";
 import { ProductGrid } from "@/components/products/ProductGrid";
 
 interface ShopClientViewProps {
@@ -10,61 +13,85 @@ interface ShopClientViewProps {
   collections: Collection[];
   title?: string;
   totalCountLabel?: string;
+  initialCategory?: string;
 }
 
 export function ShopClientView({
   initialProducts,
   collections,
   title = "All Products",
-  totalCountLabel = "717 products",
+  initialCategory,
 }: ShopClientViewProps) {
-  const [onlyInStock, setOnlyInStock] = useState(false);
-  const [sortBy, setSortBy] = useState<string>("alphabetical-az");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [gridColumns, setGridColumns] = useState<3 | 4>(4);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const mobileFilterTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const itemsPerPage = 16;
+  const itemsPerPage = 12;
 
-  // Filter & sort logic
-  const filteredProducts = useMemo(() => {
-    let result = [...initialProducts];
-
-    if (onlyInStock) {
-      result = result.filter((p) => p.availableForSale);
+  // Extract unique brands and product types from catalogue
+  const allBrands = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of initialProducts) {
+      if (p.vendor) set.add(p.vendor);
     }
+    return Array.from(set).sort();
+  }, [initialProducts]);
 
-    if (selectedCategory !== "all") {
-      result = result.filter(
-        (p) =>
-          p.collections?.includes(selectedCategory) ||
-          p.productType.toLowerCase().includes(selectedCategory.toLowerCase())
-      );
+  const allProductTypes = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of initialProducts) {
+      if (p.productType) set.add(p.productType);
     }
+    return Array.from(set).sort();
+  }, [initialProducts]);
 
-    if (sortBy === "alphabetical-az") {
-      result.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortBy === "alphabetical-za") {
-      result.sort((a, b) => b.title.localeCompare(a.title));
-    } else if (sortBy === "price-low-high") {
-      result.sort(
-        (a, b) =>
-          parseFloat(a.priceRange.minVariantPrice.amount) -
-          parseFloat(b.priceRange.minVariantPrice.amount)
-      );
-    } else if (sortBy === "price-high-low") {
-      result.sort(
-        (a, b) =>
-          parseFloat(b.priceRange.minVariantPrice.amount) -
-          parseFloat(a.priceRange.minVariantPrice.amount)
-      );
-    }
+  const categoryTitleMap = useMemo(() => {
+    return Object.fromEntries(collections.map((c) => [c.handle, c.title]));
+  }, [collections]);
 
-    return result;
-  }, [initialProducts, onlyInStock, selectedCategory, sortBy]);
+  // Hook into the central filtering engine
+  const {
+    state,
+    filteredProducts,
+    facetCounts,
+    activeChips,
+    hasActiveFilters,
+    matchingCount,
+    defaultBounds,
+    setAvailability,
+    toggleCategory,
+    toggleBrand,
+    setPriceRange,
+    toggleProductType,
+    toggleDietary,
+    setMinRating,
+    setSortBy,
+    setViewMode,
+    removeChip,
+    clearAllFilters,
+  } = useProductFilters({
+    products: initialProducts,
+    categoryTitleMap,
+    initialCategory,
+    syncUrl: true,
+  });
 
-  // Pagination
+  // Reset page whenever filter criteria change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    state.availability,
+    state.categories,
+    state.brands,
+    state.priceRange,
+    state.productTypes,
+    state.dietary,
+    state.minRating,
+    state.sortBy,
+  ]);
+
+  // Pagination calculations
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
@@ -73,194 +100,99 @@ export function ShopClientView({
 
   return (
     <div className="space-y-6">
-      {/* Top Header & Bar */}
+      {/* Page Title & Breadcrumb Header */}
       <div>
-        <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1F2937]">
+        <h1 className="font-serif-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#14532D]">
           {title}
         </h1>
+        <p className="text-xs sm:text-sm text-[#42634A] mt-1">
+          Authentic Irish &amp; UK imports delivered fresh from our Quincy, MA storefront.
+        </p>
       </div>
 
-      {/* Control Bar */}
-      <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4 shadow-xs">
-        {/* Left: Filter Toggle for Mobile */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-            className="md:hidden inline-flex items-center gap-1.5 px-3 py-2 border border-[#E8DFCF] rounded-lg text-xs font-semibold text-[#1F2937] bg-[#F7EBD8] hover:bg-[#EADFC9] active:scale-95 transition-all min-h-[40px]"
-            aria-expanded={isMobileFilterOpen}
-          >
-            <SlidersHorizontal className="w-3.5 h-3.5 text-[#14532D]" />
-            <span>Filter {selectedCategory !== "all" || onlyInStock ? "• Active" : ""}</span>
-          </button>
-          <span className="text-xs text-[#4B5563] font-medium">
-            {totalCountLabel}
-          </span>
-        </div>
+      {/* Discovery Toolbar */}
+      <FilterToolbar
+        totalCount={initialProducts.length}
+        matchingCount={matchingCount}
+        sortBy={state.sortBy}
+        viewMode={state.viewMode}
+        gridColumns={gridColumns}
+        activeChips={activeChips}
+        onOpenMobileFilter={() => setIsMobileDrawerOpen(true)}
+        onSortChange={setSortBy}
+        onViewModeChange={setViewMode}
+        onGridColumnsChange={setGridColumns}
+        onRemoveChip={removeChip}
+        onClearAll={clearAllFilters}
+      />
 
-        {/* Right: Sort & Grid Layout */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-[#4B5563] hidden sm:inline">Sort by:</span>
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="appearance-none bg-white border border-[#E8DFCF] rounded-lg px-3 py-2 pr-8 text-xs font-medium text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D] min-h-[40px]"
-              >
-                <option value="alphabetical-az">Alphabetically, A-Z</option>
-                <option value="alphabetical-za">Alphabetically, Z-A</option>
-                <option value="price-low-high">Price, low to high</option>
-                <option value="price-high-low">Price, high to low</option>
-                <option value="relevant">Most relevant</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-[#4B5563] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Desktop Grid Switcher */}
-          <div className="hidden lg:flex items-center border border-[#E8DFCF] rounded-md overflow-hidden bg-white">
-            <button
-              onClick={() => setGridColumns(4)}
-              className={`p-1.5 ${
-                gridColumns === 4 ? "bg-[#14532D] text-white" : "text-[#1F2937] hover:bg-[#F7EBD8]"
-              }`}
-              aria-label="4 columns view"
-            >
-              <Grid3X3 className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setGridColumns(3)}
-              className={`p-1.5 ${
-                gridColumns === 3 ? "bg-[#14532D] text-white" : "text-[#1F2937] hover:bg-[#F7EBD8]"
-              }`}
-              aria-label="3 columns view"
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Layout: Filter Sidebar + Products Grid */}
+      {/* Main Listing Layout: Left Sidebar + Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-start">
-        {/* Filter Sidebar (Desktop + Mobile Collapsible) */}
-        <aside
-          className={`space-y-6 ${
-            isMobileFilterOpen ? "block" : "hidden"
-          } md:block md:col-span-1`}
-        >
-          <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-5 shadow-xs">
-            {/* Mobile Filter Header with Close Button */}
-            <div className="flex md:hidden items-center justify-between border-b border-[#E8DFCF] pb-3">
-              <span className="font-bold text-xs uppercase tracking-wider text-[#14532D]">
-                Refine Selection
-              </span>
-              <button
-                onClick={() => setIsMobileFilterOpen(false)}
-                className="p-1 text-[#4B5563] hover:text-[#1F2937]"
-                aria-label="Close filters"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div>
-              <h3 className="text-xs font-bold text-[#14532D] uppercase tracking-wider mb-3">
-                Availability
-              </h3>
-              <label className="flex items-center gap-2.5 cursor-pointer text-xs text-[#1F2937] font-medium min-h-[36px]">
-                <input
-                  type="checkbox"
-                  checked={onlyInStock}
-                  onChange={(e) => {
-                    setOnlyInStock(e.target.checked);
-                    setCurrentPage(1);
-                  }}
-                  className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
-                />
-                <span>In stock only</span>
-              </label>
-            </div>
-
-            <div className="border-t border-[#E8DFCF] pt-4">
-              <h3 className="text-xs font-bold text-[#14532D] uppercase tracking-wider mb-3">
-                Categories
-              </h3>
-              <div className="space-y-1.5 text-xs text-[#4B5563] max-h-64 overflow-y-auto pr-1">
-                <button
-                  onClick={() => {
-                    setSelectedCategory("all");
-                    setCurrentPage(1);
-                    setIsMobileFilterOpen(false);
-                  }}
-                  className={`flex items-center justify-between w-full text-left px-2.5 py-2 rounded-md transition-colors min-h-[36px] ${
-                    selectedCategory === "all"
-                      ? "bg-[#E8F5E9] text-[#14532D] font-bold"
-                      : "hover:bg-[#F7EBD8] text-[#1F2937]"
-                  }`}
-                >
-                  <span>All Categories</span>
-                  {selectedCategory === "all" && <Check className="w-3.5 h-3.5 text-[#22C55E]" />}
-                </button>
-                {collections.map((col) => (
-                  <button
-                    key={col.handle}
-                    onClick={() => {
-                      setSelectedCategory(col.handle);
-                      setCurrentPage(1);
-                      setIsMobileFilterOpen(false);
-                    }}
-                    className={`flex items-center justify-between w-full text-left px-2.5 py-2 rounded-md transition-colors min-h-[36px] ${
-                      selectedCategory === col.handle
-                        ? "bg-[#E8F5E9] text-[#14532D] font-bold"
-                        : "hover:bg-[#F7EBD8] text-[#1F2937]"
-                    }`}
-                  >
-                    <span>{col.title}</span>
-                    {selectedCategory === col.handle && <Check className="w-3.5 h-3.5 text-[#22C55E]" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
+        {/* Desktop Vertical Sidebar */}
+        <div className="hidden md:block md:col-span-1 sticky top-24">
+          <DesktopFilterSidebar
+            state={state}
+            facetCounts={facetCounts}
+            collections={collections}
+            allBrands={allBrands}
+            allProductTypes={allProductTypes}
+            defaultBounds={defaultBounds}
+            hasActiveFilters={hasActiveFilters}
+            onSetAvailability={setAvailability}
+            onToggleCategory={toggleCategory}
+            onToggleBrand={toggleBrand}
+            onSetPriceRange={setPriceRange}
+            onToggleProductType={toggleProductType}
+            onToggleDietary={toggleDietary}
+            onSetMinRating={setMinRating}
+            onClearAll={clearAllFilters}
+          />
+        </div>
 
         {/* Product Grid Area */}
         <div className="md:col-span-3 space-y-8">
-          <ProductGrid products={paginatedProducts} columns={gridColumns} />
+          <ProductGrid
+            products={paginatedProducts}
+            columns={gridColumns}
+            viewMode={state.viewMode}
+            onClearFilters={clearAllFilters}
+          />
 
-          {/* Responsive Pagination */}
+          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex flex-wrap items-center justify-center gap-2 pt-6 border-t border-[#E8DFCF] text-xs font-semibold text-[#1F2937]">
               <button
+                type="button"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3.5 py-2 border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[40px]"
+                className="px-4 py-2.5 border border-[#E8DFCF] rounded-xl bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[44px] transition-colors"
               >
                 Previous
               </button>
 
-              <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none py-1">
+              <div className="flex items-center gap-1.5 overflow-x-auto max-w-[240px] sm:max-w-none py-1">
                 {Array.from({ length: totalPages }).map((_, i) => {
                   const pageNum = i + 1;
-                  // On mobile with many pages, only show current page and direct neighbors
-                  const isNearCurrent = Math.abs(pageNum - currentPage) <= 1 || pageNum === 1 || pageNum === totalPages;
+                  const isNearCurrent =
+                    Math.abs(pageNum - currentPage) <= 1 || pageNum === 1 || pageNum === totalPages;
                   if (!isNearCurrent && totalPages > 5) {
                     if (pageNum === 2 || pageNum === totalPages - 1) {
-                      return <span key={pageNum} className="px-1 text-[#4B5563]">…</span>;
+                      return (
+                        <span key={pageNum} className="px-1 text-[#4B5563]">
+                          …
+                        </span>
+                      );
                     }
                     return null;
                   }
                   return (
                     <button
                       key={pageNum}
+                      type="button"
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-9 h-9 rounded-lg border text-xs font-bold transition-colors ${
+                      className={`w-10 h-10 rounded-xl border text-xs font-bold transition-all min-h-[40px] ${
                         currentPage === pageNum
-                          ? "bg-[#14532D] text-white border-[#14532D]"
+                          ? "bg-[#14532D] text-white border-[#14532D] shadow-xs"
                           : "border-[#E8DFCF] bg-[#FFFAF1] hover:bg-[#F7EBD8] text-[#1F2937]"
                       }`}
                     >
@@ -271,9 +203,10 @@ export function ShopClientView({
               </div>
 
               <button
+                type="button"
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3.5 py-2 border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[40px]"
+                className="px-4 py-2.5 border border-[#E8DFCF] rounded-xl bg-[#FFFAF1] hover:bg-[#F7EBD8] disabled:opacity-40 min-h-[44px] transition-colors"
               >
                 Next
               </button>
@@ -281,6 +214,29 @@ export function ShopClientView({
           )}
         </div>
       </div>
+
+      {/* Mobile Flipkart-Style Filter Drawer */}
+      <MobileFilterDrawer
+        isOpen={isMobileDrawerOpen}
+        onClose={() => setIsMobileDrawerOpen(false)}
+        triggerRef={mobileFilterTriggerRef}
+        state={state}
+        facetCounts={facetCounts}
+        collections={collections}
+        allBrands={allBrands}
+        allProductTypes={allProductTypes}
+        defaultBounds={defaultBounds}
+        matchingCount={matchingCount}
+        hasActiveFilters={hasActiveFilters}
+        onSetAvailability={setAvailability}
+        onToggleCategory={toggleCategory}
+        onToggleBrand={toggleBrand}
+        onSetPriceRange={setPriceRange}
+        onToggleProductType={toggleProductType}
+        onToggleDietary={toggleDietary}
+        onSetMinRating={setMinRating}
+        onClearAll={clearAllFilters}
+      />
     </div>
   );
 }

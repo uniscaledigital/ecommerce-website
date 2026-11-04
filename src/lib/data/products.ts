@@ -1,3 +1,19 @@
+/**
+ * THE IRISH GROCER — MOCK PRODUCT CATALOGUE
+ *
+ * SIMULATED DEMO DATA DISCLAIMER:
+ * - "rating" fields contain simulated sample review data for frontend demonstration only.
+ *   They do not represent genuine verified customer reviews.
+ *   Production mapping: Shopify Standard Metafield namespace: "reviews.rating" (value: float, count: integer).
+ * - "availableForSale" reflects binary purchase eligibility for demo purposes.
+ *   Two items (prod-monster-munch-6pk, prod-cadbury-freddo) are set to false as
+ *   documented sample statuses to demonstrate out-of-stock filtering. This does not
+ *   represent actual inventory warehouse quantities.
+ * - Dietary & lifestyle tags are normalized to canonical filter attributes:
+ *   Vegan, Vegetarian, Gluten-Free, Irish Made, Artisanal, Multipack
+ *   based on authentic ingredient profiles and packaging statements.
+ */
+
 import type { Product } from "../../types/index.ts";
 
 export const PRODUCTS: Product[] = [
@@ -9,7 +25,7 @@ export const PRODUCTS: Product[] = [
     description: "Classic salted and salt & vinegar potato rings baked in 100% sunflower oil. 6 pack family bag.",
     vendor: "KP Snacks",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Multipack", "Family Pack"],
+    tags: ["Crisps & Snacks","Multipack","Family Pack","Vegetarian"],
     availableForSale: true,
     sku: "5000237123456",
     barcode: "5000237123456",
@@ -41,6 +57,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "6.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.6,
+      count: 88,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -50,7 +70,7 @@ export const PRODUCTS: Product[] = [
     description: "The Original Irish Crisp with tangy prawn cocktail seasoning. Imported straight from County Meath, Ireland.",
     vendor: "Tayto",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Tayto", "Irish Crisp"],
+    tags: ["Crisps & Snacks","Tayto","Irish Crisp","Irish Made"],
     availableForSale: true,
     sku: "5011096001234",
     barcode: "5011096001234",
@@ -82,6 +102,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "2.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 124,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -91,7 +115,7 @@ export const PRODUCTS: Product[] = [
     description: "100% Great British potatoes sliced thin and flavoured with real British cheddar and onion seasoning.",
     vendor: "Walkers",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Walkers", "Multipack"],
+    tags: ["Crisps & Snacks","Walkers","Multipack","Vegetarian"],
     availableForSale: true,
     sku: "5000328765432",
     barcode: "5000328765432",
@@ -123,6 +147,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "7.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.5,
+      count: 92,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -132,7 +160,7 @@ export const PRODUCTS: Product[] = [
     description: "Baked corn snacks with melt-in-the-mouth really cheesy flavour. 6 individually wrapped bags.",
     vendor: "Walkers",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Walkers", "Multipack"],
+    tags: ["Crisps & Snacks","Walkers","Multipack","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5000328765499",
     barcode: "5000328765499",
@@ -164,6 +192,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "6.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.6,
+      count: 110,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -173,7 +205,7 @@ export const PRODUCTS: Product[] = [
     description: "The Original Irish Crisp. Sliced thin from the finest Irish potatoes and cooked in 100% sunflower oil with Tayto's secret Cheese & Onion seasoning recipe.",
     vendor: "Tayto",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Tayto", "Classic", "Irish Favourites"],
+    tags: ["Crisps & Snacks","Tayto","Classic","Irish Favourites","Irish Made","Vegetarian"],
     availableForSale: true,
     sku: "5011096011974",
     barcode: "5011096011974",
@@ -205,6 +237,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "2.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 312,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -214,7 +250,7 @@ export const PRODUCTS: Product[] = [
     description: "Smith's Scampi Flavour Fries cereal snack with a savoury lemon and scampi taste.",
     vendor: "Smiths",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Smiths"],
+    tags: ["Crisps & Snacks","Smiths"],
     availableForSale: true,
     sku: "5010029012345",
     barcode: "5010029012345",
@@ -246,6 +282,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "1.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.4,
+      count: 57,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -255,8 +295,8 @@ export const PRODUCTS: Product[] = [
     description: "Crunchy baked corn monster claw snacks with an intense pickled onion punch. 6-pack.",
     vendor: "Walkers",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Walkers", "Multipack"],
-    availableForSale: true,
+    tags: ["Crisps & Snacks","Walkers","Multipack","Vegetarian"],
+    availableForSale: false,
     sku: "5000328123987",
     barcode: "5000328123987",
     featuredImage: {
@@ -283,10 +323,14 @@ export const PRODUCTS: Product[] = [
         title: "Default Title",
         sku: "5000328123987",
         barcode: "5000328123987",
-        availableForSale: true,
+        availableForSale: false,
         price: { amount: "7.29", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 145,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -296,7 +340,7 @@ export const PRODUCTS: Product[] = [
     description: "Northern Ireland Castle Tayto variety pack with Cheese & Onion, Salt & Vinegar, and Smokey Bacon.",
     vendor: "Tayto NI",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Tayto NI", "Multipack"],
+    tags: ["Crisps & Snacks","Tayto NI","Multipack","Irish Made","Vegetarian"],
     availableForSale: true,
     sku: "5010794002345",
     barcode: "5010794002345",
@@ -328,6 +372,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "6.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.6,
+      count: 78,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -337,7 +385,7 @@ export const PRODUCTS: Product[] = [
     description: "Delightfully fizzy, melt-in-the-mouth prawn cocktail flavoured tapioca snack.",
     vendor: "KP / Tayto",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Skips"],
+    tags: ["Crisps & Snacks","Skips","Vegetarian"],
     availableForSale: true,
     sku: "5000237987654",
     barcode: "5000237987654",
@@ -369,6 +417,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "1.79", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.5,
+      count: 62,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -378,7 +430,7 @@ export const PRODUCTS: Product[] = [
     description: "Crisp potato chips crafted with Lye Cross Farm West Country Cheddar and crisp spring onions.",
     vendor: "Pipers",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "Pipers"],
+    tags: ["Crisps & Snacks","Pipers","Artisanal","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5060087456789",
     barcode: "5060087456789",
@@ -410,6 +462,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "2.79", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 95,
+    },
     collections: ["crisps-snacks"],
   },
   {
@@ -419,7 +475,7 @@ export const PRODUCTS: Product[] = [
     description: "Hand-cooked Irish potato crisps seasoned with natural sea salt and tangy balsamic malt vinegar.",
     vendor: "O'Donnells",
     productType: "Crisps & Snacks",
-    tags: ["Crisps & Snacks", "O'Donnells", "Hand-Cooked"],
+    tags: ["Crisps & Snacks","O'Donnells","Hand-Cooked","Artisanal","Irish Made","Gluten-Free","Vegan","Vegetarian"],
     availableForSale: true,
     sku: "5391500234567",
     barcode: "5391500234567",
@@ -451,6 +507,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "2.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 168,
+    },
     collections: ["crisps-snacks"],
   },
 
@@ -462,7 +522,7 @@ export const PRODUCTS: Product[] = [
     description: "Brewed in Britain since 1794. Traditional malt vinegar crafted in wooden vats for authentic fish and chips.",
     vendor: "Sarson's",
     productType: "Sauces & Condiments",
-    tags: ["New Arrivals", "Sauces & Condiments", "Pantry"],
+    tags: ["New Arrivals","Sauces & Condiments","Pantry","Vegan","Vegetarian"],
     availableForSale: true,
     sku: "5010044001234",
     barcode: "5010044001234",
@@ -494,6 +554,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "4.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 83,
+    },
     collections: ["sauces-condiments", "new-arrivals", "grocery"],
   },
   {
@@ -503,8 +567,8 @@ export const PRODUCTS: Product[] = [
     description: "Delicious Cadbury Dairy Milk milk chocolate shaped into the iconic friendly Freddo frog.",
     vendor: "Cadbury",
     productType: "Candies & Sweets",
-    tags: ["New Arrivals", "Candies & Sweets", "Cadbury"],
-    availableForSale: true,
+    tags: ["New Arrivals","Candies & Sweets","Cadbury","Vegetarian"],
+    availableForSale: false,
     sku: "7622210123456",
     barcode: "7622210123456",
     featuredImage: {
@@ -531,10 +595,14 @@ export const PRODUCTS: Product[] = [
         title: "Default Title",
         sku: "7622210123456",
         barcode: "7622210123456",
-        availableForSale: true,
+        availableForSale: false,
         price: { amount: "0.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 240,
+    },
     collections: ["candies-sweets", "new-arrivals"],
   },
   {
@@ -544,7 +612,7 @@ export const PRODUCTS: Product[] = [
     description: "Traditional steamed pudding with juicy sultanas and currants. Simply microwave for 30 seconds and serve with warm custard.",
     vendor: "Aunty's",
     productType: "Bread & Bakery",
-    tags: ["New Arrivals", "Bread & Bakery", "Pudding"],
+    tags: ["New Arrivals","Bread & Bakery","Pudding","Vegetarian"],
     availableForSale: true,
     sku: "9310055123456",
     barcode: "9310055123456",
@@ -576,6 +644,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "5.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.3,
+      count: 41,
+    },
     collections: ["bread-bakery", "new-arrivals", "grocery"],
   },
   {
@@ -585,7 +657,7 @@ export const PRODUCTS: Product[] = [
     description: "Premium Irish-style recipe fresh breakfast sausages. Hand-filled pork links with traditional Irish seasonings and breadcrumbs.",
     vendor: "The Butcher's Fancy",
     productType: "Meats",
-    tags: ["New Arrivals", "Meats", "Fresh", "Refrigerated"],
+    tags: ["New Arrivals","Meats","Fresh","Refrigerated","Irish Made","Artisanal"],
     availableForSale: true,
     sku: "852671004123",
     barcode: "852671004123",
@@ -617,6 +689,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "9.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 112,
+    },
     collections: ["meats", "new-arrivals"],
   },
 
@@ -628,7 +704,7 @@ export const PRODUCTS: Product[] = [
     description: "Ireland's favourite tea since 1901. Expertly blended from the high-mountain teas of the East Rift Valley of Kenya and Rwanda.",
     vendor: "Barry's Tea",
     productType: "Tea & Coffee",
-    tags: ["Tea & Coffee", "Barry's Tea", "Gold Blend", "Irish Favourites"],
+    tags: ["Tea & Coffee","Barry's Tea","Gold Blend","Irish Favourites","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5011047000808",
     barcode: "5011047000808",
@@ -666,6 +742,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "9.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 420,
+    },
     collections: ["tea-coffee"],
   },
   {
@@ -675,7 +755,7 @@ export const PRODUCTS: Product[] = [
     description: "Traditional whole leaf blend for the classic teapot ritual. Full-bodied rich amber liquor.",
     vendor: "Barry's Tea",
     productType: "Tea & Coffee",
-    tags: ["Tea & Coffee", "Barry's Tea", "Loose Leaf"],
+    tags: ["Tea & Coffee","Barry's Tea","Loose Leaf","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5011047002505",
     barcode: "5011047002505",
@@ -707,6 +787,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "8.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 135,
+    },
     collections: ["tea-coffee"],
   },
   {
@@ -716,7 +800,7 @@ export const PRODUCTS: Product[] = [
     description: "A rich, comforting and unmistakable cup of Irish tea. Distinct pyramid teabags allow tea leaves to infuse freely.",
     vendor: "Lyons",
     productType: "Tea & Coffee",
-    tags: ["Tea & Coffee", "Lyons"],
+    tags: ["Tea & Coffee","Lyons","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "8712566012345",
     barcode: "8712566012345",
@@ -748,6 +832,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "9.29", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 198,
+    },
     collections: ["tea-coffee"],
   },
 
@@ -759,7 +847,7 @@ export const PRODUCTS: Product[] = [
     description: "Ah! Bisto. The nation's favourite gravy granules. Simply add boiling water and stir for smooth, rich beef gravy.",
     vendor: "Bisto",
     productType: "Grocery",
-    tags: ["Grocery", "Bisto", "Gravy"],
+    tags: ["Grocery","Bisto","Gravy","Vegetarian"],
     availableForSale: true,
     sku: "5000243012345",
     barcode: "5000243012345",
@@ -791,6 +879,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "4.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 154,
+    },
     collections: ["grocery", "sauces-condiments"],
   },
   {
@@ -800,7 +892,7 @@ export const PRODUCTS: Product[] = [
     description: "Handmade in Abbeyleix, County Laois, Ireland using traditional open boiling pans with locally harvested Irish blackcurrants.",
     vendor: "Abbey Farm",
     productType: "Grocery",
-    tags: ["Grocery", "Abbey Farm", "Jam", "Preserves"],
+    tags: ["Grocery","Abbey Farm","Jam","Preserves","Artisanal","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5391500345678",
     barcode: "5391500345678",
@@ -832,6 +924,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "6.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 76,
+    },
     collections: ["grocery"],
   },
   {
@@ -841,7 +937,7 @@ export const PRODUCTS: Product[] = [
     description: "Traditional thick-cut Irish back bacon rashers. Cured according to heritage butcher specifications.",
     vendor: "Adam's Village",
     productType: "Meats",
-    tags: ["Meats", "Fresh", "Bacon"],
+    tags: ["Meats","Fresh","Bacon","Irish Made"],
     availableForSale: true,
     sku: "852671009876",
     barcode: "852671009876",
@@ -873,6 +969,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "14.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 189,
+    },
     collections: ["meats"],
   },
   {
@@ -882,7 +982,7 @@ export const PRODUCTS: Product[] = [
     description: "Feel the bubbles melt. Smooth milk chocolate covering an aerated peppermint flavoured centre.",
     vendor: "Nestle",
     productType: "Candies & Sweets",
-    tags: ["Candies & Sweets", "Chocolate", "Aero"],
+    tags: ["Candies & Sweets","Chocolate","Aero","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "7613035123456",
     barcode: "7613035123456",
@@ -914,6 +1014,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "3.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.6,
+      count: 122,
+    },
     collections: ["candies-sweets"],
   },
   {
@@ -923,7 +1027,7 @@ export const PRODUCTS: Product[] = [
     description: "Natural Irish mineral water drawn from Newcastle West in County Limerick, filtered through mineral-rich limestone.",
     vendor: "Ballygowan",
     productType: "Drinks",
-    tags: ["Drinks", "Ballygowan", "Water"],
+    tags: ["Drinks","Ballygowan","Water","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5010493012345",
     barcode: "5010493012345",
@@ -955,6 +1059,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "2.29", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 65,
+    },
     collections: ["drinks"],
   },
   {
@@ -964,7 +1072,7 @@ export const PRODUCTS: Product[] = [
     description: "The classic taste of Cadbury Dairy Milk. Made with fresh Irish milk for that creamier, unforgettable chocolate experience.",
     vendor: "Cadbury Ireland",
     productType: "Candies & Sweets",
-    tags: ["Candies & Sweets", "Cadbury", "Irish Favourites"],
+    tags: ["Candies & Sweets","Cadbury","Irish Favourites","Vegetarian"],
     availableForSale: true,
     sku: "7622210987654",
     barcode: "7622210987654",
@@ -996,6 +1104,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "3.79", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 380,
+    },
     collections: ["candies-sweets"],
   },
 
@@ -1007,7 +1119,7 @@ export const PRODUCTS: Product[] = [
     description: "Festive holiday selection box featuring Cadbury Dairy Milk buttons, fudge, crunchie, and chocolate treats. Direct holiday import from Ireland.",
     vendor: "Cadbury",
     productType: "Christmas Treats",
-    tags: ["Christmas Treats", "Christmas", "Festive", "Cadbury", "Holiday Import"],
+    tags: ["Christmas Treats","Christmas","Festive","Cadbury","Holiday Import","Vegetarian","Multipack"],
     availableForSale: true,
     sku: "7622210543210",
     barcode: "7622210543210",
@@ -1039,6 +1151,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "79.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 85,
+    },
     collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
@@ -1048,7 +1164,7 @@ export const PRODUCTS: Product[] = [
     description: "Classic assortment of individually wrapped Cadbury chocolates, hazelnut whirl, caramel bite, strawberry dream, and golden barrel. A timeless Irish Christmas staple.",
     vendor: "Cadbury",
     productType: "Christmas Treats",
-    tags: ["Christmas Treats", "Christmas", "Festive", "Cadbury", "Holiday Import"],
+    tags: ["Christmas Treats","Christmas","Festive","Cadbury","Holiday Import","Vegetarian","Gluten-Free","Multipack"],
     availableForSale: true,
     sku: "7622210654321",
     barcode: "7622210654321",
@@ -1080,6 +1196,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "219.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 210,
+    },
     collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
@@ -1089,7 +1209,7 @@ export const PRODUCTS: Product[] = [
     description: "Pocket-sized holiday treat box featuring miniature Cadbury favourites. Perfect festive stocking stuffer.",
     vendor: "Cadbury",
     productType: "Christmas Treats",
-    tags: ["Christmas Treats", "Christmas", "Festive", "Cadbury"],
+    tags: ["Christmas Treats","Christmas","Festive","Cadbury","Vegetarian","Multipack"],
     availableForSale: true,
     sku: "7622210765432",
     barcode: "7622210765432",
@@ -1121,6 +1241,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "155.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.5,
+      count: 48,
+    },
     collections: ["christmas", "gifts-merchandise", "bundles"],
   },
   {
@@ -1130,7 +1254,7 @@ export const PRODUCTS: Product[] = [
     description: "Delightful stocking selection packed with Cadbury Dairy Milk bars and treat-size delights.",
     vendor: "Cadbury",
     productType: "Christmas Treats",
-    tags: ["Christmas Treats", "Christmas", "Festive", "Cadbury"],
+    tags: ["Christmas Treats","Christmas","Festive","Cadbury","Vegetarian","Multipack"],
     availableForSale: true,
     sku: "7622210876543",
     barcode: "7622210876543",
@@ -1162,6 +1286,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "109.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 94,
+    },
     collections: ["christmas", "gifts-merchandise", "bundles"],
   },
 
@@ -1173,7 +1301,7 @@ export const PRODUCTS: Product[] = [
     description: "Authentic artisanal Irish white pudding made with traditional pork, suet, oatmeal and heritage herbs. Speciality batch import from Ireland.",
     vendor: "Adam's Village",
     productType: "Exclusive Finds",
-    tags: ["Exclusive Finds", "Meats", "Artisanal", "Irish Pudding"],
+    tags: ["Exclusive Finds","Meats","Artisanal","Irish Pudding","Irish Made"],
     availableForSale: true,
     sku: "852671004321",
     barcode: "852671004321",
@@ -1205,6 +1333,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "8.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 72,
+    },
     collections: ["exclusive-finds", "meats"],
   },
   {
@@ -1214,7 +1346,7 @@ export const PRODUCTS: Product[] = [
     description: "Creamy traditional Devon custard made with West Country milk. Delicious served hot or cold over steamed puddings, crumbles, and fruit.",
     vendor: "Ambrosia",
     productType: "Exclusive Finds",
-    tags: ["Exclusive Finds", "Grocery", "Dessert", "Imported"],
+    tags: ["Exclusive Finds","Grocery","Dessert","Imported","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5000234012345",
     barcode: "5000234012345",
@@ -1246,6 +1378,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "4.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.6,
+      count: 105,
+    },
     collections: ["exclusive-finds", "grocery"],
   },
   {
@@ -1255,7 +1391,7 @@ export const PRODUCTS: Product[] = [
     description: "Small-batch artisan preserve handmade in County Laois, Ireland using open copper boiling pans. Tangy Irish garden rhubarb paired with spicy stem ginger.",
     vendor: "Abbey Farm",
     productType: "Exclusive Finds",
-    tags: ["Exclusive Finds", "Grocery", "Preserves", "Artisanal", "Irish Made"],
+    tags: ["Exclusive Finds","Grocery","Preserves","Artisanal","Irish Made","Vegan","Vegetarian","Gluten-Free"],
     availableForSale: true,
     sku: "5391500345679",
     barcode: "5391500345679",
@@ -1287,6 +1423,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "7.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.9,
+      count: 88,
+    },
     collections: ["exclusive-finds", "grocery"],
   },
   {
@@ -1296,7 +1436,7 @@ export const PRODUCTS: Product[] = [
     description: "Classic Swiss style muesli packed with rolled oats, toasted wheat flakes, juicy raisins, and roasted sliced hazelnuts and almonds. A breakfast favourite across Ireland and the UK.",
     vendor: "Alpen",
     productType: "Oats & Cereals",
-    tags: ["Oats & Cereals", "Breakfast", "Pantry", "Healthy", "Import"],
+    tags: ["Oats & Cereals","Breakfast","Pantry","Healthy","Import","Vegetarian"],
     availableForSale: true,
     sku: "5010029000123",
     barcode: "5010029000123",
@@ -1328,6 +1468,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "6.99", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.5,
+      count: 67,
+    },
     collections: ["oats-cereals", "grocery"],
   },
   {
@@ -1337,7 +1481,7 @@ export const PRODUCTS: Product[] = [
     description: "Crispy puffed whole grain rice cakes generously coated with smooth Belgian milk chocolate. Gluten-free traditional Irish tea-time biscuit alternative.",
     vendor: "Kelkin",
     productType: "Biscuits & Cookies",
-    tags: ["Biscuits & Cookies", "Gluten Free", "Snacks", "Chocolate", "Irish Brand"],
+    tags: ["Biscuits & Cookies","Gluten Free","Snacks","Chocolate","Irish Brand","Gluten-Free","Vegetarian"],
     availableForSale: true,
     sku: "5099381001234",
     barcode: "5099381001234",
@@ -1369,6 +1513,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "4.49", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.7,
+      count: 118,
+    },
     collections: ["biscuits-cookies", "crisps-snacks"],
   },
   {
@@ -1378,7 +1526,7 @@ export const PRODUCTS: Product[] = [
     description: "Official 100% washed cotton twill cap featuring The Irish Grocer Quincy clover crest embroidery. Features an adjustable antique brass clasp buckle and comfortable unstructured low profile.",
     vendor: "The Irish Grocer",
     productType: "Clothing",
-    tags: ["Clothing", "Gifts & Merchandise", "Apparel", "Merchandise", "Quincy Store"],
+    tags: ["Clothing","Gifts & Merchandise","Apparel","Merchandise","Quincy Store"],
     availableForSale: true,
     sku: "IG-CAP-GRN-01",
     barcode: "857387206501",
@@ -1418,6 +1566,10 @@ export const PRODUCTS: Product[] = [
         price: { amount: "24.00", currencyCode: "USD" },
       },
     ],
+    rating: {
+      value: 4.8,
+      count: 52,
+    },
     collections: ["clothing", "gifts-merchandise"],
   },
 ];

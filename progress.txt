@@ -180,3 +180,24 @@ Safety: preserve all existing uncommitted changes. No destructive Git commands, 
   - **Verdict:** **`CLIENT DEMO READY`**
   - All existing uncommitted user files preserved without commits, pushes, or resets.
 ---
+
+## 2026-11-05 - Milestone v2.0: Advanced Product Filtering & Discovery - Phase 1
+- **Phase:** Phase 1: Catalogue Data Enhancement & Attribute Mapping
+- **Status:** PASS (Executed and verified)
+- **Execution Mode:** GSD framework exclusively (Ralph disabled).
+- **Files Enhanced:**
+  - `src/lib/data/products.ts`:
+    - Added simulated demo data disclaimer and future Shopify metafield adapter notes.
+    - Normalized dietary & lifestyle tags to canonical values: `Vegan` (8), `Vegetarian` (28), `Gluten-Free` (13), `Irish Made` (13), `Artisanal` (5), `Multipack` (9).
+    - Added structured `rating: { value, count }` objects to 100% of products (34/34) with values between 4.3 and 4.9.
+    - Marked 2 specific products (`prod-monster-munch-6pk`, `prod-cadbury-freddo`) as `availableForSale: false` as documented sample statuses for out-of-stock filtering demonstration.
+- **Quality Gates:**
+  - `npx tsc --noEmit`: 0 errors (Exit 0).
+  - `npm run lint`: 0 warnings, 0 errors (Exit 0).
+  - `npm test`: 71/71 passing assertions in 242ms (Exit 0).
+  - `npm run build`: 32/32 routes compiled in 2.6s (Exit 0).
+  - Local dev server verified healthy (`/shop`: 200 OK, `/collections/crisps-snacks`: 200 OK).
+- **Safety & Scope:**
+  - Preserved git baseline; zero commits or pushes.
+  - Halted at Phase 1 per directive.
+---
