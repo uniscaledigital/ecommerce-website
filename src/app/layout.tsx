@@ -4,6 +4,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { DemoCheckoutModal } from "@/components/cart/DemoCheckoutModal";
 import { OrderEnquiryModal } from "@/components/enquiry/OrderEnquiryModal";
@@ -58,10 +59,11 @@ export default function RootLayout({
               Skip to main content
             </a>
             <Header />
-            <main id="main-content" className="flex-1 w-full max-w-none m-0 p-0 focus:outline-none" tabIndex={-1}>
+            <main id="main-content" className="flex-1 w-full max-w-none m-0 p-0 focus:outline-none pb-20 md:pb-0" tabIndex={-1}>
               {children}
             </main>
             <Footer />
+            <MobileBottomNav />
             <CartDrawer />
             <DemoCheckoutModal />
             <OrderEnquiryModal />

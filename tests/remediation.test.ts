@@ -373,6 +373,33 @@ test("Phase 5 Responsive & Viewport Usability: CSS Invariants & Touch Targets", 
     );
     assert.ok(cartCode.includes("min-w-[44px] min-h-[44px]"));
   });
+
+  await t.test("verifies MobileBottomNav touch targets >= 44x44px and desktop visual lock", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const navCode = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/layout/MobileBottomNav.tsx"),
+      "utf-8"
+    );
+    assert.ok(navCode.includes("min-w-[44px]"));
+    assert.ok(navCode.includes("min-h-[48px]") || navCode.includes("min-h-[44px]"));
+    assert.ok(navCode.includes("md:hidden"), "MobileBottomNav must be hidden on desktop (md:hidden)");
+    assert.ok(navCode.includes('href="/"'), "Missing Home destination");
+    assert.ok(navCode.includes('href="/shop"'), "Missing Shop destination");
+    assert.ok(navCode.includes('href="/search"'), "Missing Search destination");
+    assert.ok(navCode.includes('openCart'), "Missing Cart trigger");
+    assert.ok(navCode.includes('href="/account"'), "Missing Account destination");
+  });
+
+  await t.test("verifies MobileCategoryScrollRail minimum touch target height", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const railCode = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/products/filters/MobileCategoryScrollRail.tsx"),
+      "utf-8"
+    );
+    assert.ok(railCode.includes("min-h-[40px]") || railCode.includes("min-h-[44px]"));
+  });
 });
 
 test("Phase 6 Accessibility & SEO: Endpoints, Metadata & Schema.org Verification", async (t) => {
@@ -466,5 +493,48 @@ test("Phase 6 Accessibility & SEO: Endpoints, Metadata & Schema.org Verification
     assert.ok(layoutCode.includes('href="#main-content"'));
     assert.ok(layoutCode.includes('id="main-content"'));
     assert.ok(layoutCode.includes("Skip to main content"));
+  });
+});
+
+test("Phase 10: Mobile Product Discovery & 2-Column Grid Architecture", async (t) => {
+  const fs = await import("node:fs");
+  const path = await import("node:path");
+
+  await t.test("ProductCard guarantees minimum 44px touch targets on mobile", () => {
+    const code = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/products/ProductCard.tsx"),
+      "utf-8"
+    );
+    assert.ok(code.includes("min-h-[44px]"), "CTA must enforce min-h-[44px]");
+    assert.ok(code.includes("rounded-full"), "CTA must preserve rounded pill style");
+    assert.ok(code.includes("bg-[#14532D]"), "Must preserve Irish Grocer brand color");
+  });
+
+  await t.test("ProductImage guarantees 44x44px minimum tap target for wishlist button", () => {
+    const code = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/products/ProductImage.tsx"),
+      "utf-8"
+    );
+    assert.ok(code.includes("min-w-[44px] min-h-[44px]"), "Wishlist button must have min-w-[44px] min-h-[44px]");
+    assert.ok(code.includes("aria-label"), "Wishlist button must have accessible label");
+  });
+
+  await t.test("ProductGrid defaults to 2-column mobile layout", () => {
+    const code = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/products/ProductGrid.tsx"),
+      "utf-8"
+    );
+    assert.ok(code.includes("grid-cols-2"), "ProductGrid must use grid-cols-2 on mobile");
+  });
+
+  await t.test("MobileHomeShoppingView integrates sticky search and filter controls bar", () => {
+    const code = fs.readFileSync(
+      path.resolve(__dirname, "../src/components/home/MobileHomeShoppingView.tsx"),
+      "utf-8"
+    );
+    assert.ok(code.includes("sticky top-[120px]"), "Must include sticky docked controls bar");
+    assert.ok(code.includes("setSearchQuery"), "Must support in-view live product filtering");
+    assert.ok(code.includes("SlidersHorizontal"), "Must include filter drawer trigger");
+    assert.ok(code.includes("min-h-[44px]"), "Filter trigger must be min-h-[44px]");
   });
 });

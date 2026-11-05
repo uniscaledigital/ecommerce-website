@@ -45,10 +45,10 @@ export function ProductGrid({
 
   const gridColsClass =
     columns === 4
-      ? "grid-cols-1 min-[340px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       : columns === 3
-      ? "grid-cols-1 min-[340px]:grid-cols-2 md:grid-cols-3"
-      : "grid-cols-1 min-[340px]:grid-cols-2";
+      ? "grid-cols-2 md:grid-cols-3"
+      : "grid-cols-2";
 
   return (
     <>
@@ -63,7 +63,7 @@ export function ProductGrid({
           ))}
         </div>
       ) : (
-        <div className={`grid ${gridColsClass} gap-3 sm:gap-4 md:gap-5 lg:gap-6`}>
+        <div className={`grid ${gridColsClass} gap-2.5 sm:gap-4 md:gap-5 lg:gap-6`}>
           {products.map((product) => (
             <ProductCard
               key={product.id}

@@ -89,7 +89,7 @@ export function ProductImage({
         onClick={handleWishlistClick}
         aria-label={wishlisted ? `Remove ${product.title} from wishlist` : `Add ${product.title} to wishlist`}
         aria-pressed={wishlisted}
-        className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white shadow-[0_2px_8px_rgba(20,83,45,0.08)] border border-[#D0E7C9]/80 flex items-center justify-center text-[#14532D] hover:scale-110 hover:shadow-md hover:bg-[#FDF4E3] active:scale-95 transition-all z-10 focus:outline-none focus:ring-2 focus:ring-[#22C55E]"
+        className="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white shadow-[0_2px_8px_rgba(20,83,45,0.08)] border border-[#D0E7C9]/80 flex items-center justify-center text-[#14532D] hover:scale-110 hover:shadow-md hover:bg-[#FDF4E3] active:scale-95 transition-all z-10 focus:outline-none focus:ring-2 focus:ring-[#22C55E]"
       >
         <Heart
           className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${

@@ -110,7 +110,7 @@ export function OrderEnquiryModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto"
+      className="fixed inset-0 z-[1200] overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="order-enquiry-title"

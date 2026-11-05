@@ -40,7 +40,7 @@ export function CartDrawer() {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-hidden"
+      className="fixed inset-0 z-[1150] overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label="Shopping basket drawer"

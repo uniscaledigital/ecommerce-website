@@ -274,7 +274,7 @@ export function MobileFilterDrawer({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs md:hidden animate-in fade-in duration-200"
+      className="fixed inset-0 z-[1100] flex justify-end bg-black/60 backdrop-blur-xs md:hidden animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
       aria-labelledby="mobile-filter-title"

@@ -53,7 +53,7 @@ export function ProductCard({
       {/* Lower Product Content Area */}
       <div
         className={`flex flex-col flex-1 justify-between bg-[#EDF8E9] ${
-          isCompact ? "p-3 sm:p-4" : "p-3 sm:p-4 md:p-5"
+          isCompact ? "p-2.5 sm:p-4" : "p-3 sm:p-4 md:p-5"
         }`}
       >
         <div>
@@ -107,7 +107,7 @@ export function ProductCard({
           {!isAuthenticated ? (
             <Link
               href="/account/login"
-              className="w-full h-10 sm:h-11 md:h-12 px-2 rounded-full border border-[#62A86A] bg-white/80 hover:bg-white text-[#14532D] font-semibold text-[11px] xs:text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs hover:border-[#14532D] text-center"
+              className="w-full min-h-[44px] h-11 sm:h-11 md:h-12 px-2 rounded-full border border-[#62A86A] bg-white/80 hover:bg-white text-[#14532D] font-semibold text-[11px] xs:text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs hover:border-[#14532D] text-center"
             >
               <span>Log in to view prices</span>
             </Link>
@@ -128,7 +128,7 @@ export function ProductCard({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={!product.availableForSale}
-                className="w-full h-10 sm:h-11 md:h-12 px-2 rounded-full bg-[#14532D] hover:bg-[#0F3D21] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 transition-colors disabled:opacity-50 shadow-xs active:scale-[0.99]"
+                className="w-full min-h-[44px] h-11 sm:h-11 md:h-12 px-2 rounded-full bg-[#14532D] hover:bg-[#0F3D21] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 transition-colors disabled:opacity-50 shadow-xs active:scale-[0.99]"
               >
                 {isAdded ? (
                   <>
