@@ -1,48 +1,44 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   X,
   RotateCcw,
   Search,
-  Check,
   Star,
   SlidersHorizontal,
 } from "lucide-react";
-import { Collection } from "@/types";
-import { FilterState, FacetCounts } from "@/lib/filtering/types";
-import { CANONICAL_DIETARY_OPTIONS } from "@/lib/filtering/engine";
+import { Collection, Product } from "@/types";
+import { FilterState, AvailabilityFilter } from "@/lib/filtering/types";
+import {
+  CANONICAL_DIETARY_OPTIONS,
+  filterProducts,
+  calculateFacetCounts,
+  getDefaultFilterState,
+} from "@/lib/filtering/engine";
 import { PriceRangeSlider } from "./PriceRangeSlider";
 
 interface MobileFilterDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   triggerRef?: React.RefObject<HTMLElement | null>;
-  state: FilterState;
-  facetCounts: FacetCounts;
+  state: FilterState; // Committed state from parent
+  products: Product[]; // Used to calculate real-time draft counts using the central engine
   collections: Collection[];
   allBrands: string[];
   allProductTypes: string[];
   defaultBounds: [number, number];
-  matchingCount: number;
-  hasActiveFilters: boolean;
-  onSetAvailability: (val: "all" | "in_stock" | "out_of_stock") => void;
-  onToggleCategory: (cat: string) => void;
-  onToggleBrand: (brand: string) => void;
-  onSetPriceRange: (range: [number, number]) => void;
-  onToggleProductType: (type: string) => void;
-  onToggleDietary: (diet: string) => void;
-  onSetMinRating: (rating: number) => void;
-  onClearAll: () => void;
+  onApply: (draftState: FilterState) => void;
+  initialCategory?: string;
 }
 
 type FilterTab =
-  | "availability"
   | "categories"
   | "brands"
   | "price"
-  | "types"
+  | "availability"
   | "dietary"
+  | "types"
   | "rating";
 
 export function MobileFilterDrawer({
@@ -50,32 +46,29 @@ export function MobileFilterDrawer({
   onClose,
   triggerRef,
   state,
-  facetCounts,
+  products,
   collections,
   allBrands,
   allProductTypes,
   defaultBounds,
-  matchingCount,
-  hasActiveFilters,
-  onSetAvailability,
-  onToggleCategory,
-  onToggleBrand,
-  onSetPriceRange,
-  onToggleProductType,
-  onToggleDietary,
-  onSetMinRating,
-  onClearAll,
+  onApply,
+  initialCategory,
 }: MobileFilterDrawerProps) {
   const [activeTab, setActiveTab] = useState<FilterTab>("categories");
   const [categorySearch, setCategorySearch] = useState("");
   const [brandSearch, setBrandSearch] = useState("");
 
+  // ISOLATED DRAFT FILTER STATE:
+  // Maintained independently from committed state while drawer is open.
+  const [draft, setDraft] = useState<FilterState>(() => state);
+
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Body scroll lock & focus management
+  // Synchronize draft with committed state whenever drawer opens
   useEffect(() => {
     if (isOpen) {
+      setDraft(state);
       document.body.style.overflow = "hidden";
       setTimeout(() => {
         closeButtonRef.current?.focus();
@@ -88,7 +81,7 @@ export function MobileFilterDrawer({
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, triggerRef]);
+  }, [isOpen, state, triggerRef]);
 
   // Keyboard Escape & Focus Trapping
   useEffect(() => {
@@ -97,7 +90,7 @@ export function MobileFilterDrawer({
 
       if (e.key === "Escape") {
         e.preventDefault();
-        onClose();
+        onClose(); // Closes without applying — draft is discarded
         return;
       }
 
@@ -128,7 +121,94 @@ export function MobileFilterDrawer({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Search filters
+  // Draft Mutations (Mutate only draft state)
+  const setDraftAvailability = useCallback((availability: AvailabilityFilter) => {
+    setDraft((prev) => ({ ...prev, availability }));
+  }, []);
+
+  const toggleDraftCategory = useCallback((category: string) => {
+    setDraft((prev) => {
+      const exists = prev.categories.includes(category);
+      return {
+        ...prev,
+        categories: exists
+          ? prev.categories.filter((c) => c !== category)
+          : [...prev.categories, category],
+      };
+    });
+  }, []);
+
+  const toggleDraftBrand = useCallback((brand: string) => {
+    setDraft((prev) => {
+      const exists = prev.brands.includes(brand);
+      return {
+        ...prev,
+        brands: exists
+          ? prev.brands.filter((b) => b !== brand)
+          : [...prev.brands, brand],
+      };
+    });
+  }, []);
+
+  const setDraftPriceRange = useCallback((range: [number, number]) => {
+    setDraft((prev) => ({ ...prev, priceRange: range }));
+  }, []);
+
+  const toggleDraftProductType = useCallback((type: string) => {
+    setDraft((prev) => {
+      const exists = prev.productTypes.includes(type);
+      return {
+        ...prev,
+        productTypes: exists
+          ? prev.productTypes.filter((t) => t !== type)
+          : [...prev.productTypes, type],
+      };
+    });
+  }, []);
+
+  const toggleDraftDietary = useCallback((diet: string) => {
+    setDraft((prev) => {
+      const exists = prev.dietary.includes(diet);
+      return {
+        ...prev,
+        dietary: exists
+          ? prev.dietary.filter((d) => d !== diet)
+          : [...prev.dietary, diet],
+      };
+    });
+  }, []);
+
+  const setDraftMinRating = useCallback((minRating: number) => {
+    setDraft((prev) => ({
+      ...prev,
+      minRating: prev.minRating === minRating ? 0 : minRating,
+    }));
+  }, []);
+
+  const resetDraft = useCallback(() => {
+    setDraft({
+      ...getDefaultFilterState(defaultBounds),
+      categories: initialCategory ? [initialCategory] : [],
+      viewMode: state.viewMode,
+      sortBy: state.sortBy,
+    });
+  }, [defaultBounds, initialCategory, state.viewMode, state.sortBy]);
+
+  const handleApply = () => {
+    onApply(draft);
+    onClose();
+  };
+
+  // Real-time dynamic counts derived from the draft state using the central engine
+  const draftMatchingCount = useMemo(() => {
+    return filterProducts(products, draft).length;
+  }, [products, draft]);
+
+  const draftFacetCounts = useMemo(() => {
+    return calculateFacetCounts(products, draft);
+  }, [products, draft]);
+
+  // Search filters inside modal
   const filteredCollections = useMemo(() => {
     if (!categorySearch.trim()) return collections;
     const q = categorySearch.toLowerCase();
@@ -141,44 +221,54 @@ export function MobileFilterDrawer({
     return allBrands.filter((b) => b.toLowerCase().includes(q));
   }, [allBrands, brandSearch]);
 
+  const hasDraftFilters =
+    draft.availability !== "all" ||
+    (draft.categories.length > 0 && (!initialCategory || draft.categories[0] !== initialCategory)) ||
+    draft.brands.length > 0 ||
+    draft.priceRange[0] > defaultBounds[0] ||
+    draft.priceRange[1] < defaultBounds[1] ||
+    draft.productTypes.length > 0 ||
+    draft.dietary.length > 0 ||
+    draft.minRating > 0;
+
   if (!isOpen) return null;
 
   const tabs: Array<{ id: FilterTab; label: string; activeCount: number }> = [
     {
       id: "categories",
       label: "Category",
-      activeCount: state.categories.length,
+      activeCount: draft.categories.length,
     },
     {
       id: "brands",
       label: "Brand",
-      activeCount: state.brands.length,
+      activeCount: draft.brands.length,
     },
     {
       id: "price",
       label: "Price",
       activeCount:
-        state.priceRange[0] > defaultBounds[0] || state.priceRange[1] < defaultBounds[1] ? 1 : 0,
+        draft.priceRange[0] > defaultBounds[0] || draft.priceRange[1] < defaultBounds[1] ? 1 : 0,
     },
     {
       id: "availability",
       label: "Availability",
-      activeCount: state.availability !== "all" ? 1 : 0,
+      activeCount: draft.availability !== "all" ? 1 : 0,
     },
     {
       id: "dietary",
       label: "Dietary",
-      activeCount: state.dietary.length,
+      activeCount: draft.dietary.length,
     },
     {
       id: "types",
       label: "Product Type",
-      activeCount: state.productTypes.length,
+      activeCount: draft.productTypes.length,
     },
     {
       id: "rating",
       label: "Rating",
-      activeCount: state.minRating > 0 ? 1 : 0,
+      activeCount: draft.minRating > 0 ? 1 : 0,
     },
   ];
 
@@ -200,22 +290,22 @@ export function MobileFilterDrawer({
             <h2 id="mobile-filter-title" className="font-serif-display text-base font-bold text-[#14532D]">
               Filters
             </h2>
-            {hasActiveFilters && (
+            {hasDraftFilters && (
               <span className="px-2 py-0.5 rounded-full bg-[#E8F5E9] text-[11px] font-bold text-[#14532D]">
-                Active
+                Modified
               </span>
             )}
           </div>
 
           <div className="flex items-center gap-3">
-            {hasActiveFilters && (
+            {hasDraftFilters && (
               <button
                 type="button"
-                onClick={onClearAll}
+                onClick={resetDraft}
                 className="text-xs font-bold text-[#14532D] hover:text-[#064E3B] flex items-center gap-1 min-h-[44px] min-w-[44px] justify-center"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Clear</span>
+                <span>Reset</span>
               </button>
             )}
 
@@ -277,8 +367,8 @@ export function MobileFilterDrawer({
 
                 <div className="space-y-1">
                   {filteredCollections.map((col) => {
-                    const isSelected = state.categories.includes(col.handle);
-                    const count = facetCounts.categories[col.handle] || 0;
+                    const isSelected = draft.categories.includes(col.handle);
+                    const count = draftFacetCounts.categories[col.handle] || 0;
                     return (
                       <label
                         key={col.handle}
@@ -288,7 +378,7 @@ export function MobileFilterDrawer({
                           <input
                             type="checkbox"
                             checked={isSelected}
-                            onChange={() => onToggleCategory(col.handle)}
+                            onChange={() => toggleDraftCategory(col.handle)}
                             className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                           />
                           <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
@@ -319,8 +409,8 @@ export function MobileFilterDrawer({
 
                 <div className="space-y-1">
                   {filteredBrands.map((brand) => {
-                    const isSelected = state.brands.includes(brand);
-                    const count = facetCounts.brands[brand] || 0;
+                    const isSelected = draft.brands.includes(brand);
+                    const count = draftFacetCounts.brands[brand] || 0;
                     return (
                       <label
                         key={brand}
@@ -330,7 +420,7 @@ export function MobileFilterDrawer({
                           <input
                             type="checkbox"
                             checked={isSelected}
-                            onChange={() => onToggleBrand(brand)}
+                            onChange={() => toggleDraftBrand(brand)}
                             className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                           />
                           <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
@@ -354,8 +444,8 @@ export function MobileFilterDrawer({
                 <PriceRangeSlider
                   min={defaultBounds[0]}
                   max={defaultBounds[1]}
-                  value={state.priceRange}
-                  onChange={onSetPriceRange}
+                  value={draft.priceRange}
+                  onChange={setDraftPriceRange}
                 />
               </div>
             )}
@@ -364,9 +454,9 @@ export function MobileFilterDrawer({
             {activeTab === "availability" && (
               <div className="space-y-2">
                 {[
-                  { id: "all", label: "All Items", count: facetCounts.availability.all },
-                  { id: "in_stock", label: "In Stock Only", count: facetCounts.availability.inStock },
-                  { id: "out_of_stock", label: "Out of Stock", count: facetCounts.availability.outOfStock },
+                  { id: "all", label: "All Items", count: draftFacetCounts.availability.all },
+                  { id: "in_stock", label: "In Stock Only", count: draftFacetCounts.availability.inStock },
+                  { id: "out_of_stock", label: "Out of Stock", count: draftFacetCounts.availability.outOfStock },
                 ].map((opt) => (
                   <label
                     key={opt.id}
@@ -375,9 +465,9 @@ export function MobileFilterDrawer({
                     <div className="flex items-center gap-2.5">
                       <input
                         type="radio"
-                        name="availability-mobile"
-                        checked={state.availability === opt.id}
-                        onChange={() => onSetAvailability(opt.id as any)}
+                        name="availability-mobile-draft"
+                        checked={draft.availability === opt.id}
+                        onChange={() => setDraftAvailability(opt.id as any)}
                         className="w-4 h-4 text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                       />
                       <span className="font-medium text-[#1F2937]">{opt.label}</span>
@@ -392,8 +482,8 @@ export function MobileFilterDrawer({
             {activeTab === "dietary" && (
               <div className="space-y-1">
                 {CANONICAL_DIETARY_OPTIONS.map((tag) => {
-                  const isSelected = state.dietary.includes(tag);
-                  const count = facetCounts.dietary[tag] || 0;
+                  const isSelected = draft.dietary.includes(tag);
+                  const count = draftFacetCounts.dietary[tag] || 0;
                   return (
                     <label
                       key={tag}
@@ -403,7 +493,7 @@ export function MobileFilterDrawer({
                         <input
                           type="checkbox"
                           checked={isSelected}
-                          onChange={() => onToggleDietary(tag)}
+                          onChange={() => toggleDraftDietary(tag)}
                           className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                         />
                         <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
@@ -421,8 +511,8 @@ export function MobileFilterDrawer({
             {activeTab === "types" && (
               <div className="space-y-1">
                 {allProductTypes.map((type) => {
-                  const isSelected = state.productTypes.includes(type);
-                  const count = facetCounts.productTypes[type] || 0;
+                  const isSelected = draft.productTypes.includes(type);
+                  const count = draftFacetCounts.productTypes[type] || 0;
                   return (
                     <label
                       key={type}
@@ -432,7 +522,7 @@ export function MobileFilterDrawer({
                         <input
                           type="checkbox"
                           checked={isSelected}
-                          onChange={() => onToggleProductType(type)}
+                          onChange={() => toggleDraftProductType(type)}
                           className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
                         />
                         <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
@@ -450,17 +540,17 @@ export function MobileFilterDrawer({
             {activeTab === "rating" && (
               <div className="space-y-2">
                 {[
-                  { min: 4.0, label: "4★ & above", count: facetCounts.ratings.fourPlus },
-                  { min: 3.0, label: "3★ & above", count: facetCounts.ratings.threePlus },
-                  { min: 2.0, label: "2★ & above", count: facetCounts.ratings.twoPlus },
-                  { min: 1.0, label: "1★ & above", count: facetCounts.ratings.onePlus },
+                  { min: 4.0, label: "4★ & above", count: draftFacetCounts.ratings.fourPlus },
+                  { min: 3.0, label: "3★ & above", count: draftFacetCounts.ratings.threePlus },
+                  { min: 2.0, label: "2★ & above", count: draftFacetCounts.ratings.twoPlus },
+                  { min: 1.0, label: "1★ & above", count: draftFacetCounts.ratings.onePlus },
                 ].map((tier) => {
-                  const isSelected = state.minRating === tier.min;
+                  const isSelected = draft.minRating === tier.min;
                   return (
                     <button
                       key={tier.min}
                       type="button"
-                      onClick={() => onSetMinRating(tier.min)}
+                      onClick={() => setDraftMinRating(tier.min)}
                       className={`flex items-center justify-between w-full text-left px-2 py-2.5 rounded-md transition-colors min-h-[44px] ${
                         isSelected ? "bg-[#E8F5E9] text-[#14532D] font-bold" : "hover:bg-[#FFFAF1] text-[#1F2937]"
                       }`}
@@ -487,24 +577,24 @@ export function MobileFilterDrawer({
           </div>
         </div>
 
-        {/* Sticky Bottom Bar */}
+        {/* Sticky Bottom Action Bar */}
         <div className="p-3 border-t border-[#E8DFCF] bg-white flex items-center gap-3">
           <button
             type="button"
-            onClick={onClearAll}
-            disabled={!hasActiveFilters}
+            onClick={resetDraft}
+            disabled={!hasDraftFilters}
             className="px-4 py-3 rounded-xl border border-[#E8DFCF] text-xs font-bold text-[#14532D] bg-[#F7EBD8] hover:bg-[#EADFC9] disabled:opacity-40 min-h-[48px]"
           >
             Clear All
           </button>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleApply}
             className="flex-1 py-3 px-4 rounded-xl bg-[#14532D] hover:bg-[#064E3B] text-white text-xs font-bold transition-colors shadow-md min-h-[48px] flex items-center justify-center gap-2"
           >
             <span>Apply Filters</span>
             <span className="px-2 py-0.5 rounded-full bg-white/20 text-white text-[11px]">
-              {matchingCount}
+              {draftMatchingCount}
             </span>
           </button>
         </div>
@@ -512,4 +602,3 @@ export function MobileFilterDrawer({
     </div>
   );
 }
-

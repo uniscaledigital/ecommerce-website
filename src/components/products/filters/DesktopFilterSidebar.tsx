@@ -22,6 +22,7 @@ interface DesktopFilterSidebarProps {
   allProductTypes: string[];
   defaultBounds: [number, number];
   hasActiveFilters: boolean;
+  initialCategory?: string;
   onSetAvailability: (val: "all" | "in_stock" | "out_of_stock") => void;
   onToggleCategory: (cat: string) => void;
   onToggleBrand: (brand: string) => void;
@@ -40,6 +41,7 @@ export function DesktopFilterSidebar({
   allProductTypes,
   defaultBounds,
   hasActiveFilters,
+  initialCategory,
   onSetAvailability,
   onToggleCategory,
   onToggleBrand,
@@ -188,43 +190,61 @@ export function DesktopFilterSidebar({
 
         {openSections.categories && (
           <div className="mt-3 space-y-2.5">
-            {/* Search within Categories */}
-            <div className="relative">
-              <Search className="w-3.5 h-3.5 text-[#6B7280] absolute left-2.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={categorySearch}
-                onChange={(e) => setCategorySearch(e.target.value)}
-                className="w-full pl-8 pr-2.5 py-1.5 bg-white border border-[#E8DFCF] rounded-md text-xs text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
-              />
-            </div>
+            {initialCategory ? (
+              <div className="p-3 rounded-xl bg-[#E8F5E9] border border-[#A7D7A9] text-xs font-semibold text-[#14532D] flex items-center justify-between shadow-xs">
+                <div>
+                  <span className="block text-[10px] uppercase tracking-wider font-bold text-[#14532D]/70">
+                    Collection Scope
+                  </span>
+                  <span className="font-bold text-sm">
+                    {collections.find((c) => c.handle === initialCategory)?.title || initialCategory}
+                  </span>
+                </div>
+                <span className="text-[11px] font-bold text-[#14532D] bg-white px-2 py-0.5 rounded-full border border-[#A7D7A9]">
+                  Locked
+                </span>
+              </div>
+            ) : (
+              <>
+                {/* Search within Categories */}
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-[#6B7280] absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search categories..."
+                    value={categorySearch}
+                    onChange={(e) => setCategorySearch(e.target.value)}
+                    className="w-full pl-8 pr-2.5 py-1.5 bg-white border border-[#E8DFCF] rounded-md text-xs text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
+                  />
+                </div>
 
-            <div className="max-h-48 overflow-y-auto pr-1 space-y-1.5 text-xs">
-              {filteredCollections.map((col) => {
-                const isSelected = state.categories.includes(col.handle);
-                const count = facetCounts.categories[col.handle] || 0;
-                return (
-                  <label
-                    key={col.handle}
-                    className="flex items-center justify-between cursor-pointer py-1 px-1 rounded-md hover:bg-[#F7EBD8] transition-colors"
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => onToggleCategory(col.handle)}
-                        className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
-                      />
-                      <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
-                        {col.title}
-                      </span>
-                    </div>
-                    <span className="text-[11px] text-[#6B7280]">({count})</span>
-                  </label>
-                );
-              })}
-            </div>
+                <div className="max-h-48 overflow-y-auto pr-1 space-y-1.5 text-xs">
+                  {filteredCollections.map((col) => {
+                    const isSelected = state.categories.includes(col.handle);
+                    const count = facetCounts.categories[col.handle] || 0;
+                    return (
+                      <label
+                        key={col.handle}
+                        className="flex items-center justify-between cursor-pointer py-1 px-1 rounded-md hover:bg-[#F7EBD8] transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => onToggleCategory(col.handle)}
+                            className="w-4 h-4 rounded text-[#14532D] focus:ring-[#14532D] border-[#E8DFCF]"
+                          />
+                          <span className={`text-xs ${isSelected ? "font-bold text-[#14532D]" : "text-[#1F2937]"}`}>
+                            {col.title}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-[#6B7280]">({count})</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

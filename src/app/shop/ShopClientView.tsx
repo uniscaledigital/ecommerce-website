@@ -68,6 +68,7 @@ export function ShopClientView({
     setMinRating,
     setSortBy,
     setViewMode,
+    commitDraftState,
     removeChip,
     clearAllFilters,
   } = useProductFilters({
@@ -118,6 +119,7 @@ export function ShopClientView({
         viewMode={state.viewMode}
         gridColumns={gridColumns}
         activeChips={activeChips}
+        mobileTriggerRef={mobileFilterTriggerRef}
         onOpenMobileFilter={() => setIsMobileDrawerOpen(true)}
         onSortChange={setSortBy}
         onViewModeChange={setViewMode}
@@ -138,6 +140,7 @@ export function ShopClientView({
             allProductTypes={allProductTypes}
             defaultBounds={defaultBounds}
             hasActiveFilters={hasActiveFilters}
+            initialCategory={initialCategory}
             onSetAvailability={setAvailability}
             onToggleCategory={toggleCategory}
             onToggleBrand={toggleBrand}
@@ -221,21 +224,16 @@ export function ShopClientView({
         onClose={() => setIsMobileDrawerOpen(false)}
         triggerRef={mobileFilterTriggerRef}
         state={state}
-        facetCounts={facetCounts}
+        products={initialProducts}
         collections={collections}
         allBrands={allBrands}
         allProductTypes={allProductTypes}
         defaultBounds={defaultBounds}
-        matchingCount={matchingCount}
-        hasActiveFilters={hasActiveFilters}
-        onSetAvailability={setAvailability}
-        onToggleCategory={toggleCategory}
-        onToggleBrand={toggleBrand}
-        onSetPriceRange={setPriceRange}
-        onToggleProductType={toggleProductType}
-        onToggleDietary={toggleDietary}
-        onSetMinRating={setMinRating}
-        onClearAll={clearAllFilters}
+        onApply={(draft) => {
+          commitDraftState(draft);
+          setIsMobileDrawerOpen(false);
+        }}
+        initialCategory={initialCategory}
       />
     </div>
   );

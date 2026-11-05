@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { Product } from "@/types";
 import {
   FilterState,
@@ -15,7 +15,6 @@ import {
   filterProducts,
   calculateFacetCounts,
   getActiveChips,
-  DEFAULT_PRICE_BOUNDS,
 } from "@/lib/filtering/engine";
 
 interface UseProductFiltersProps {
@@ -25,13 +24,123 @@ interface UseProductFiltersProps {
   syncUrl?: boolean;
 }
 
+const VALID_SORT_OPTIONS: SortOption[] = [
+  "relevance",
+  "alphabetical-az",
+  "alphabetical-za",
+  "price-low-high",
+  "price-high-low",
+  "rating-high-low",
+];
+
+const FILTER_QUERY_KEYS = [
+  "availability",
+  "categories",
+  "brands",
+  "min_price",
+  "max_price",
+  "types",
+  "dietary",
+  "min_rating",
+  "sort",
+  "view",
+  "q",
+];
+
+export function parseFilterStateFromParams(
+  searchParams: URLSearchParams | null,
+  defaultBounds: [number, number],
+  initialCategory?: string
+): FilterState {
+  const base = getDefaultFilterState(defaultBounds);
+
+  if (initialCategory) {
+    base.categories = [initialCategory];
+  }
+
+  if (!searchParams) return base;
+
+  // 1. Availability Sanitization
+  const availParam = searchParams.get("availability") as AvailabilityFilter;
+  if (availParam && ["all", "in_stock", "out_of_stock"].includes(availParam)) {
+    base.availability = availParam;
+  }
+
+  // 2. Categories
+  const catParam = searchParams.get("categories");
+  if (catParam && !initialCategory) {
+    const cats = catParam.split(",").map((c) => c.trim()).filter(Boolean);
+    if (cats.length > 0) base.categories = cats;
+  }
+
+  // 3. Brands
+  const brandParam = searchParams.get("brands");
+  if (brandParam) {
+    const brands = brandParam.split(",").map((b) => b.trim()).filter(Boolean);
+    if (brands.length > 0) base.brands = brands;
+  }
+
+  // 4. Price Sanitization & Clamping
+  const minPriceParam = searchParams.get("min_price");
+  const maxPriceParam = searchParams.get("max_price");
+  if (minPriceParam || maxPriceParam) {
+    let min = minPriceParam ? parseFloat(minPriceParam) : defaultBounds[0];
+    let max = maxPriceParam ? parseFloat(maxPriceParam) : defaultBounds[1];
+    if (isNaN(min) || min < defaultBounds[0]) min = defaultBounds[0];
+    if (isNaN(max) || max > defaultBounds[1]) max = defaultBounds[1];
+    if (min <= max) {
+      base.priceRange = [min, max];
+    }
+  }
+
+  // 5. Product Types
+  const typeParam = searchParams.get("types");
+  if (typeParam) {
+    const types = typeParam.split(",").map((t) => t.trim()).filter(Boolean);
+    if (types.length > 0) base.productTypes = types;
+  }
+
+  // 6. Dietary
+  const dietParam = searchParams.get("dietary");
+  if (dietParam) {
+    const diets = dietParam.split(",").map((d) => d.trim()).filter(Boolean);
+    if (diets.length > 0) base.dietary = diets;
+  }
+
+  // 7. Rating Sanitization
+  const ratingParam = searchParams.get("min_rating");
+  if (ratingParam) {
+    const rating = parseFloat(ratingParam);
+    if (!isNaN(rating) && rating >= 1 && rating <= 5) {
+      base.minRating = Math.round(rating * 10) / 10;
+    }
+  }
+
+  // 8. Sort Option Sanitization
+  const sortParam = searchParams.get("sort") as SortOption;
+  if (sortParam && VALID_SORT_OPTIONS.includes(sortParam)) {
+    base.sortBy = sortParam;
+  }
+
+  // 9. View Mode
+  const viewParam = searchParams.get("view") as ViewMode;
+  if (viewParam && (viewParam === "grid" || viewParam === "list")) {
+    base.viewMode = viewParam;
+  }
+
+  // 10. Search Query
+  const queryParam = searchParams.get("q");
+  if (queryParam) base.searchQuery = queryParam.trim();
+
+  return base;
+}
+
 export function useProductFilters({
   products,
   categoryTitleMap = {},
   initialCategory,
   syncUrl = true,
 }: UseProductFiltersProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -51,76 +160,13 @@ export function useProductFilters({
 
   // Initial state derived from URL or props
   const [state, setState] = useState<FilterState>(() => {
-    const base = getDefaultFilterState(defaultBounds);
-
-    if (initialCategory) {
-      base.categories = [initialCategory];
-    }
-
-    if (!searchParams) return base;
-
-    const availParam = searchParams.get("availability") as AvailabilityFilter;
-    if (availParam && ["all", "in_stock", "out_of_stock"].includes(availParam)) {
-      base.availability = availParam;
-    }
-
-    const catParam = searchParams.get("categories");
-    if (catParam) {
-      const cats = catParam.split(",").map((c) => c.trim()).filter(Boolean);
-      if (cats.length > 0) base.categories = cats;
-    }
-
-    const brandParam = searchParams.get("brands");
-    if (brandParam) {
-      const brands = brandParam.split(",").map((b) => b.trim()).filter(Boolean);
-      if (brands.length > 0) base.brands = brands;
-    }
-
-    const minPriceParam = searchParams.get("min_price");
-    const maxPriceParam = searchParams.get("max_price");
-    if (minPriceParam || maxPriceParam) {
-      const min = minPriceParam ? parseFloat(minPriceParam) : defaultBounds[0];
-      const max = maxPriceParam ? parseFloat(maxPriceParam) : defaultBounds[1];
-      if (!isNaN(min) && !isNaN(max) && min <= max) {
-        base.priceRange = [min, max];
-      }
-    }
-
-    const typeParam = searchParams.get("types");
-    if (typeParam) {
-      const types = typeParam.split(",").map((t) => t.trim()).filter(Boolean);
-      if (types.length > 0) base.productTypes = types;
-    }
-
-    const dietParam = searchParams.get("dietary");
-    if (dietParam) {
-      const diets = dietParam.split(",").map((d) => d.trim()).filter(Boolean);
-      if (diets.length > 0) base.dietary = diets;
-    }
-
-    const ratingParam = searchParams.get("min_rating");
-    if (ratingParam) {
-      const rating = parseFloat(ratingParam);
-      if (!isNaN(rating) && rating > 0) base.minRating = rating;
-    }
-
-    const sortParam = searchParams.get("sort") as SortOption;
-    if (sortParam) base.sortBy = sortParam;
-
-    const viewParam = searchParams.get("view") as ViewMode;
-    if (viewParam && (viewParam === "grid" || viewParam === "list")) {
-      base.viewMode = viewParam;
-    }
-
-    const queryParam = searchParams.get("q");
-    if (queryParam) base.searchQuery = queryParam;
-
-    return base;
+    const params = searchParams ? new URLSearchParams(searchParams.toString()) : null;
+    return parseFilterStateFromParams(params, defaultBounds, initialCategory);
   });
 
   const isFirstRender = useRef(true);
 
-  // Sync state changes to URL search params
+  // Sync state changes to URL search params while preserving unrelated params
   useEffect(() => {
     if (!syncUrl || typeof window === "undefined") return;
 
@@ -129,46 +175,67 @@ export function useProductFilters({
       return;
     }
 
-    const params = new URLSearchParams();
+    // Preserve existing unrelated query parameters (e.g., utm_source, ref, session)
+    const currentParams = new URLSearchParams(window.location.search);
 
+    // Clean out previous filter parameters first
+    for (const key of FILTER_QUERY_KEYS) {
+      currentParams.delete(key);
+    }
+
+    // Write updated active filter parameters
     if (state.availability !== "all") {
-      params.set("availability", state.availability);
+      currentParams.set("availability", state.availability);
     }
     if (state.categories.length > 0 && !initialCategory) {
-      params.set("categories", state.categories.join(","));
+      currentParams.set("categories", state.categories.join(","));
     }
     if (state.brands.length > 0) {
-      params.set("brands", state.brands.join(","));
+      currentParams.set("brands", state.brands.join(","));
     }
     if (state.priceRange[0] > defaultBounds[0]) {
-      params.set("min_price", state.priceRange[0].toString());
+      currentParams.set("min_price", state.priceRange[0].toString());
     }
     if (state.priceRange[1] < defaultBounds[1]) {
-      params.set("max_price", state.priceRange[1].toString());
+      currentParams.set("max_price", state.priceRange[1].toString());
     }
     if (state.productTypes.length > 0) {
-      params.set("types", state.productTypes.join(","));
+      currentParams.set("types", state.productTypes.join(","));
     }
     if (state.dietary.length > 0) {
-      params.set("dietary", state.dietary.join(","));
+      currentParams.set("dietary", state.dietary.join(","));
     }
     if (state.minRating > 0) {
-      params.set("min_rating", state.minRating.toString());
+      currentParams.set("min_rating", state.minRating.toString());
     }
     if (state.sortBy !== "alphabetical-az") {
-      params.set("sort", state.sortBy);
+      currentParams.set("sort", state.sortBy);
     }
     if (state.viewMode !== "grid") {
-      params.set("view", state.viewMode);
+      currentParams.set("view", state.viewMode);
     }
-    if (state.searchQuery) {
-      params.set("q", state.searchQuery);
+    if (state.searchQuery && state.searchQuery.trim().length > 0) {
+      currentParams.set("q", state.searchQuery.trim());
     }
 
-    const query = params.toString();
+    const query = currentParams.toString();
     const newUrl = query ? `${pathname}?${query}` : pathname;
     window.history.replaceState(null, "", newUrl);
   }, [state, defaultBounds, initialCategory, pathname, syncUrl]);
+
+  // Support Browser Back and Forward Navigation (popstate)
+  useEffect(() => {
+    if (!syncUrl || typeof window === "undefined") return;
+
+    const handlePopState = () => {
+      const currentParams = new URLSearchParams(window.location.search);
+      const restoredState = parseFilterStateFromParams(currentParams, defaultBounds, initialCategory);
+      setState(restoredState);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [syncUrl, defaultBounds, initialCategory]);
 
   // Actions
   const setAvailability = useCallback((availability: AvailabilityFilter) => {
@@ -244,6 +311,10 @@ export function useProductFilters({
 
   const setSearchQuery = useCallback((searchQuery: string) => {
     setState((prev) => ({ ...prev, searchQuery }));
+  }, []);
+
+  const commitDraftState = useCallback((draft: FilterState) => {
+    setState(draft);
   }, []);
 
   const clearAllFilters = useCallback(() => {
@@ -322,8 +393,8 @@ export function useProductFilters({
     setSortBy,
     setViewMode,
     setSearchQuery,
+    commitDraftState,
     removeChip,
     clearAllFilters,
   };
 }
-

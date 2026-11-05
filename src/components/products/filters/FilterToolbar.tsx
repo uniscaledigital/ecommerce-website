@@ -19,6 +19,7 @@ interface FilterToolbarProps {
   viewMode: ViewMode;
   gridColumns: 3 | 4;
   activeChips: ActiveChip[];
+  mobileTriggerRef?: React.RefObject<HTMLButtonElement | null>;
   onOpenMobileFilter: () => void;
   onSortChange: (sort: SortOption) => void;
   onViewModeChange: (mode: ViewMode) => void;
@@ -34,6 +35,7 @@ export function FilterToolbar({
   viewMode,
   gridColumns,
   activeChips,
+  mobileTriggerRef,
   onOpenMobileFilter,
   onSortChange,
   onViewModeChange,
@@ -48,6 +50,7 @@ export function FilterToolbar({
         {/* Left: Mobile Filter Button & Product Count */}
         <div className="flex items-center gap-3">
           <button
+            ref={mobileTriggerRef}
             onClick={onOpenMobileFilter}
             className="md:hidden inline-flex items-center gap-2 px-3.5 py-2 border border-[#E8DFCF] rounded-xl text-xs font-bold text-[#14532D] bg-[#F7EBD8] hover:bg-[#EADFC9] active:scale-95 transition-all min-h-[44px]"
             aria-label="Open filter options"

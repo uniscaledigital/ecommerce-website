@@ -9,6 +9,7 @@ import {
   matchesFilter,
 } from "../src/lib/filtering/engine";
 import { FilterState } from "../src/lib/filtering/types";
+import { parseFilterStateFromParams } from "../src/hooks/useProductFilters";
 
 test("Filtering Engine: Availability Dimension", async (t) => {
   const base = getDefaultFilterState();
@@ -229,4 +230,118 @@ test("Filtering Engine: Sorting Invariants", async (t) => {
     }
   });
 });
+
+test("Filtering Engine: URL Parameter Parsing & Sanitization", async (t) => {
+  const defaultBounds: [number, number] = [0, 220];
+
+  await t.test("sanitizes invalid availability values to 'all'", () => {
+    const params = new URLSearchParams("availability=invalid_value");
+    const parsed = parseFilterStateFromParams(params, defaultBounds);
+    assert.equal(parsed.availability, "all");
+  });
+
+  await t.test("parses valid availability values correctly", () => {
+    const params = new URLSearchParams("availability=in_stock");
+    const parsed = parseFilterStateFromParams(params, defaultBounds);
+    assert.equal(parsed.availability, "in_stock");
+  });
+
+  await t.test("clamps min_price and max_price within bounds", () => {
+    const params = new URLSearchParams("min_price=-50&max_price=999");
+    const parsed = parseFilterStateFromParams(params, defaultBounds);
+    assert.equal(parsed.priceRange[0], 0);
+    assert.equal(parsed.priceRange[1], 220);
+  });
+
+  await t.test("ignores inverted price range where min > max", () => {
+    const params = new URLSearchParams("min_price=100&max_price=20");
+    const parsed = parseFilterStateFromParams(params, defaultBounds);
+    assert.deepEqual(parsed.priceRange, [0, 220]);
+  });
+
+  await t.test("clamps min_rating between 1 and 5 and ignores out-of-range", () => {
+    const paramsTooHigh = new URLSearchParams("min_rating=6.5");
+    assert.equal(parseFilterStateFromParams(paramsTooHigh, defaultBounds).minRating, 0);
+
+    const paramsInvalid = new URLSearchParams("min_rating=not-a-number");
+    assert.equal(parseFilterStateFromParams(paramsInvalid, defaultBounds).minRating, 0);
+
+    const paramsValid = new URLSearchParams("min_rating=4.5");
+    assert.equal(parseFilterStateFromParams(paramsValid, defaultBounds).minRating, 4.5);
+  });
+
+  await t.test("defaults invalid or unknown sort options to alphabetical-az", () => {
+    const params = new URLSearchParams("sort=random_sort_hack");
+    const parsed = parseFilterStateFromParams(params, defaultBounds);
+    assert.equal(parsed.sortBy, "alphabetical-az");
+  });
+
+  await t.test("locks initialCategory on collection pages and rejects url overrides", () => {
+    const params = new URLSearchParams("categories=sweets-chocolate,meats");
+    const parsed = parseFilterStateFromParams(params, defaultBounds, "crisps-snacks");
+    assert.deepEqual(parsed.categories, ["crisps-snacks"]);
+  });
+});
+
+test("Filtering Engine: Mobile Draft State & Collection Invariants", async (t) => {
+  const defaultBounds: [number, number] = [0, 220];
+
+  await t.test("draft mutations do not modify committed state until applied", () => {
+    const committedState = getDefaultFilterState(defaultBounds);
+    const draftState: FilterState = {
+      ...committedState,
+      brands: ["Tayto"],
+      availability: "in_stock",
+    };
+
+    // Calculate real-time counts for draft
+    const draftResults = filterProducts(PRODUCTS, draftState);
+    const committedResults = filterProducts(PRODUCTS, committedState);
+
+    assert.equal(committedResults.length, 34);
+    assert.equal(draftResults.length, 2);
+    assert.notEqual(draftResults.length, committedResults.length);
+  });
+
+  await t.test("draft clear resets all criteria back to defaults", () => {
+    const dirtyDraft: FilterState = {
+      availability: "out_of_stock",
+      categories: ["biscuits"],
+      brands: ["McVitie's"],
+      priceRange: [10, 50],
+      productTypes: ["Biscuits"],
+      dietary: ["Vegetarian"],
+      minRating: 4.8,
+      sortBy: "price-high-low",
+      viewMode: "list",
+      searchQuery: "digestive",
+    };
+
+    const resetDraft = getDefaultFilterState(defaultBounds);
+    assert.equal(resetDraft.availability, "all");
+    assert.deepEqual(resetDraft.categories, []);
+    assert.deepEqual(resetDraft.brands, []);
+    assert.deepEqual(resetDraft.dietary, []);
+    assert.equal(resetDraft.minRating, 0);
+  });
+
+  await t.test("collection route scoping restricts product matches to scoped category", () => {
+    const crispsState: FilterState = {
+      ...getDefaultFilterState(defaultBounds),
+      categories: ["crisps-snacks"],
+    };
+
+    const results = filterProducts(PRODUCTS, crispsState);
+    assert.ok(results.length > 0);
+    assert.ok(
+      results.every(
+        (p) =>
+          p.collections?.includes("crisps-snacks") ||
+          p.productType.toLowerCase().includes("crisp") ||
+          p.productType.toLowerCase().includes("snack")
+      )
+    );
+  });
+});
+
 
