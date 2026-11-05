@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { Search, Store, User, ShoppingBag, Menu } from "lucide-react";
+import { Search, Store, User, ShoppingBag, Menu, MapPin, X } from "lucide-react";
 import { SITE_CONFIG, CATEGORY_NAVIGATION_LINKS } from "@/lib/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -69,7 +69,7 @@ export function Header() {
         {/* Logo (left) | Search (center) | Store, Account, Cart (right)  */}
         {/* ------------------------------------------------------------ */}
         <div className="header-main w-full">
-          <div className="w-full px-4 sm:px-6 lg:px-7 xl:px-8 py-2.5 sm:py-3">
+          <div className="w-full px-3 sm:px-6 lg:px-7 xl:px-8 py-1.5 sm:py-2.5 lg:py-3">
             {/* ======================================================== */}
             {/* DESKTOP ROW 1 (Screen width >= 1024px / lg)             */}
             {/* ======================================================== */}
@@ -160,70 +160,98 @@ export function Header() {
 
             {/* ======================================================== */}
             {/* MOBILE & TABLET ROW 1 (< 1024px / lg)                   */}
-            {/* TOP ROW: Hamburger Menu | Animated Logo | Shopping Cart  */}
-            {/* SECOND ROW: Full-Width Search Field                     */}
+            {/* TOP ROW: Logo & Storefront Info | Account | Cart | Menu   */}
+            {/* SECOND ROW: Compact Full-Width Search Capsule            */}
             {/* ======================================================== */}
-            <div className="lg:hidden flex flex-col gap-2">
-              {/* TOP ROW: Hamburger | Logo | Cart */}
-              <div className="flex items-center justify-between gap-2">
-                {/* Left: Accessible Hamburger Menu Button (>= 44px touch target) */}
-                <button
-                  onClick={() => setIsMobileMenuOpen(true)}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0"
-                  aria-label="Open navigation menu"
-                >
-                  <Menu className="w-5 h-5 text-[#14532D]" />
-                </button>
-
-                {/* Center: Irish Grocer Animated SVG Logo */}
-                <Link
-                  href="/"
-                  className="relative flex items-center justify-center flex-1 max-w-[170px] sm:max-w-[190px] h-[44px] sm:h-[48px] focus:outline-none"
-                  aria-label="The Irish Grocer Homepage"
-                >
-                  <Image
-                    src="/assets/logo/irish-grocer-animated.svg"
-                    alt="The Irish Grocer"
-                    fill
-                    priority
-                    unoptimized
-                    className="object-contain object-center"
-                  />
-                </Link>
-
-                {/* Right: Shopping Cart Button with Count Badge */}
-                <button
-                  onClick={openCart}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] shrink-0 relative"
-                  aria-label={`Shopping cart with ${cart.totalQuantity} items`}
-                >
-                  <div className="relative">
-                    <ShoppingBag className="w-5 h-5 text-[#14532D]" />
-                    {cart.totalQuantity > 0 && (
-                      <span className="absolute -top-1.5 -right-2 bg-[#22C55E] text-[#14532D] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
-                        {cart.totalQuantity}
-                      </span>
-                    )}
+            <div className="lg:hidden flex flex-col gap-1.5">
+              {/* TOP ROW: Logo + Quincy Delivery Pill (Left) | Controls (Right) */}
+              <div className="flex items-center justify-between gap-1.5">
+                {/* Left: Irish Grocer Animated SVG Logo + Quincy Store Location */}
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <Link
+                    href="/"
+                    className="relative shrink-0 flex items-center w-[128px] sm:w-[150px] h-[34px] sm:h-[38px] focus:outline-none"
+                    aria-label="The Irish Grocer Homepage"
+                  >
+                    <Image
+                      src="/assets/logo/irish-grocer-animated.svg"
+                      alt="The Irish Grocer"
+                      fill
+                      priority
+                      unoptimized
+                      className="object-contain object-left"
+                    />
+                  </Link>
+                  <div className="hidden xs:flex items-center gap-1 text-[10px] text-[#42634A] font-semibold tracking-tight border-l border-[#14532D]/15 pl-1.5 py-0.5 truncate">
+                    <MapPin className="w-2.5 h-2.5 text-[#14532D] shrink-0" />
+                    <span className="truncate">Quincy, MA</span>
                   </div>
-                </button>
+                </div>
+
+                {/* Right: Compact Account, Cart & Menu Controls (>= 44x44px touch targets) */}
+                <div className="flex items-center gap-0.5 shrink-0">
+                  {/* Account Link */}
+                  <Link
+                    href={isAuthenticated ? "/account" : "/account/login"}
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
+                    aria-label={isAuthenticated ? "Account" : "Sign in"}
+                  >
+                    <User className="w-4 h-4 text-[#14532D]" />
+                  </Link>
+
+                  {/* Cart Button */}
+                  <button
+                    onClick={openCart}
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] relative"
+                    aria-label={`Shopping cart with ${cart.totalQuantity} items`}
+                  >
+                    <div className="relative">
+                      <ShoppingBag className="w-4 h-4 text-[#14532D]" />
+                      {cart.totalQuantity > 0 && (
+                        <span className="absolute -top-1.5 -right-2 bg-[#22C55E] text-[#14532D] text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
+                          {cart.totalQuantity}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Accessible Hamburger Menu Button */}
+                  <button
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#14532D] hover:bg-[#14532D]/8 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D]"
+                    aria-label="Open navigation menu"
+                  >
+                    <Menu className="w-5 h-5 text-[#14532D]" />
+                  </button>
+                </div>
               </div>
 
-              {/* SECOND ROW: Full-Width Search Field */}
+              {/* SECOND ROW: Compact Full-Width Search Capsule */}
               <div className="w-full">
                 <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
-                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-2xs px-3.5 py-1 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15">
-                    <Search className="w-4 h-4 text-[#14532D]/60 shrink-0 mr-2" />
+                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-2xs px-3 py-1 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 transition-all">
+                    <Search className="w-3.5 h-3.5 text-[#14532D]/60 shrink-0 mr-2" />
                     <input
                       type="text"
-                      placeholder="Search products, brands, or essentials..."
+                      placeholder="Search imported teas, crisps, sweets..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-xs sm:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-1"
+                      className="w-full bg-transparent text-xs text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-0.5"
                       aria-label="Search products"
                     />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery("")}
+                        className="p-1 text-[#42634A] hover:text-[#14532D] rounded-full mr-1"
+                        aria-label="Clear search"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
                     <button
                       type="submit"
-                      className="bg-[#14532D] hover:bg-[#166534] text-white px-4 py-1 rounded-full text-xs font-semibold tracking-wide transition-all shadow-xs shrink-0 ml-1.5"
+                      className="bg-[#14532D] hover:bg-[#064E3B] text-white px-3 py-1 rounded-full text-[11px] font-bold tracking-tight transition-all shadow-xs shrink-0"
                     >
                       Search
                     </button>

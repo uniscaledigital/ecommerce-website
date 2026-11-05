@@ -12,47 +12,36 @@ const IS_DEMO = process.env.NEXT_PUBLIC_COMMERCE_MODE !== "production";
 export function Footer() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Check if visitor was redirected back following successful Shopify submission
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (
+        url.searchParams.get("customer_posted") === "true" ||
+        url.searchParams.get("contact[posted]") === "true"
+      ) {
+        setIsSubscribed(true);
+      }
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const trimmed = email.trim();
     if (!trimmed || !trimmed.includes("@")) {
+      e.preventDefault();
       setErrorMessage("Please enter a valid email address.");
       return;
     }
 
     if (IS_DEMO) {
+      e.preventDefault();
       setIsSubscribed(true);
       setEmail("");
-      setErrorMessage(null);
-      return;
     }
-
-    setIsSubmitting(true);
-    setErrorMessage(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("form_type", "customer");
-      formData.append("utf8", "✓");
-      formData.append("contact[tags]", "newsletter");
-      formData.append("contact[email]", trimmed);
-
-      await fetch(`https://${SHOPIFY_DOMAIN}/contact#contact_form`, {
-        method: "POST",
-        body: formData,
-        mode: "no-cors",
-      });
-
-      setIsSubscribed(true);
-      setEmail("");
-    } catch {
-      setErrorMessage("Unable to complete subscription at this time. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // In production, do not unmount or replace the form during its native submit event.
+    // Allow the native browser POST to Shopify's contact endpoint to proceed without interruption.
   };
 
   return (
@@ -170,6 +159,8 @@ export function Footer() {
                 </div>
               ) : (
                 <form
+                  action={IS_DEMO ? undefined : `https://${SHOPIFY_DOMAIN}/contact#contact_form`}
+                  method={IS_DEMO ? undefined : "post"}
                   onSubmit={handleSubmit}
                   className="space-y-2.5"
                 >
@@ -198,10 +189,9 @@ export function Footer() {
                   )}
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-[#14532D] hover:bg-[#064E3B] disabled:opacity-60 text-white py-2.5 px-4 text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E] min-h-[44px] flex items-center justify-center"
+                    className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-2.5 px-4 text-xs sm:text-sm font-semibold rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E] min-h-[44px] flex items-center justify-center"
                   >
-                    {isSubmitting ? "Subscribing..." : "Join Farmhouse Club"}
+                    Join Farmhouse Club
                   </button>
                 </form>
               )}
@@ -213,7 +203,7 @@ export function Footer() {
       {/* ============================================================== */}
       {/* 2. FULL-WIDTH COPYRIGHT BAR (Separate Warm Cream Strip)        */}
       {/* ============================================================== */}
-      <div className="w-full bg-[#FDF4E3] border-t border-[rgba(20,83,45,0.14)]">
+      <div className="w-full bg-[#FDF4E3] border-t border-[rgba(20,83,45,0.14)] pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
         <div className="section-inner py-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#52665B]">
           {/* Left: Copyright */}
           <p className="text-center md:text-left">

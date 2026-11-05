@@ -532,7 +532,8 @@ test("Phase 10: Mobile Product Discovery & 2-Column Grid Architecture", async (t
       path.resolve(__dirname, "../src/components/home/MobileHomeShoppingView.tsx"),
       "utf-8"
     );
-    assert.ok(code.includes("sticky top-[120px]"), "Must include sticky docked controls bar");
+    assert.ok(code.includes("sticky top-[111px]"), "Must include sticky docked controls bar with verified mobile offset");
+    assert.ok(code.includes("sm:top-[121px]"), "Must include sm:top-[121px] responsive offset");
     assert.ok(code.includes("setSearchQuery"), "Must support in-view live product filtering");
     assert.ok(code.includes("SlidersHorizontal"), "Must include filter drawer trigger");
     assert.ok(code.includes("min-h-[44px]"), "Filter trigger must be min-h-[44px]");
