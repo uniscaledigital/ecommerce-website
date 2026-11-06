@@ -19,21 +19,21 @@ test("Phase 14 / v4-P3: Mobile Homepage Shopping Sections Architecture", async (
     const catGridIdx = homeViewCode.indexOf("<MobileCategoryGrid");
     const spotlightsIdx = homeViewCode.indexOf("<MobileProductSpotlight");
     const brandsIdx = homeViewCode.indexOf("<MobileBrandsCarousel");
-    const discoveryIdx = homeViewCode.indexOf("ALL GROCERY AISLES");
+    const ctaIdx = homeViewCode.indexOf('href="/shop"');
 
     assert.ok(promoIdx !== -1, "Section 1: MobilePromoBanner must be present");
     assert.ok(stripIdx !== -1, "Section 2: MobileStoreConfidenceStrip must be present");
     assert.ok(catGridIdx !== -1, "Section 3: MobileCategoryGrid must be present");
     assert.ok(spotlightsIdx !== -1, "Section 4: MobileProductSpotlight must be present");
     assert.ok(brandsIdx !== -1, "Section 5: MobileBrandsCarousel must be present");
-    assert.ok(discoveryIdx !== -1, "Section 6: All Products Discovery Grid must be present");
+    assert.ok(ctaIdx !== -1, "Section 6: Shop All Groceries CTA must be present");
 
     // Strictly verify sequence order
     assert.ok(promoIdx < stripIdx, "Section 1 (Promo) must precede Section 2 (Store Confidence)");
     assert.ok(stripIdx < catGridIdx, "Section 2 (Store Confidence) must precede Section 3 (Category Grid)");
     assert.ok(catGridIdx < spotlightsIdx, "Section 3 (Category Grid) must precede Section 4 (Product Spotlights)");
     assert.ok(spotlightsIdx < brandsIdx, "Section 4 (Product Spotlights) must precede Section 5 (Brands Carousel)");
-    assert.ok(brandsIdx < discoveryIdx, "Section 5 (Brands Carousel) must precede Section 6 (Discovery Grid)");
+    assert.ok(brandsIdx < ctaIdx, "Section 5 (Brands Carousel) must precede Section 6 (Shop CTA)");
   });
 
   await t.test("Section 1: MobilePromoBanner invariants & non-seasonal rule", () => {
@@ -119,14 +119,19 @@ test("Phase 14 / v4-P3: Mobile Homepage Shopping Sections Architecture", async (
     assert.ok(brandsCode.includes("snap-x snap-mandatory"), "Brands carousel must support touch snap scrolling");
   });
 
-  await t.test("Section 6: Single unified search and discovery grid preservation", () => {
-    // Verify no redundant search bar inside the content stream (single unified search in header)
+  await t.test("Section 6: Single unified search and dedicated shop discovery grid relocation", () => {
+    // Verify duplicate in-view search bar is not inside home content stream
     assert.ok(
       !homeViewCode.includes('placeholder="Search groceries in view..."'),
       "Duplicate in-view search bar must be removed in favor of unified header search"
     );
-    assert.ok(homeViewCode.includes("grid-cols-2"), "Product grid must maintain 2-column layout");
-    assert.ok(homeViewCode.includes("MobileFilterDrawer"), "Filter drawer must remain integrated");
-    assert.ok(homeViewCode.includes("MobileCategoryScrollRail"), "Category scroll rail must remain integrated");
+    // Verify discovery grid is housed in ShopClientView
+    const shopViewCode = fs.readFileSync(
+      path.resolve(__dirname, "../src/app/shop/ShopClientView.tsx"),
+      "utf-8"
+    );
+    assert.ok(shopViewCode.includes("grid-cols-2"), "Product grid must maintain 2-column layout in Shop");
+    assert.ok(shopViewCode.includes("MobileFilterDrawer"), "Filter drawer must remain integrated in Shop");
+    assert.ok(shopViewCode.includes("MobileCategoryScrollRail"), "Category scroll rail must remain integrated in Shop");
   });
 });

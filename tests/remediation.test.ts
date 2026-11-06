@@ -527,15 +527,15 @@ test("Phase 10: Mobile Product Discovery & 2-Column Grid Architecture", async (t
     assert.ok(code.includes("grid-cols-2"), "ProductGrid must use grid-cols-2 on mobile");
   });
 
-  await t.test("MobileHomeShoppingView integrates sticky search and filter controls bar", () => {
+  await t.test("ShopClientView integrates search, filter and bookmark controls bar", () => {
     const code = fs.readFileSync(
-      path.resolve(__dirname, "../src/components/home/MobileHomeShoppingView.tsx"),
+      path.resolve(__dirname, "../src/app/shop/ShopClientView.tsx"),
       "utf-8"
     );
-    assert.ok(code.includes("sticky top-[111px]"), "Must include sticky docked controls bar with verified mobile offset");
-    assert.ok(code.includes("sm:top-[121px]"), "Must include sm:top-[121px] responsive offset");
+    assert.ok(code.includes("sticky top-2"), "Must include sticky docked controls bar on mobile shop");
     assert.ok(code.includes("setSearchQuery"), "Must support in-view live product filtering");
     assert.ok(code.includes("SlidersHorizontal"), "Must include filter drawer trigger");
     assert.ok(code.includes("min-h-[44px]"), "Filter trigger must be min-h-[44px]");
+    assert.ok(code.includes("useWishlist"), "Must include bookmark saved-items integration");
   });
 });

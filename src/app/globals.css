@@ -302,6 +302,12 @@ a {
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
+/* On mobile & tablet homepage (< 1024px), header sits naturally in document flow and scrolls away */
+.site-header.home-header {
+  position: relative;
+  top: auto;
+}
+
 @media (min-width: 640px) {
   .site-header {
     top: 14px;
@@ -312,7 +318,9 @@ a {
 }
 
 @media (min-width: 1024px) {
-  .site-header {
+  .site-header,
+  .site-header.home-header {
+    position: sticky;
     top: 16px;
     width: calc(100% - clamp(28px, 5.4vw, 88px));
     margin-top: 16px;

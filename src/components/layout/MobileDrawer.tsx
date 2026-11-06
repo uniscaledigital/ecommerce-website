@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { X, Phone, User, ShoppingBag, MapPin, Clock, ArrowRight, Store } from "lucide-react";
@@ -18,6 +19,11 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { cart, openCart } = useCart();
   const triggerElementRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Initial focus management & focus restoration
   useEffect(() => {
@@ -62,11 +68,11 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     }
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 lg:hidden"
+      className="fixed inset-0 z-[1200] lg:hidden"
       role="dialog"
       aria-modal="true"
       aria-label="Mobile Navigation Menu"
@@ -213,6 +219,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

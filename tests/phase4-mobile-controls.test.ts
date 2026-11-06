@@ -4,8 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 test("Phase 15: Mobile Shopping Controls & Touch Usability", async (t) => {
-  const mobileHomeViewCode = fs.readFileSync(
-    path.resolve(__dirname, "../src/components/home/MobileHomeShoppingView.tsx"),
+  const shopViewCode = fs.readFileSync(
+    path.resolve(__dirname, "../src/app/shop/ShopClientView.tsx"),
     "utf-8"
   );
 
@@ -24,39 +24,39 @@ test("Phase 15: Mobile Shopping Controls & Touch Usability", async (t) => {
     "utf-8"
   );
 
-  await t.test("1. Sticky discovery controls bar uses verified docking offsets", () => {
+  await t.test("1. Sticky discovery controls bar is present in mobile Shop destination", () => {
     assert.ok(
-      mobileHomeViewCode.includes("sticky top-[111px]"),
-      "Sticky discovery bar must dock at top-[111px] on mobile viewports (< 640px)"
+      shopViewCode.includes("sticky top-2"),
+      "Sticky discovery bar must dock cleanly on mobile Shop viewports"
     );
     assert.ok(
-      mobileHomeViewCode.includes("sm:top-[121px]"),
-      "Sticky discovery bar must dock at sm:top-[121px] on tablet/large mobile (640px - 767px)"
+      shopViewCode.includes("SlidersHorizontal"),
+      "Must include filter trigger button"
     );
     assert.ok(
-      !mobileHomeViewCode.includes("sticky top-[120px]"),
-      "Must not retain unverified sticky top-[120px] offset on standard mobile"
+      shopViewCode.includes("Bookmark"),
+      "Must include bookmark saved items action"
     );
   });
 
   await t.test("2. Active Search Query chip renders with 1-tap clear action", () => {
     assert.ok(
-      mobileHomeViewCode.includes("state.searchQuery"),
+      shopViewCode.includes("state.searchQuery"),
       "Must check for active search query in filter chips rail"
     );
     assert.ok(
-      mobileHomeViewCode.includes('Search:'),
+      shopViewCode.includes('Search:'),
       "Must render prominent Search: label for active query"
     );
     assert.ok(
-      mobileHomeViewCode.includes('setSearchQuery("")'),
+      shopViewCode.includes('setSearchQuery("")'),
       "Dismissing search chip must call setSearchQuery to clear query"
     );
   });
 
   await t.test("3. Active chip dismiss buttons satisfy >= 44x44px touch bounding bounds", () => {
     assert.ok(
-      mobileHomeViewCode.includes("min-w-[44px] min-h-[44px]"),
+      shopViewCode.includes("min-w-[44px] min-h-[44px]"),
       "Filter and search chip dismiss buttons must enforce min-w-[44px] min-h-[44px]"
     );
   });

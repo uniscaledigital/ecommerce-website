@@ -50,9 +50,13 @@ export function Header() {
     return false;
   };
 
+  const isHomepage = pathname === "/";
+
   return (
     <header
-      className={`site-header sticky z-[1000] transition-all duration-200 ${
+      className={`site-header ${
+        isHomepage ? "home-header relative lg:sticky" : "sticky"
+      } z-[1000] transition-all duration-200 ${
         isScrolled ? "is-scrolled" : ""
       }`}
     >
