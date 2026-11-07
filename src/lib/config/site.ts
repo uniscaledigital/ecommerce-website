@@ -13,9 +13,8 @@ export const SITE_CONFIG = {
   address: {
     street: "1899 Ocean St",
     city: "Marshfield",
-    state: "MA",
-    zip: "02050",
-    full: "1899 Ocean St, Marshfield, MA 02050",
+    state: "Massachusetts",
+    full: "1899 Ocean St, Marshfield, Massachusetts",
   },
   hours: "9:00 AM – 9:00 PM • Open Daily",
   announcement: "We Deliver! • Free in-store pickup at Marshfield Store • Open Daily 9 AM – 9 PM",

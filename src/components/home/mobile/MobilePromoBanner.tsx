@@ -49,7 +49,7 @@ const PROMO_SLIDES: PromoSlide[] = [
     id: "promo-marshfield-pickup",
     eyebrow: "WE DELIVER! • MARSHFIELD STORE",
     title: "Free In-Store Pickup",
-    description: "1899 Ocean St, Marshfield, MA • Open Daily 9am–9pm",
+    description: "1899 Ocean St, Marshfield, Massachusetts • Open Daily 9am–9pm",
     ctaText: "Store Details",
     ctaHref: "/contact",
     bgGradient: "from-[#0F3D2E] via-[#14532D] to-[#1E6B43]",

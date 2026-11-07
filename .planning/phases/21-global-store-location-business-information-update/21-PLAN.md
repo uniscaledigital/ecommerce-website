@@ -17,14 +17,14 @@ Update all physical store location, telephone, email, operating hours, delivery 
 - **Store Name:** `Marshfield Store`
 - **Street Address:** `1899 Ocean St`
 - **City:** `Marshfield`
-- **State:** `Massachusetts` (`MA`)
-- **Zip Code:** `02050`
+- **State:** `Massachusetts`
+- **Full Address:** `1899 Ocean St, Marshfield, Massachusetts` (Do not append ZIP code 02050 or any other unconfirmed postal code)
 - **Email:** `irishgrocer@gmail.com` (Clickable: `mailto:irishgrocer@gmail.com`)
 - **Phone:** `7746990889` / `(774) 699-0889` (Clickable: `tel:+17746990889`)
 - **Business Hours:** `9:00 AM – 9:00 PM` (`Open Daily · 9 AM – 9 PM`)
 - **Delivery Messaging:** `We Deliver!`
 - **Brand Messaging:** `Fresh Food · Irish Favorites · Everyday Needs`
-- **Map Link:** `https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+MA+02050`
+- **Map Link:** `https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+Massachusetts`
 
 ---
 
@@ -32,12 +32,12 @@ Update all physical store location, telephone, email, operating hours, delivery 
 
 | Surface / Component | Current Outdated Data | Required New Official Data |
 | :--- | :--- | :--- |
-| **`src/lib/config/site.ts`** | Quincy address, `(857) 387-2065`, `theirishgrocer@gmail.com`, 7am-10pm 365 days | `Marshfield Store`, `1899 Ocean St, Marshfield, MA 02050`, `7746990889`, `irishgrocer@gmail.com`, `9:00 AM – 9:00 PM • Open Daily`, `We Deliver!`, `Fresh Food · Irish Favorites · Everyday Needs` |
-| **`.env.local` & `.env.example`** | `theirishgrocer@gmail.com`, `(857) 387-2065`, `132 East Howard Street, Quincy, MA 02169` | `irishgrocer@gmail.com`, `+1 (774) 699-0889`, `1899 Ocean St, Marshfield, MA 02050` |
-| **`Header.tsx` (Desktop)** | `Quincy Store` | `Marshfield Store` |
-| **`Header.tsx` (Mobile)** | `Quincy, MA` location pill | `Marshfield, MA` location pill |
+| **`src/lib/config/site.ts`** | Quincy address, `(857) 387-2065`, `theirishgrocer@gmail.com`, 7am-10pm 365 days | `Marshfield Store`, `1899 Ocean St, Marshfield, Massachusetts`, `7746990889`, `irishgrocer@gmail.com`, `9:00 AM – 9:00 PM • Open Daily`, `We Deliver!`, `Fresh Food · Irish Favorites · Everyday Needs` |
+| **`.env.local` & `.env.example`** | `theirishgrocer@gmail.com`, `(857) 387-2065`, `132 East Howard Street, Quincy, MA 02169` | `irishgrocer@gmail.com`, `+1 (774) 699-0889`, `1899 Ocean St, Marshfield, Massachusetts` |
+| **`Header.tsx` (Desktop)** | `Quincy Store` | `Marshfield Store` (with title `Marshfield, Massachusetts Store: (774) 699-0889`) |
+| **`Header.tsx` (Mobile)** | `Quincy, MA` location pill | `Marshfield, MA` location pill (Mandatory compact mobile-only abbreviation) |
 | **`MobileDrawer.tsx`** | `Visit Our Quincy Store` | `Visit Our Marshfield Store` |
-| **`MobileStoreConfidenceStrip.tsx`** | `Quincy, MA Storefront`, `132 E Howard St · Open 365 Days` | `Marshfield Store`, `1899 Ocean St, Marshfield, MA`, `Open Daily · 9 AM – 9 PM` |
+| **`MobileStoreConfidenceStrip.tsx`** | `Quincy, MA Storefront`, `132 E Howard St · Open 365 Days` | `Marshfield Store`, `1899 Ocean St, Marshfield, Massachusetts`, `Open Daily · 9 AM – 9 PM` |
 | **`StoreInfoSection.tsx`** | Quincy title, `132 East Howard St`, `(857) 387-2065`, 7am-10pm | `Marshfield Store`, `1899 Ocean St, Marshfield, MA`, `(774) 699-0889`, `Open Daily · 9 AM – 9 PM`, `We Deliver!` |
 | **`Footer.tsx`** | Consumes `SITE_CONFIG` | Inherits updated Marshfield address, phone, hours, and brand messaging |
 | **`HeroSection.tsx`** | `2-Hour Quincy Pickup` | `2-Hour Marshfield Pickup` / `We Deliver! & In-Store Pickup` |

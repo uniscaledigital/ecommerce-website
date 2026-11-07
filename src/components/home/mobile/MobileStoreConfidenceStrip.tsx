@@ -23,7 +23,7 @@ export function MobileStoreConfidenceStrip() {
               Marshfield Store
             </span>
             <span className="block text-[11px] text-[#42634A]">
-              1899 Ocean St, Marshfield, MA
+              1899 Ocean St, Marshfield, Massachusetts
             </span>
             <span className="block text-[10px] text-[#14532D] font-semibold">
               Open Daily · 9 AM – 9 PM

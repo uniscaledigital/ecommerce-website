@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/config/site";
 
 export const metadata = {
   title: "Contact Us — The Irish Grocer Marshfield Store",
-  description: "Get in touch with The Irish Grocer Marshfield Store at 1899 Ocean St, Marshfield, MA 02050. Call (774) 699-0889 or email irishgrocer@gmail.com. Open daily 9am–9pm.",
+  description: "Get in touch with The Irish Grocer Marshfield Store at 1899 Ocean St, Marshfield, Massachusetts. Call (774) 699-0889 or email irishgrocer@gmail.com. Open daily 9am–9pm.",
 };
 
 export default function ContactPage() {
@@ -19,7 +19,7 @@ export default function ContactPage() {
       <div className="text-center space-y-3">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold text-[#14532D] bg-[#E8F5E9] border border-[#22C55E]/30 rounded-full tracking-wider uppercase">
           <Truck className="w-3.5 h-3.5 text-[#14532D]" />
-          {SITE_CONFIG.deliveryMessage} • Marshfield, MA
+          {SITE_CONFIG.deliveryMessage} • Marshfield, Massachusetts
         </span>
         <h1 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1F2937]">
           Contact Our Marshfield Store
@@ -48,7 +48,7 @@ export default function ContactPage() {
             <div className="text-sm font-medium text-[#1F2937] leading-relaxed pt-1">
               <p className="font-bold text-[#14532D]">{SITE_CONFIG.storeName}</p>
               <p>{SITE_CONFIG.address.street}</p>
-              <p>{SITE_CONFIG.address.city}, {SITE_CONFIG.address.state} {SITE_CONFIG.address.zip}</p>
+              <p>{SITE_CONFIG.address.city}, {SITE_CONFIG.address.state}</p>
             </div>
           </div>
           <a

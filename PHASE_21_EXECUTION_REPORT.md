@@ -1,141 +1,170 @@
-# Phase 21 Execution Report: Global Store Location & Business Information Update
+# Phase 21 Execution Report: Global Business Location & Contact Information Standardization
 
-**Milestone:** v9.0 / v10.0 — Global Store Location & Business Information Update  
+**Milestone:** v9.0 — Global Business Location & Contact Information Standardization  
 **Project:** The Irish Grocer  
-**Framework:** GSD Architecture + Gravitas Empirical Browser Verification  
-**Mode:** `NEXT_PUBLIC_COMMERCE_MODE=demo`  
-**Execution Status:** Completed & Fully Verified  
+**Implementation Framework:** GSD Architecture  
+**Visual & Browser QA:** Gravitas Multi-Viewport CDP Verification  
+**Environment:** Antigravity IDE  
+**Commerce Mode:** `NEXT_PUBLIC_COMMERCE_MODE=demo`  
+**Execution Status:** Completed & Fully Standardized (Zero Unstaged / Uncommitted Status Preserved per Git Safety Rule 10)  
 
 ---
 
 ## 1. Executive Summary & Objective Realization
 
-Phase 21 executed a complete, surgical update of the store's physical location, contact telephone, email address, operating hours, delivery messaging, brand positioning, and structured SEO business data across the entire Irish Grocer application for both desktop and mobile platforms.
+Phase 21 executed a complete, meticulous standardization of store location, contact details, operating hours, and brand messaging across the entire Irish Grocer application on both desktop and mobile platforms.
 
-### Official Business Information Implemented
-- **Store Name:** `Marshfield Store`
-- **Street Address:** `1899 Ocean St`
-- **City / State / Zip:** `Marshfield, Massachusetts 02050`
-- **Email:** `irishgrocer@gmail.com` (Clickable link: `mailto:irishgrocer@gmail.com`)
-- **Phone:** `(774) 699-0889` / raw: `7746990889` (Clickable link: `tel:+17746990889`)
-- **Business Hours:** `9:00 AM – 9:00 PM` (`Open Daily · 9 AM – 9 PM`)
-- **Delivery Messaging:** `We Deliver!`
-- **Brand Messaging:** `Fresh Food · Irish Favorites · Everyday Needs`
-- **Google Maps Directions:** `https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+MA+02050`
-
----
-
-## 2. Strict Safeguard Compliance & Architecture Freeze
-
-1. **Strict Mobile Design Freeze (100% Preserved):**
-   - The 6-item mobile bottom navigation (`Home`, `Shop`, `Search`, `Favourites`, `Cart`, `Account`) in `MobileBottomNav.tsx` remains completely untouched.
-   - Mobile header geometry, heights, route-specific conditional rendering, safe-area clearances, and iconography remain unchanged.
-   - Mobile homepage section ordering (`Hero`, `Categories Rail`, `Curated Favourites`, `Store Confidence Strip`, `Promo Banner`, `Explore Aisles`) remains preserved.
-2. **Product Catalog Protection:**
-   - Historical merchandise entries such as `the-irish-grocer-quincy-heritage-cap` ("The Irish Grocer Quincy Heritage Embroidered Cap") were strictly preserved to protect slug routing and catalog integrity.
-   - Customer test delivery addresses in checkout contexts remain preserved.
-3. **Component Freeze:**
-   - `ProductCard.tsx` has zero modifications.
-4. **Git Safety Invariant:**
-   - In accordance with safety rules, no commits, pushes, stashes, or branch resets were performed without explicit user direction.
+### Official Standardized Business Information
+| Field | Standardized Value | Notes |
+| :--- | :--- | :--- |
+| **Store Name** | `Marshfield Store` | Consistent across headers, sections, schema, and footers |
+| **Street Address** | `1899 Ocean St` | Standardized street address |
+| **City** | `Marshfield` | Standardized city |
+| **State** | `Massachusetts` | Full state name everywhere; `MA` strictly reserved for mobile header |
+| **Full Address** | `1899 Ocean St, Marshfield, Massachusetts` | **No ZIP code 02050 or unconfirmed postal codes** |
+| **Email** | `irishgrocer@gmail.com` | Standard storefront email |
+| **Phone** | `7746990889` / `(774) 699-0889` | Formatted: `(774) 699-0889` |
+| **Telephone Link** | `tel:+17746990889` | Standardized click-to-call link |
+| **Email Link** | `mailto:irishgrocer@gmail.com` | Standardized click-to-email link |
+| **Business Hours** | `9:00 AM – 9:00 PM` | Displayed as `Open Daily · 9 AM – 9 PM` / `9:00 AM – 9:00 PM • Open Daily` |
+| **Delivery Message**| `We Deliver!` | South Shore delivery reassurance badge |
+| **Brand Messaging** | `Fresh Food · Irish Favorites · Everyday Needs` | Official brand tagline |
+| **Google Maps** | `https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+Massachusetts` | Full state query, no unconfirmed coordinates or ZIP codes |
 
 ---
 
-## 3. Occurrence Inventory & Files Modified
+## 2. Mandatory Location Formatting Rules
 
-### A. Core Configuration & Environment
-- `src/lib/config/site.ts`: Updated canonical `SITE_CONFIG` object with official Marshfield location, telephone, email, hours, delivery message, brand messaging, and footer contact links.
-- `.env.local` & `.env.example`: Updated store contact variables (`STORE_CONTACT_EMAIL`, `STORE_CONTACT_PHONE`, `STORE_ADDRESS`).
+### A. Mobile Header Location Indicator (Rule 3.A)
+- **Format:** Exactly `Marshfield, MA`
+- **Location:** Mobile header location pill (`website/src/components/layout/Header.tsx:255`)
+- **Preservation:** Preserves location-pin icon, compact pill geometry, text truncate styling, and header height without introducing wrapping.
 
-### B. Header & Navigation (Desktop & Mobile)
-- `src/components/layout/Header.tsx`:
-  - **Desktop Row 1:** Updated store indicator to `Marshfield Store` with tooltip title `Marshfield, MA Store: (774) 699-0889` and `tel:7746990889`. Preserved structural comment `{/* Quincy Store control -> Marshfield Store */}`.
-  - **Mobile Header:** Updated location indicator pill from `Quincy, MA` to `Marshfield, MA`.
-- `src/components/layout/MobileDrawer.tsx`: Updated quick link to `Visit Our Marshfield Store`.
-
-### C. Homepage Sections
-- `src/components/home/mobile/MobileStoreConfidenceStrip.tsx`: Updated title to `Marshfield Store`, address to `1899 Ocean St, Marshfield, MA`, and hours to `Open Daily · 9 AM – 9 PM`.
-- `src/components/home/StoreInfoSection.tsx`: Updated title to `The Irish Grocer Marshfield Store`, badge to `A NEIGHBOURHOOD FAVOURITE • MARSHFIELD, MA`, full address, hours, phone, and Google Maps direction query.
-- `src/components/home/HeroSection.tsx`: Updated desktop and mobile trust badges from `2-Hour Quincy Pickup` to `2-Hour Marshfield Pickup`.
-- `src/components/home/mobile/MobilePromoBanner.tsx`: Updated promo cards to `Marshfield storefront` and `WE DELIVER! • MARSHFIELD STORE` at `1899 Ocean St, Marshfield, MA`.
-
-### D. Order, Cart & Enquiry Experience
-- `src/components/enquiry/OrderEnquiryModal.tsx`: Updated confirmation message to `Our Marshfield storefront team has received your order request`, placeholder phone to `+1 (774) 699-0889`, and address placeholder to `Marshfield delivery address or In-store Pickup`.
-- `src/app/cart/page.tsx`: Updated delivery selector to `Marshfield Store Pickup`.
-- `src/components/cart/CartDrawer.tsx`: Updated taxes & delivery confirmation copy.
-
-### E. Catalog, Search & Information Pages
-- `src/app/shop/page.tsx` & `src/app/shop/ShopClientView.tsx`: Updated metadata and empty states to `Marshfield, MA storefront`.
-- `src/app/search/SearchClientView.tsx`: Updated quick links to `About The Irish Grocer (Marshfield, MA)` and `1899 Ocean St, Marshfield, MA`.
-- `src/app/products/[handle]/ProductDetailsClient.tsx`: Updated currency indicator to `Prices in USD • Marshfield, MA Store`.
-- `src/app/privacy/page.tsx`: Updated privacy policy effective location and store contact sections to Marshfield, Massachusetts.
-- `src/app/contact/page.tsx`: **Created new dedicated Farmhouse contact page** with direct click-to-call (`tel:+17746990889`), click-to-email (`mailto:irishgrocer@gmail.com`), Google Maps directions, and store hours.
-- `src/app/about/page.tsx`: **Created new dedicated Farmhouse about page** detailing the Marshfield store heritage, Dublin/Cork direct imports, and customer motto.
-- `src/app/sitemap.ts`: Registered `/contact` and `/about` in static sitemap entries.
-- `src/app/layout.tsx`: Embedded Schema.org `GroceryStore` JSON-LD structured data with Marshfield address, telephone, email, and opening hours.
+### B. Everywhere Else in Application (Rule 3.B)
+- **Format:** Full state name `Marshfield, Massachusetts`
+- **Applies to:**
+  - Desktop header location tooltip: `title="Marshfield, Massachusetts Store: (774) 699-0889"`
+  - Homepage store confidence section: `1899 Ocean St, Marshfield, Massachusetts`
+  - Desktop & mobile footers: `1899 Ocean St, Marshfield, Massachusetts`
+  - Contact page (`/contact`): `1899 Ocean St, Marshfield, Massachusetts`
+  - About page (`/about`): `1899 Ocean St in Marshfield, Massachusetts`
+  - Store information section: `A NEIGHBOURHOOD FAVOURITE • MARSHFIELD, MASSACHUSETTS`
+  - Mobile promo banner: `1899 Ocean St, Marshfield, Massachusetts • Open Daily 9am–9pm`
+  - Shop catalog & search views: `Marshfield, Massachusetts storefront` / `About The Irish Grocer (Marshfield, Massachusetts)`
+  - Product details pricing indicator: `Prices in USD • Marshfield, Massachusetts Store`
+  - Privacy policy: `The Irish Grocer (Marshfield, Massachusetts)`
+  - Schema.org `GroceryStore` structured data: `addressRegion: "Massachusetts"`, `hasMap` with `Marshfield, Massachusetts`
 
 ---
 
-## 4. Empirical Verification & Quality Gate Results
+## 3. Old Information & ZIP Code Removal Audit
 
-### A. Test Automation Suite
-- **Command:** `cd website && npm test`
-- **Results:**
-  - **165 tests passed across 10 test suites (100% pass rate)**:
-    1. `tests/remediation.test.ts`
-    2. `tests/filtering.test.ts`
-    3. `tests/phase3-mobile-sections.test.ts`
-    4. `tests/phase4-mobile-controls.test.ts`
-    5. `tests/phase16-mobile-flow.test.ts`
-    6. `tests/phase17-route-nav.test.ts`
-    7. `tests/phase19-hardening.test.ts`
-    8. `tests/phase20-favorites.test.ts`
-    9. `tests/phase21-desktop-favorites.test.ts`
-    10. `tests/phase21-business-info-update.test.ts` (10 new business info assertions)
+### Outdated Information Purged:
+1. `Quincy, MA` / `Quincy, Massachusetts` $\rightarrow$ Replaced across all business touchpoints with Marshfield, Massachusetts (mobile header with `Marshfield, MA`).
+2. `Quincy Storefront` $\rightarrow$ Replaced with `Marshfield Store`.
+3. `132 E Howard St` $\rightarrow$ Completely eliminated from active UI/DOM.
+4. `02050` $\rightarrow$ **100% removed from all active source code and business references**. Zero occurrences in `website/src`.
+5. Preserved historical catalog entries (`the-irish-grocer-quincy-heritage-cap`) and customer test delivery profile data.
 
-### B. Static Typechecking & Linting
-- **Command:** `cd website && npx tsc --noEmit` $\rightarrow$ **0 errors**.
-- **Command:** `cd website && npm run lint` $\rightarrow$ **0 warnings, 0 errors**.
+---
 
-### C. Production Build
-- **Command:** `cd website && npm run build`
-- **Results:** All 35 static/dynamic routes compiled cleanly with 0 build errors.
+## 4. Exact Files Modified
 
-### D. Gravitas Headless Chrome CDP Verification
+1. `website/src/lib/config/site.ts`: Updated `SITE_CONFIG.address` (`state: "Massachusetts"`, `full: "1899 Ocean St, Marshfield, Massachusetts"`, removed `zip: "02050"`).
+2. `website/.env.example` & `website/.env.local`: Updated `STORE_ADDRESS=1899 Ocean St, Marshfield, Massachusetts`.
+3. `website/src/components/layout/Header.tsx`: Desktop header title set to `Marshfield, Massachusetts Store: ${SITE_CONFIG.phone}`; mobile header location pill locked to `Marshfield, MA`.
+4. `website/src/components/home/mobile/MobileStoreConfidenceStrip.tsx`: Address updated to `1899 Ocean St, Marshfield, Massachusetts`.
+5. `website/src/components/home/StoreInfoSection.tsx`: Pill badge updated to `A NEIGHBOURHOOD FAVOURITE • MARSHFIELD, MASSACHUSETTS`; Google Maps URL updated to `1899+Ocean+St+Marshfield+Massachusetts`.
+6. `website/src/components/home/mobile/MobilePromoBanner.tsx`: Slide 3 description updated to `1899 Ocean St, Marshfield, Massachusetts • Open Daily 9am–9pm`.
+7. `website/src/app/contact/page.tsx`: Metadata, delivery pill, and address updated to `Marshfield, Massachusetts` without `02050`.
+8. `website/src/app/about/page.tsx`: Metadata and story updated to `Marshfield, Massachusetts` without `02050`.
+9. `website/src/app/privacy/page.tsx`: Effective date updated to `The Irish Grocer (Marshfield, Massachusetts)`.
+10. `website/src/app/products/[handle]/ProductDetailsClient.tsx`: Currency badge updated to `Prices in USD • Marshfield, Massachusetts Store`.
+11. `website/src/app/search/SearchClientView.tsx`: Page links updated to `About The Irish Grocer (Marshfield, Massachusetts)`.
+12. `website/src/app/shop/page.tsx`: Metadata updated to `in Marshfield, Massachusetts`.
+13. `website/src/app/shop/ShopClientView.tsx`: Subhead updated to `Marshfield, Massachusetts storefront`.
+14. `website/src/app/api/enquiry/route.ts`: Error fallback updated to `contact our Marshfield store directly`.
+15. `website/src/app/layout.tsx`: Schema.org `GroceryStore` JSON-LD updated to `addressRegion: "Massachusetts"`, removed `postalCode`.
+16. `website/tests/phase21-business-info-update.test.ts`: Automated test assertions updated to enforce `Massachusetts`, `02050` absence, and mobile-only `Marshfield, MA`.
+17. `.planning/REQUIREMENTS.md`, `.planning/ROADMAP.md`, `.planning/STATE.md` (both root and `website/.planning/`): Synchronized to Milestone v9.0 specifications.
+
+---
+
+## 5. Quality Gate Execution Evidence
+
+### A. Unit & Integration Tests (`npm test`)
+- **Status:** **PASS**
+- **Metrics:** 165 tests passed across 10 test suites (100% pass rate).
+- **Execution Output:**
+  ```text
+  ✔ Filtering Engine (10 suites)
+  ✔ Phase 16 / Milestone v5.0: Mobile Header, Shop Discovery and Menu Reliability
+  ✔ Phase 17 / Milestone v6.0: Route-Specific Mobile Navigation & Homepage Layout
+  ✔ Phase 19 Hardening: Regression Invariants
+  ✔ Phase 20: Favourites & Saved Products Experience
+  ✔ Phase 21: Desktop Header Favourites Integration
+  ✔ Phase 21: Global Store Location & Business Information Update (10 suites)
+  ℹ tests 165, pass 165, fail 0
+  ```
+
+### B. TypeScript Compilation (`npx tsc --noEmit`)
+- **Status:** **PASS** (0 errors)
+
+### C. ESLint Validation (`npm run lint`)
+- **Status:** **PASS** (0 warnings, 0 errors)
+
+### D. Production Next.js Build (`npm run build`)
+- **Status:** **PASS**
+- **Metrics:** All 35 static and dynamic routes compiled successfully with zero compilation errors.
+
+---
+
+## 6. Gravitas Headless Chrome CDP Verification
+
 - **Audit Script:** `scratch/phase21_business_info_verification.cjs`
-- **Routes Audited (9 Routes):**
-  - `/` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/shop` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/search` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/favorites` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/account` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/contact` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/about` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/cart` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-  - `/collections/crisps-snacks` $\rightarrow$ HTTP 200, title OK, Marshfield content verified, footer phone/email verified.
-- **Viewports Audited (10 Viewports):**
-  - Mobile: `360px`, `390px`, `430px` $\rightarrow$ `scrollWidth <= window.innerWidth` (0 horizontal overflow), mobile header location pill = `Marshfield, MA`, bottom nav = 6 items.
-  - Tablet: `768px`, `820px`, `1023px` $\rightarrow$ `scrollWidth <= window.innerWidth` (0 horizontal overflow), responsive layout preserved.
-  - Desktop: `1024px`, `1280px`, `1440px`, `1920px` $\rightarrow$ `scrollWidth <= window.innerWidth` (0 horizontal overflow), desktop header control = `Marshfield Store` with phone link.
-- **Console Errors & Exceptions:** 0 console errors, 0 unhandled exceptions.
-- **Schema.org Structured Data:** `GroceryStore` JSON-LD validated with Marshfield address, phone, email, hours, and map.
+- **Port:** 9580 (Headless Chrome with remote debugging protocol)
+
+### A. 9 Routes Audited
+| Route | Status | `title` Valid | `hasMarshfield` | `hasNo02050` | Phone / Email Links Verified |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `/` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/shop` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/search` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/favorites` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/account` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/contact` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/about` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/cart` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+| `/collections/crisps-snacks` | HTTP 200 | Yes | True | **True** | `tel:+17746990889` / `mailto:irishgrocer@gmail.com` |
+
+### B. 10 Viewports Audited (Homepage)
+| Viewport | Dimensions | Overflow Check (`scrollWidth <= innerWidth`) | Mobile Location Indicator | Desktop Store Indicator | Store Confidence Address |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `mobile_360px` | 360x800 | **Passed** (`360 <= 360`) | `Marshfield, MA` | N/A (mobile) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `mobile_390px` | 390x844 | **Passed** (`390 <= 390`) | `Marshfield, MA` | N/A (mobile) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `mobile_430px` | 430x932 | **Passed** (`430 <= 430`) | `Marshfield, MA` | N/A (mobile) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `tablet_768px` | 768x1024 | **Passed** (`761 <= 768`) | `Marshfield, MA` | N/A (tablet) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `tablet_820px` | 820x1180 | **Passed** (`813 <= 820`) | `Marshfield, MA` | N/A (tablet) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `tablet_1023px` | 1023x900 | **Passed** (`1016 <= 1023`) | `Marshfield, MA` | N/A (tablet) | `1899 Ocean St, Marshfield, Massachusetts` |
+| `desktop_1024px` | 1024x768 | **Passed** (`1017 <= 1024`) | N/A (desktop) | `Marshfield Store` | `1899 Ocean St, Marshfield, Massachusetts` |
+| `desktop_1280px` | 1280x800 | **Passed** (`1273 <= 1280`) | N/A (desktop) | `Marshfield Store` | `1899 Ocean St, Marshfield, Massachusetts` |
+| `desktop_1440px` | 1440x900 | **Passed** (`1433 <= 1440`) | N/A (desktop) | `Marshfield Store` | `1899 Ocean St, Marshfield, Massachusetts` |
+| `desktop_1920px` | 1920x1080 | **Passed** (`1913 <= 1920`) | N/A (desktop) | `Marshfield Store` | `1899 Ocean St, Marshfield, Massachusetts` |
+
+### C. Console Errors & Uncaught Exceptions
+- **Result:** **0 console errors, 0 unhandled exceptions**.
 
 ---
 
-## 5. Artifacts & Visual Proof
+## 7. Strict Design Freeze & Invariants Summary
 
-The following visual artifacts and verification records have been generated and archived:
-1. `home_desktop_marshfield_1280px.png` (Desktop Homepage at 1280px)
-2. `home_mobile_marshfield_390px.png` (Mobile Homepage at 390px showing Marshfield, MA header & confidence strip)
-3. `contact_desktop_marshfield_1280px.png` (Dedicated Contact page at 1280px)
-4. `about_desktop_marshfield_1280px.png` (Dedicated About page at 1280px)
-5. `phase21_verification/verification_report.json` (Full CDP audit log with 10 viewport metrics & 9 route audits)
+1. **Mobile Bottom Navigation:** Frozen at 6 items (`Home`, `Shop`, `Search`, `Favourites`, `Cart`, `Account`) in `MobileBottomNav.tsx`.
+2. **Mobile Header:** Height, safe area, and compact layout preserved.
+3. **ProductCard:** `ProductCard.tsx` has 0 changes.
+4. **Commerce Mode:** `NEXT_PUBLIC_COMMERCE_MODE=demo` preserved.
+5. **Git Safety Compliance:** Per Rule 10, all modified files remain unstaged and uncommitted in the local working directory.
 
 ---
 
-## 6. Git Status & Safety Notice
-
-The working tree has been updated cleanly. In compliance with user instructions:
-- **No Git commits or pushes were performed.**
-- All modified files remain staged or tracked locally, ready for customer review and deployment authorization.
-
+## 8. Final Status
+Phase 21 standardization and empirical verification are complete. As instructed, execution is stopped and awaiting user review.

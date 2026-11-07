@@ -5,7 +5,7 @@ import { SITE_CONFIG } from "@/lib/config/site";
 
 export const metadata = {
   title: "About Us — The Irish Grocer Marshfield Store",
-  description: "Learn about The Irish Grocer Marshfield Store at 1899 Ocean St, Marshfield, MA. Bringing authentic Irish foods, teas, crisps, and bakery essentials to New England.",
+  description: "Learn about The Irish Grocer Marshfield Store at 1899 Ocean St, Marshfield, Massachusetts. Bringing authentic Irish foods, teas, crisps, and bakery essentials to New England.",
 };
 
 export default function AboutPage() {
@@ -49,7 +49,7 @@ export default function AboutPage() {
               Marshfield Storefront
             </h3>
             <p className="text-[11px] text-[#4B5563]">
-              1899 Ocean St, Marshfield, MA. Open daily from 9:00 AM to 9:00 PM for easy in-store shopping.
+              1899 Ocean St, Marshfield, Massachusetts. Open daily from 9:00 AM to 9:00 PM for easy in-store shopping.
             </p>
           </div>
 

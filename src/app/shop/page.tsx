@@ -5,7 +5,7 @@ import { OrderConfidenceSection } from "@/components/home/OrderConfidenceSection
 
 export const metadata = {
   title: "Shop All Irish & UK Products — The Irish Grocer",
-  description: "Browse 700+ authentic imported Irish & UK grocery items, snacks, sweets, teas, and meats in Marshfield, MA.",
+  description: "Browse 700+ authentic imported Irish & UK grocery items, snacks, sweets, teas, and meats in Marshfield, Massachusetts.",
 };
 
 export default async function ShopPage() {

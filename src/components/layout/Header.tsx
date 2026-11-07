@@ -165,7 +165,7 @@ export function Header() {
                 <a
                   href={`tel:${SITE_CONFIG.phoneRaw}`}
                   className="hidden md:inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all"
-                  title={`Marshfield, MA Store: ${SITE_CONFIG.phone}`}
+                  title={`Marshfield, Massachusetts Store: ${SITE_CONFIG.phone}`}
                 >
                   <Store className="w-4 h-4 text-[#14532D] shrink-0" />
                   <span className="hidden xl:inline">Marshfield Store</span>

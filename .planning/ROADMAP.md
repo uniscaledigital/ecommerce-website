@@ -23,15 +23,15 @@ flowchart TD
 
 ## Phase Details
 
-### Phase 21: Global Store Location & Business Information Update
-- **Status:** Scoped & Planned (Executing Wave 1)
+### Phase 21: Global Business Location & Contact Information Standardization
+- **Status:** Completed & Fully Verified
 - **Primary Goal:** Update all store location and business contact touchpoints:
-  1. **Canonical Config:** Update `src/lib/config/site.ts` with `Marshfield Store`, `1899 Ocean St, Marshfield, MA 02050`, phone `7746990889` / `(774) 699-0889`, email `irishgrocer@gmail.com`, hours `Open Daily · 9 AM – 9 PM`, delivery `We Deliver!`, brand messaging `Fresh Food · Irish Favorites · Everyday Needs`.
-  2. **Header & Navigation:** Update mobile location pill to `Marshfield, MA`, desktop store link to `Marshfield Store`, and mobile drawer to `Visit Our Marshfield Store`.
-  3. **Homepage Sections:** Update `MobileStoreConfidenceStrip.tsx` (`Marshfield Store`, `1899 Ocean St, Marshfield, MA`, `Open Daily · 9 AM – 9 PM`), `StoreInfoSection.tsx`, `HeroSection.tsx`, and `MobilePromoBanner.tsx`.
+  1. **Canonical Config:** Update `src/lib/config/site.ts` with `Marshfield Store`, `1899 Ocean St, Marshfield, Massachusetts` (no 02050 ZIP code), phone `7746990889` / `(774) 699-0889`, email `irishgrocer@gmail.com`, hours `Open Daily · 9 AM – 9 PM`, delivery `We Deliver!`, brand messaging `Fresh Food · Irish Favorites · Everyday Needs`.
+  2. **Header & Navigation:** Mobile header location pill displays exactly `Marshfield, MA`, desktop store link displays `Marshfield Store` with title `Marshfield, Massachusetts Store: (774) 699-0889`, and mobile drawer displays `Visit Our Marshfield Store`.
+  3. **Homepage Sections:** Update `MobileStoreConfidenceStrip.tsx` (`Marshfield Store`, `1899 Ocean St, Marshfield, Massachusetts`, `Open Daily · 9 AM – 9 PM`), `StoreInfoSection.tsx`, `HeroSection.tsx`, and `MobilePromoBanner.tsx`.
   4. **Site-wide Touchpoints:** Update `Footer.tsx`, `OrderEnquiryModal.tsx`, `cart/page.tsx`, `CartDrawer.tsx`, `ShopClientView.tsx`, `shop/page.tsx`, `SearchClientView.tsx`, `ProductDetailsClient.tsx`, `privacy/page.tsx`.
-  5. **Dedicated Pages & Schema:** Add `src/app/contact/page.tsx`, `src/app/about/page.tsx`, and `LocalBusiness` Schema.org JSON-LD in `layout.tsx`.
-  6. **Automated Quality Gates:** Create `tests/phase21-business-info-update.test.ts`, ensure 100% pass across all test suites, 0 tsc errors, 0 lint warnings, 0 build errors.
+  5. **Dedicated Pages & Schema:** Add `src/app/contact/page.tsx`, `src/app/about/page.tsx`, and `LocalBusiness` / `GroceryStore` Schema.org JSON-LD in `layout.tsx`.
+  6. **Automated Quality Gates:** Create `tests/phase21-business-info-update.test.ts`, ensure 100% pass across all 10 test suites, 0 tsc errors, 0 lint warnings, 0 build errors.
   7. **Gravitas Multi-Viewport Browser Verification:** Validate 10 viewports (360px–1920px) and 9 routes (`/`, `/shop`, `/search`, `/favorites`, `/account`, `/contact`, `/about`, `/cart`, `/collections/crisps-snacks`), confirming 0 console errors, 0 overflow, and valid clickable links.
 - **Files Modified/Created:**
   - `website/src/lib/config/site.ts`

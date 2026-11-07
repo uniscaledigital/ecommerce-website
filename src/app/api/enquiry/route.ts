@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("Order enquiry processing failure:", err);
     return NextResponse.json(
-      { success: false, error: "Failed to queue order enquiry. Please try again or contact the Quincy store directly." },
+      { success: false, error: "Failed to queue order enquiry. Please try again or contact our Marshfield store directly." },
       { status: 500, headers: rateLimit.headers }
     );
   }

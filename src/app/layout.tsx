@@ -55,7 +55,6 @@ const storeJsonLd = {
     streetAddress: SITE_CONFIG.address.street,
     addressLocality: SITE_CONFIG.address.city,
     addressRegion: SITE_CONFIG.address.state,
-    postalCode: SITE_CONFIG.address.zip,
     addressCountry: "US",
   },
   openingHoursSpecification: [

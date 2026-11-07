@@ -10,9 +10,9 @@ test("1. Canonical SITE_CONFIG has official Marshfield business information", ()
   assert.equal(SITE_CONFIG.storeName, "Marshfield Store");
   assert.equal(SITE_CONFIG.address.street, "1899 Ocean St");
   assert.equal(SITE_CONFIG.address.city, "Marshfield");
-  assert.equal(SITE_CONFIG.address.state, "MA");
-  assert.equal(SITE_CONFIG.address.zip, "02050");
-  assert.equal(SITE_CONFIG.address.full, "1899 Ocean St, Marshfield, MA 02050");
+  assert.equal(SITE_CONFIG.address.state, "Massachusetts");
+  assert.equal(SITE_CONFIG.address.full, "1899 Ocean St, Marshfield, Massachusetts");
+  assert.ok(!("zip" in SITE_CONFIG.address) || !SITE_CONFIG.address.zip, "Should not append 02050 ZIP code");
   assert.equal(SITE_CONFIG.phone, "(774) 699-0889");
   assert.equal(SITE_CONFIG.phoneRaw, "7746990889");
   assert.equal(SITE_CONFIG.email, "irishgrocer@gmail.com");
@@ -38,12 +38,12 @@ test("1. Canonical SITE_CONFIG has official Marshfield business information", ()
 test("2. Desktop and Mobile Header render Marshfield store indicators", () => {
   const headerContent = fs.readFileSync(path.join(ROOT_DIR, "src/components/layout/Header.tsx"), "utf8");
 
-  // Desktop row 1 renders Marshfield Store
+  // Desktop row 1 renders Marshfield Store with full state in tooltip
   assert.match(headerContent, /Marshfield Store/);
-  assert.match(headerContent, /Marshfield, MA Store:/);
+  assert.match(headerContent, /Marshfield, Massachusetts Store:/);
   assert.match(headerContent, /SITE_CONFIG\.phone/);
 
-  // Mobile header renders Marshfield, MA location indicator
+  // Mobile header renders exact compact Marshfield, MA location indicator
   assert.match(headerContent, /Marshfield, MA/);
 });
 
@@ -54,19 +54,21 @@ test("3. MobileStoreConfidenceStrip renders official Marshfield address and hour
   );
 
   assert.match(content, /Marshfield Store/);
-  assert.match(content, /1899 Ocean St, Marshfield, MA/);
+  assert.match(content, /1899 Ocean St, Marshfield, Massachusetts/);
   assert.match(content, /Open Daily · 9 AM – 9 PM/);
+  assert.ok(!content.includes("02050"), "Must not append ZIP code 02050");
 });
 
 test("4. StoreInfoSection renders complete Marshfield details and map link", () => {
   const content = fs.readFileSync(path.join(ROOT_DIR, "src/components/home/StoreInfoSection.tsx"), "utf8");
 
-  assert.match(content, /MARSHFIELD, MA/);
+  assert.match(content, /MARSHFIELD, MASSACHUSETTS/);
   assert.match(content, /Visit Our Marshfield Store/);
   assert.match(content, /SITE_CONFIG\.address\.full/);
   assert.match(content, /SITE_CONFIG\.hours/);
   assert.match(content, /SITE_CONFIG\.phone/);
-  assert.match(content, /query=1899\+Ocean\+St\+Marshfield\+MA\+02050/);
+  assert.match(content, /query=1899\+Ocean\+St\+Marshfield\+Massachusetts/);
+  assert.ok(!content.includes("02050"), "Must not append ZIP code 02050");
 });
 
 test("5. HeroSection renders Marshfield Pickup trust badges", () => {
@@ -87,7 +89,8 @@ test("6. Mobile Drawer and Mobile Promo Banner render Marshfield storefront refe
   );
   assert.match(bannerContent, /Marshfield storefront/);
   assert.match(bannerContent, /WE DELIVER! • MARSHFIELD STORE/);
-  assert.match(bannerContent, /1899 Ocean St, Marshfield, MA/);
+  assert.match(bannerContent, /1899 Ocean St, Marshfield, Massachusetts/);
+  assert.ok(!bannerContent.includes("02050"), "Must not append ZIP code 02050");
 });
 
 test("7. OrderEnquiryModal, Cart, Shop, and Search reference Marshfield storefront", () => {
@@ -102,11 +105,11 @@ test("7. OrderEnquiryModal, Cart, Shop, and Search reference Marshfield storefro
   assert.match(cartContent, /Marshfield Store Pickup/);
 
   const shopContent = fs.readFileSync(path.join(ROOT_DIR, "src/app/shop/ShopClientView.tsx"), "utf8");
-  assert.match(shopContent, /Marshfield/);
+  assert.match(shopContent, /Marshfield, Massachusetts/);
 
   const searchContent = fs.readFileSync(path.join(ROOT_DIR, "src/app/search/SearchClientView.tsx"), "utf8");
-  assert.match(searchContent, /About The Irish Grocer \(Marshfield, MA\)/);
-  assert.match(searchContent, /1899 Ocean St, Marshfield, MA/);
+  assert.match(searchContent, /About The Irish Grocer \(Marshfield, Massachusetts\)/);
+  assert.match(searchContent, /1899 Ocean St, Marshfield, Massachusetts/);
 });
 
 test("8. Dedicated Contact and About pages exist with Marshfield data and clickable links", () => {
@@ -116,10 +119,11 @@ test("8. Dedicated Contact and About pages exist with Marshfield data and clicka
   const contactContent = fs.readFileSync(contactPath, "utf8");
   assert.match(contactContent, /Contact Our Marshfield Store/);
   assert.match(contactContent, /1899 Ocean St/);
-  assert.match(contactContent, /Marshfield/);
+  assert.match(contactContent, /Marshfield, Massachusetts/);
   assert.match(contactContent, /SITE_CONFIG\.phoneRaw/);
   assert.match(contactContent, /SITE_CONFIG\.email/);
   assert.match(contactContent, /9:00 AM – 9:00 PM/);
+  assert.ok(!contactContent.includes("02050"), "Must not append ZIP code 02050 in contact page");
 
   // About page
   const aboutPath = path.join(ROOT_DIR, "src/app/about/page.tsx");
@@ -128,10 +132,11 @@ test("8. Dedicated Contact and About pages exist with Marshfield data and clicka
   assert.match(aboutContent, /About The Irish Grocer/);
   assert.match(aboutContent, /1899 Ocean St in Marshfield, Massachusetts/);
   assert.match(aboutContent, /SITE_CONFIG\.motto/);
+  assert.ok(!aboutContent.includes("02050"), "Must not append ZIP code 02050 in about page");
 
   // Privacy page
   const privacyContent = fs.readFileSync(path.join(ROOT_DIR, "src/app/privacy/page.tsx"), "utf8");
-  assert.match(privacyContent, /The Irish Grocer \(Marshfield, MA\)/);
+  assert.match(privacyContent, /The Irish Grocer \(Marshfield, Massachusetts\)/);
   assert.match(privacyContent, /Marshfield grocery store staff/);
   assert.match(privacyContent, /Contacting Our Marshfield Store/);
 });

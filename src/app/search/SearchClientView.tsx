@@ -165,11 +165,11 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
           <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">
             <h3 className="text-sm font-bold text-[#14532D]">
               <Link href="/about" className="hover:underline">
-                About The Irish Grocer (Marshfield, MA)
+                About The Irish Grocer (Marshfield, Massachusetts)
               </Link>
             </h3>
             <p className="text-xs text-[#4B5563] mt-1">
-              Store information, operating hours, and location at 1899 Ocean St, Marshfield, MA.
+              Store information, operating hours, and location at 1899 Ocean St, Marshfield, Massachusetts.
             </p>
           </div>
           <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 shadow-xs">

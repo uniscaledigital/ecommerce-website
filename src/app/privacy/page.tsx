@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-xs text-[#4B5563] mt-2">
-          Effective Date: January 1, 2026 • The Irish Grocer (Marshfield, MA)
+          Effective Date: January 1, 2026 • The Irish Grocer (Marshfield, Massachusetts)
         </p>
       </div>
 

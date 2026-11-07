@@ -12,7 +12,7 @@ export function StoreInfoSection() {
           <div className="space-y-3.5 sm:space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FDF4E3] border border-[#DCE8D7] text-[10.5px] sm:text-[11px] font-bold text-[#10552F] uppercase tracking-wider">
               <Store className="w-3.5 h-3.5 text-[#10552F]" />
-              <span>A NEIGHBOURHOOD FAVOURITE • MARSHFIELD, MA</span>
+              <span>A NEIGHBOURHOOD FAVOURITE • MARSHFIELD, MASSACHUSETTS</span>
             </div>
 
             <h2 className="font-serif-display text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-[#10552F] tracking-tight leading-tight">
@@ -54,7 +54,7 @@ export function StoreInfoSection() {
                   Visit Our Marshfield Store
                 </h3>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+MA+02050"
+                  href="https://www.google.com/maps/search/?api=1&query=1899+Ocean+St+Marshfield+Massachusetts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs sm:text-[12.5px] text-[#334155] hover:text-[#10552F] hover:underline mt-0.5 leading-snug block"
