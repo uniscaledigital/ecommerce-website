@@ -15,9 +15,9 @@
 ## Current Position
 
 Phase: Phase 21 — Desktop Header Favourites Action & Live Badge Integration
-Plan: Planning Gate (Awaiting `/gsd-plan-phase 21`)
-Status: Scoped & Ready for Planning (Zero application code modified)
-Last activity: 2026-11-07 — Milestone v9.0 initialized and scoped
+Plans: `21-01-PLAN.md`, `21-02-PLAN.md`, `21-03-PLAN.md` (3 Waves Planned — Awaiting Execution)
+Status: Planned & Ready for Execution (Planning Gate Active — Zero Application Code Edits)
+Last activity: 2026-11-07 — Phase 21 execution plan authored and verified
 
 ---
 
