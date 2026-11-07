@@ -164,7 +164,7 @@ export function ShopClientView({
             {title}
           </h1>
           <p className="text-xs text-[#42634A] mt-0.5">
-            Authentic Irish &amp; UK imports delivered fresh from our Quincy storefront.
+            Authentic Irish &amp; UK imports delivered fresh from our Marshfield storefront.
           </p>
         </div>
 
@@ -445,7 +445,7 @@ export function ShopClientView({
             {title}
           </h1>
           <p className="text-xs sm:text-sm text-[#42634A] mt-1">
-            Authentic Irish &amp; UK imports delivered fresh from our Quincy, MA storefront.
+            Authentic Irish &amp; UK imports delivered fresh from our Marshfield, MA storefront.
           </p>
         </div>
 

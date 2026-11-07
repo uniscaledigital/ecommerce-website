@@ -171,7 +171,7 @@ export function CartDrawer() {
               </span>
             </div>
             <p className="text-[11px] text-[#4B5563] leading-tight">
-              Taxes and Quincy / shipping fees will be verified prior to payment link issuance.
+              Taxes and delivery / shipping fees will be verified prior to payment link issuance.
             </p>
 
             <div className="space-y-2 pt-1">

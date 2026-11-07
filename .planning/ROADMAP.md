@@ -1,7 +1,7 @@
-# ROADMAP.md — Milestone v9.0: Desktop Favourites Navigation Integration
+# ROADMAP.md — Milestone v9.0: Store Location & Business Information Update
 
-**Milestone:** v9.0 — Desktop Favourites Navigation Integration  
-**Core Goal:** Integrate a polished, accessible Favourites navigation action into the desktop header (`Header.tsx`) on screens $\ge 1024\text{px}$, complete with live numeric badge count, active route highlight, mobile exclusion, and comprehensive Gravitas regression verification.  
+**Milestone:** v9.0 — Store Location & Business Information Update  
+**Core Goal:** Update physical store location, telephone, email, operating hours, delivery messaging, brand positioning, and structured SEO business data throughout the entire Irish Grocer website across desktop, tablet, and mobile.  
 **Commerce Mode:** `NEXT_PUBLIC_COMMERCE_MODE=demo`  
 **Frameworks:** GSD Primary + CodeRabbit Review + Gravitas Visual QA  
 **Execution Structure:** Exactly one single implementation phase: **Phase 21**.
@@ -12,8 +12,8 @@
 
 ```mermaid
 flowchart TD
-    subgraph M9["Milestone v9.0: Desktop Favourites Navigation Integration"]
-        P21["Phase 21: Desktop Header Favourites Action & Live Badge Integration\n(1. Desktop Header Action • 2. Live Numeric Badge • 3. Responsive Lock\n4. Automated Test Suite • 5. Gravitas Multi-Viewport QA)"]
+    subgraph M9["Milestone v9.0: Store Location & Business Information Update"]
+        P21["Phase 21: Global Store Location & Business Information Update\n(1. Canonical Config & Layout Updates • 2. Contact & About Pages • 3. Schema.org\n4. Automated Regression Suite • 5. Gravitas Multi-Viewport QA)"]
         DONE["Milestone v9.0 Acceptance & Completion"]
     end
     P21 --> DONE
@@ -23,17 +23,34 @@ flowchart TD
 
 ## Phase Details
 
-### Phase 21: Desktop Header Favourites Action & Live Badge Integration
-- **Status:** Scoped & Ready for Planning (Planning Gate — Zero Application Code Edits)
-- **Primary Goal:** Integrate Favourites into the desktop navigation header:
-  1. **Desktop Header Action:** Add a dedicated Favourites action to `website/src/components/layout/Header.tsx` on $\ge 1024\text{px}$ viewports alongside Store, Account, and Cart.
-  2. **Icon & Label:** Use `Heart` icon from `lucide-react` (filled `#14532D` when active, outline when idle) with `Favourites` label and minimum $44\times 44\text{px}$ touch target.
-  3. **Live Numeric Badge:** Render a dynamic count badge (`#22C55E` background, `#14532D` text) when `wishlist.length > 0`, synchronized with `useWishlist`.
-  4. **Responsive Boundaries:** Strictly hide on `< 1024px` viewports (where `MobileBottomNav` operates). Preserve desktop layout geometry with 0 horizontal overflow.
-  5. **Automated Quality Gates:** Create `tests/phase21-desktop-favorites.test.ts`, update `package.json`, verify 100% pass across all 9 suites, 0 tsc errors, 0 lint warnings, 0 build errors.
-  6. **Gravitas Multi-Viewport Browser Verification:** Validate 10 viewports (360px–1920px), 0 console errors, 0 uncaught exceptions, 0 overflow, and $\ge 95\%$ desktop visual similarity.
+### Phase 21: Global Store Location & Business Information Update
+- **Status:** Scoped & Planned (Executing Wave 1)
+- **Primary Goal:** Update all store location and business contact touchpoints:
+  1. **Canonical Config:** Update `src/lib/config/site.ts` with `Marshfield Store`, `1899 Ocean St, Marshfield, MA 02050`, phone `7746990889` / `(774) 699-0889`, email `irishgrocer@gmail.com`, hours `Open Daily · 9 AM – 9 PM`, delivery `We Deliver!`, brand messaging `Fresh Food · Irish Favorites · Everyday Needs`.
+  2. **Header & Navigation:** Update mobile location pill to `Marshfield, MA`, desktop store link to `Marshfield Store`, and mobile drawer to `Visit Our Marshfield Store`.
+  3. **Homepage Sections:** Update `MobileStoreConfidenceStrip.tsx` (`Marshfield Store`, `1899 Ocean St, Marshfield, MA`, `Open Daily · 9 AM – 9 PM`), `StoreInfoSection.tsx`, `HeroSection.tsx`, and `MobilePromoBanner.tsx`.
+  4. **Site-wide Touchpoints:** Update `Footer.tsx`, `OrderEnquiryModal.tsx`, `cart/page.tsx`, `CartDrawer.tsx`, `ShopClientView.tsx`, `shop/page.tsx`, `SearchClientView.tsx`, `ProductDetailsClient.tsx`, `privacy/page.tsx`.
+  5. **Dedicated Pages & Schema:** Add `src/app/contact/page.tsx`, `src/app/about/page.tsx`, and `LocalBusiness` Schema.org JSON-LD in `layout.tsx`.
+  6. **Automated Quality Gates:** Create `tests/phase21-business-info-update.test.ts`, ensure 100% pass across all test suites, 0 tsc errors, 0 lint warnings, 0 build errors.
+  7. **Gravitas Multi-Viewport Browser Verification:** Validate 10 viewports (360px–1920px) and 9 routes (`/`, `/shop`, `/search`, `/favorites`, `/account`, `/contact`, `/about`, `/cart`, `/collections/crisps-snacks`), confirming 0 console errors, 0 overflow, and valid clickable links.
 - **Files Modified/Created:**
+  - `website/src/lib/config/site.ts`
+  - `website/.env.local` & `website/.env.example`
   - `website/src/components/layout/Header.tsx`
-  - `website/tests/phase21-desktop-favorites.test.ts` *(new)*
+  - `website/src/components/layout/MobileDrawer.tsx`
+  - `website/src/components/home/mobile/MobileStoreConfidenceStrip.tsx`
+  - `website/src/components/home/mobile/MobilePromoBanner.tsx`
+  - `website/src/components/home/StoreInfoSection.tsx`
+  - `website/src/components/home/HeroSection.tsx`
+  - `website/src/components/enquiry/OrderEnquiryModal.tsx`
+  - `website/src/app/cart/page.tsx` & `website/src/components/cart/CartDrawer.tsx`
+  - `website/src/app/shop/ShopClientView.tsx` & `website/src/app/shop/page.tsx`
+  - `website/src/app/search/SearchClientView.tsx`
+  - `website/src/app/products/[handle]/ProductDetailsClient.tsx`
+  - `website/src/app/privacy/page.tsx`
+  - `website/src/app/contact/page.tsx` *(new)*
+  - `website/src/app/about/page.tsx` *(new)*
+  - `website/src/app/layout.tsx`
+  - `website/tests/phase21-business-info-update.test.ts` *(new)*
   - `website/package.json`
-- **Stop Condition:** Stop after Phase 21. Do not start Phase 22 or another milestone.
+- **Stop Condition:** Stop after Phase 21. Do not start another milestone or phase.

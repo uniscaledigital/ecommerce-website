@@ -152,7 +152,7 @@ export default function CartPage() {
                 <span>Calculated on enquiry</span>
               </div>
               <div className="flex justify-between">
-                <span>Quincy Store Pickup</span>
+                <span>Marshfield Store Pickup</span>
                 <span className="text-[#14532D] font-bold">Free (2-Hour Ready)</span>
               </div>
             </div>

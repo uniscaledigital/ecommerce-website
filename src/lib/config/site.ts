@@ -1,21 +1,24 @@
 export const SITE_CONFIG = {
   name: "The Irish Grocer",
+  storeName: "Marshfield Store",
   tagline: "Taste of Home: Traditional Pantry & Farmhouse Essentials",
   motto: "Enter as a Stranger • Leave as a Friend.",
+  brandMessaging: "Fresh Food · Irish Favorites · Everyday Needs",
+  deliveryMessage: "We Deliver!",
   description:
-    "Imported Irish and UK grocery favourites in Quincy, Massachusetts. Delivered straight from Dublin and Cork to New England weekly.",
-  phone: "(857) 387-2065",
-  phoneRaw: "8573872065",
-  email: "theirishgrocer@gmail.com",
+    "Imported Irish and UK grocery favourites in Marshfield, Massachusetts. Delivered straight from Dublin and Cork to New England weekly.",
+  phone: "(774) 699-0889",
+  phoneRaw: "7746990889",
+  email: "irishgrocer@gmail.com",
   address: {
-    street: "132 East Howard Street",
-    city: "Quincy",
+    street: "1899 Ocean St",
+    city: "Marshfield",
     state: "MA",
-    zip: "02169",
-    full: "132 East Howard Street, Quincy, MA 02169",
+    zip: "02050",
+    full: "1899 Ocean St, Marshfield, MA 02050",
   },
-  hours: "7:00 AM – 10:00 PM • 365 days a year",
-  announcement: "Free in-store pickup in Quincy, MA • Open 365 days a year",
+  hours: "9:00 AM – 9:00 PM • Open Daily",
+  announcement: "We Deliver! • Free in-store pickup at Marshfield Store • Open Daily 9 AM – 9 PM",
   social: {
     facebook: "https://facebook.com",
     twitter: "https://x.com",
@@ -63,11 +66,11 @@ export const FOOTER_SHOP_LINKS = [
 
 export const FOOTER_HELP_LINKS = [
   { label: "Exclusive Finds", href: "/#exclusive-finds" },
-  { label: "Store Locator & Hours", href: "/#store-info" },
+  { label: "Store Locator & Hours", href: "/contact" },
   { label: "Order with Confidence", href: "/#order-confidence" },
-  { label: "Quincy In-Store Pickup", href: "/#store-info" },
-  { label: "Contact Quincy Store", href: "tel:8573872065" },
-  { label: "theirishgrocer@gmail.com", href: "mailto:theirishgrocer@gmail.com" },
+  { label: "Marshfield In-Store Pickup", href: "/contact" },
+  { label: "Contact Marshfield Store", href: "tel:+17746990889" },
+  { label: "irishgrocer@gmail.com", href: "mailto:irishgrocer@gmail.com" },
   { label: "Privacy Policy", href: "/privacy" },
 ];
 

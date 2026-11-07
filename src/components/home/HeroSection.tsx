@@ -157,7 +157,7 @@ export function HeroSection() {
               <span className="w-[1px] h-3.5 bg-[#E8DFCF]" />
               <div className="flex items-center gap-2 font-medium">
                 <Clock className="w-4 h-4 text-[#22C55E] shrink-0" />
-                <span>2-Hour Quincy Pickup</span>
+                <span>2-Hour Marshfield Pickup</span>
               </div>
               <span className="w-[1px] h-3.5 bg-[#E8DFCF]" />
               <div className="flex items-center gap-2 font-medium">
@@ -242,7 +242,7 @@ export function HeroSection() {
           </div>
           <div className="flex items-center gap-2 bg-[#FFFAF1] sm:bg-transparent p-2.5 sm:p-0 rounded-xl sm:rounded-none border sm:border-0 border-[#E8DFCF]/60 font-medium">
             <Clock className="w-4 h-4 text-[#22C55E] shrink-0" />
-            <span>2-Hour Quincy Pickup</span>
+            <span>2-Hour Marshfield Pickup</span>
           </div>
           <div className="flex items-center gap-2 bg-[#FFFAF1] sm:bg-transparent p-2.5 sm:p-0 rounded-xl sm:rounded-none border sm:border-0 border-[#E8DFCF]/60 font-medium">
             <Snowflake className="w-4 h-4 text-[#22C55E] shrink-0" />

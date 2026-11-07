@@ -152,7 +152,7 @@ export function OrderEnquiryModal() {
                 Enquiry Received!
               </h3>
               <p className="text-sm text-[#4B5563] max-w-md mx-auto leading-relaxed">
-                Thank you, <strong>{customerName || "Customer"}</strong>. Our Quincy storefront team has received your order request.
+                Thank you, <strong>{customerName || "Customer"}</strong>. Our Marshfield storefront team has received your order request.
               </p>
               <div className="bg-[#F7EBD8] p-4 rounded-lg border border-[#E8DFCF] text-xs text-[#1F2937] text-left space-y-2">
                 <div className="flex items-center gap-2 text-[#14532D] font-bold">
@@ -248,7 +248,7 @@ export function OrderEnquiryModal() {
                   <input
                     type="tel"
                     required
-                    placeholder="+1 (857) 387-2065"
+                    placeholder="+1 (774) 699-0889"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full px-3 py-2 border border-[#E8DFCF] rounded-md bg-white text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D]"
@@ -261,7 +261,7 @@ export function OrderEnquiryModal() {
                   <input
                     type="text"
                     required
-                    placeholder="Quincy delivery address or In-store Pickup"
+                    placeholder="Marshfield delivery address or In-store Pickup"
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
                     className="w-full px-3 py-2 border border-[#E8DFCF] rounded-md bg-white text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D]"

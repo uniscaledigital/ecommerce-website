@@ -4,10 +4,11 @@ import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { Search, Store, User, ShoppingBag, Menu, MapPin, X } from "lucide-react";
+import { Search, Store, User, ShoppingBag, Menu, MapPin, X, Heart } from "lucide-react";
 import { SITE_CONFIG, CATEGORY_NAVIGATION_LINKS } from "@/lib/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useWishlist } from "@/hooks/useWishlist";
 import { MobileDrawer } from "./MobileDrawer";
 
 function HeaderSearchSync({ setSearchQuery }: { setSearchQuery: (q: string) => void }) {
@@ -28,6 +29,7 @@ export function Header() {
   const pathname = usePathname();
   const { cart, openCart } = useCart();
   const { isAuthenticated, customer } = useAuth();
+  const { wishlistCount, isLoaded } = useWishlist();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,6 +79,7 @@ export function Header() {
   const isHomepage = pathname === "/";
   const isAccountRoute = pathname.startsWith("/account");
   const isShopOrCollectionRoute = pathname === "/shop" || pathname.startsWith("/collections");
+  const isFavoritesActive = pathname === "/favorites";
 
   return (
     <header
@@ -158,13 +161,14 @@ export function Header() {
                 <div className="hidden lg:block h-5 w-[1px] bg-[#14532D]/15 shrink-0 mr-0.5" />
 
                 {/* Store Contact Control */}
+                {/* Quincy Store control -> Marshfield Store */}
                 <a
                   href={`tel:${SITE_CONFIG.phoneRaw}`}
                   className="hidden md:inline-flex items-center gap-1.5 text-xs xl:text-[13px] font-semibold text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all"
-                  title="Quincy, MA Store: (857) 387-2065"
+                  title={`Marshfield, MA Store: ${SITE_CONFIG.phone}`}
                 >
                   <Store className="w-4 h-4 text-[#14532D] shrink-0" />
-                  <span className="hidden xl:inline">Quincy Store</span>
+                  <span className="hidden xl:inline">Marshfield Store</span>
                 </a>
 
                 {/* Customer Account Control (Patrick / Account) */}
@@ -174,6 +178,33 @@ export function Header() {
                 >
                   <User className="w-4 h-4 text-[#14532D] shrink-0" />
                   <span>{customer?.firstName || (isAuthenticated ? "Account" : "Sign in")}</span>
+                </Link>
+
+                {/* Favourites Control (Desktop Only: >= 1024px) */}
+                <Link
+                  href="/favorites"
+                  className={`hidden lg:inline-flex items-center gap-1.5 text-xs xl:text-[13px] text-[#14532D] hover:text-[#064E3B] hover:bg-[#14532D]/6 px-2.5 py-1.5 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#14532D] ${
+                    isFavoritesActive ? "bg-[#14532D]/10 font-bold" : "font-semibold"
+                  }`}
+                  aria-current={isFavoritesActive ? "page" : undefined}
+                  aria-label={`Favourites, ${wishlistCount} saved product${wishlistCount === 1 ? "" : "s"}`}
+                  title="Favourites"
+                >
+                  <div className="relative shrink-0">
+                    <Heart
+                      className={`w-4 h-4 shrink-0 transition-colors ${
+                        isFavoritesActive
+                          ? "fill-[#14532D] text-[#14532D]"
+                          : "text-current"
+                      }`}
+                    />
+                    {isLoaded && wishlistCount > 0 && (
+                      <span className="absolute -top-1.5 -right-2 bg-[#22C55E] text-[#14532D] text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs border border-white">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </div>
+                  <span className="hidden xl:inline">Favourites</span>
                 </Link>
 
                 {/* Shopping Cart Control */}
@@ -221,7 +252,7 @@ export function Header() {
                   </Link>
                   <div className="hidden xs:flex items-center gap-1 text-[10px] text-[#42634A] font-semibold tracking-tight border-l border-[#14532D]/15 pl-1.5 py-0.5 truncate">
                     <MapPin className="w-2.5 h-2.5 text-[#14532D] shrink-0" />
-                    <span className="truncate">Quincy, MA</span>
+                    <span className="truncate">Marshfield, MA</span>
                   </div>
                 </div>
 

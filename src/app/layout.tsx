@@ -41,6 +41,45 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const storeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "GroceryStore",
+  name: SITE_CONFIG.name,
+  alternateName: SITE_CONFIG.storeName,
+  description: SITE_CONFIG.description,
+  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  telephone: `+1-${SITE_CONFIG.phoneRaw.slice(0, 3)}-${SITE_CONFIG.phoneRaw.slice(3, 6)}-${SITE_CONFIG.phoneRaw.slice(6)}`,
+  email: SITE_CONFIG.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE_CONFIG.address.street,
+    addressLocality: SITE_CONFIG.address.city,
+    addressRegion: SITE_CONFIG.address.state,
+    postalCode: SITE_CONFIG.address.zip,
+    addressCountry: "US",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "09:00",
+      closes: "21:00",
+    },
+  ],
+  priceRange: "$$",
+  currenciesAccepted: "USD",
+  paymentAccepted: "Cash, Credit Card, Shop Pay",
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE_CONFIG.address.full)}`,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,6 +87,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd) }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-[#FDF4E3] text-[#1F2937] w-full max-w-full m-0 p-0 overflow-x-clip">
         <AuthProvider>
           <CartProvider>

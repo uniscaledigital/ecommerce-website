@@ -154,7 +154,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             </button>
           </div>
 
-          {/* Quincy Store Quick Navigation */}
+          {/* Marshfield Store Quick Navigation */}
           <div className="px-4 py-2.5 bg-[#F7EBD8]/60 border-b border-[#E8DFCF]">
             <Link
               href="/#store-info"
@@ -163,7 +163,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             >
               <div className="flex items-center gap-2">
                 <Store className="w-4 h-4 text-[#14532D]" />
-                <span>Visit Our Quincy Store</span>
+                <span>Visit Our Marshfield Store</span>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-[#22C55E]" />
             </Link>

@@ -4,7 +4,7 @@ import { SITE_CONFIG } from "@/lib/config/site";
 
 export const metadata = {
   title: "Privacy Policy — The Irish Grocer",
-  description: "Privacy policy and customer data practices for The Irish Grocer in Quincy, Massachusetts.",
+  description: "Privacy policy and customer data practices for The Irish Grocer in Marshfield, Massachusetts.",
 };
 
 export default function PrivacyPage() {
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-xs text-[#4B5563] mt-2">
-          Effective Date: January 1, 2026 • The Irish Grocer (Quincy, MA)
+          Effective Date: January 1, 2026 • The Irish Grocer (Marshfield, MA)
         </p>
       </div>
 
@@ -37,12 +37,12 @@ export default function PrivacyPage() {
         <section className="space-y-2">
           <h2 className="text-sm sm:text-base font-bold text-[#1F2937] font-serif-display">3. Order Enquiries &amp; Written Confirmations</h2>
           <p>
-            For delivery and bulk orders, order requests submitted through our &quot;Order with Confidence&quot; workflow are reviewed directly by our Quincy grocery store staff. Payment links are delivered securely, eliminating any requirement to share credit card details verbally or insecurely.
+            For delivery and bulk orders, order requests submitted through our &quot;Order with Confidence&quot; workflow are reviewed directly by our Marshfield grocery store staff. Payment links are delivered securely, eliminating any requirement to share credit card details verbally or insecurely.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-sm sm:text-base font-bold text-[#1F2937] font-serif-display">4. Contacting Our Quincy Store</h2>
+          <h2 className="text-sm sm:text-base font-bold text-[#1F2937] font-serif-display">4. Contacting Our Marshfield Store</h2>
           <p>
             For inquiries regarding our privacy policy, customer accounts, or order records, you can reach us at:
           </p>

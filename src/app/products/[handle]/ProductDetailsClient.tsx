@@ -210,7 +210,7 @@ export function ProductDetailsClient({
                       {formatMoney(currentVariant.price)}
                     </span>
                     <span className="text-xs text-[#4B5563] block mt-0.5">
-                      Prices in USD • Quincy, MA Store
+                      Prices in USD • Marshfield, MA Store
                     </span>
                   </div>
                   <div className="text-right">
