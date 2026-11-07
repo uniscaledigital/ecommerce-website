@@ -3,36 +3,54 @@
 **Defined:** November 7, 2026  
 **Core Value:** Deliver an authentic, delightful, and friction-free Irish grocery shopping experience where customers can effortlessly discover, save, and batch-purchase their favorite imported pantry staples across mobile, tablet, and desktop.  
 **Milestone:** v8.0  
-**Status:** Scoped & Approved  
+**Phase:** Phase 20 (Single Implementation Phase)  
+**Status:** Scoped & Planned  
 
 ---
 
-## v8.0 Requirements
+## v8.0 Requirements Matrix (Phase 20)
 
-### 1. State & Hook Architecture (STATE)
+### 1. Mobile Bottom Navigation Integration (REQ-A)
+- [ ] **REQ-801.1**: Update `MobileBottomNav.tsx` to display exactly six equal-width destinations in strict order:
+  1. `Home` (`/`)
+  2. `Shop` (`/shop` or `/collections/*`)
+  3. `Search` (`/search`)
+  4. `Favourites` (`/favorites`)
+  5. `Cart` (calls `openCart`)
+  6. `Patrick` / `Account` (`/account`)
+- [ ] **REQ-801.2**: Favourites tab displays proper heart icon: outline heart when inactive, filled Forest Green heart (`#14532D`) when active (`pathname === "/favorites"`).
+- [ ] **REQ-801.3**: Favourites tab shows a dynamic badge with the total number of saved products when count > 0.
+- [ ] **REQ-801.4**: Six navigation items fit cleanly without wrapping, overlapping, or clipping across 360px, 390px, and 430px mobile viewports, maintaining $\ge 44\times 44\text{px}$ touch targets and safe-area padding.
 
-- [ ] **REQ-FAV-01**: `useWishlist` hook provides complete reactive methods: `wishlist` (array of product IDs), `wishlistCount` (number), `isWishlisted(id)` (boolean), `toggleWishlist(id)` (void), and `clearWishlist()` (void), with synchronized `localStorage` (`irish_grocer_wishlist`) and cross-tab storage events.
-- [ ] **REQ-FAV-02**: Product Details Page ([`ProductDetailsClient.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/app/products/[handle]/ProductDetailsClient.tsx)) integrates a dedicated, touch-accessible ($\ge 44\times 44\text{px}$) styled Heart toggle button alongside the quantity selector and Add to Basket actions, supporting active heart styling, visual feedback, and screen reader announcements.
+### 2. Multi-Surface Heart Interactions & State Synchronization (REQ-B)
+- [ ] **REQ-802.1**: Reuse existing `useWishlist` hook and storage architecture across all product surfaces without creating a second wishlist system.
+- [ ] **REQ-802.2**: Clicking a heart icon on any product surface (`ProductCard`, `ProductListCard`, `QuickViewModal`, and `ProductDetailsClient`) adds the product ID to the saved-items collection and toggles the icon to filled.
+- [ ] **REQ-802.3**: Clicking an active filled heart removes the product from the saved-items collection and toggles the icon back to outline.
+- [ ] **REQ-802.4**: All product surfaces share the exact same canonical product ID (`product.id`) and reflect state changes immediately without page refresh.
 
-### 2. Dedicated Favourites Destination & Batch Operations (ROUTE)
+### 3. Persistent Storage Resilience (REQ-C)
+- [ ] **REQ-803.1**: Saved products collection persists reliably in `localStorage` under `const WISHLIST_STORAGE_KEY = "irish_grocer_wishlist"`.
+- [ ] **REQ-803.2**: Saved products survive route navigation, page refreshes, and browser restarts.
+- [ ] **REQ-803.3**: Changes synchronize reactively across open browser tabs via `storage` event listener and custom `wishlist-updated` dispatch.
+- [ ] **REQ-803.4**: Malformed, empty, or non-array localStorage data is safely handled, falling back gracefully to `[]`.
+- [ ] **REQ-803.5**: Duplicate product entries are strictly prevented via Set deduplication.
 
-- [ ] **REQ-FAV-03**: Dedicated `/favorites` route (`src/app/favorites/page.tsx` and `FavoritesClientView.tsx`) renders all saved items in the standard responsive product grid (2-column mobile, multi-column desktop) with page header, item count, and individual remove actions.
-- [ ] **REQ-FAV-04**: Dedicated `/favorites` page features a prominent "Add All to Basket" batch action that adds all in-stock wishlisted items to the active basket in a single tap and opens the CartDrawer.
-- [ ] **REQ-FAV-05**: Batch cart actions strictly honor B2B wholesale pricing gates: unauthenticated visitors are prompted to log in before adding items to basket.
-- [ ] **REQ-FAV-06**: When 0 items are saved, `/favorites` renders a warm farmhouse empty state card in Warm Cream (`#FFFAF1`) with Playfair Display heading, reassuring copy, and 4 quick-link shortcut pills to popular Irish aisles (Crisps & Snacks, Tea & Coffee, Biscuits & Cakes, Cadbury).
-- [ ] **REQ-FAV-07**: Individual item remove button and a secondary "Clear All Saved" confirmation action allow easy wishlist curation.
+### 4. Dedicated Favourites Destination & Empty State (REQ-D)
+- [ ] **REQ-804.1**: Create dedicated `/favorites` route (`src/app/favorites/page.tsx` & `FavoritesClientView.tsx`).
+- [ ] **REQ-804.2**: Favourites page header displays `My Favourites` (Playfair Display), `Your saved Irish groceries, all in one place.`, saved item count, and standard sorting controls.
+- [ ] **REQ-804.3**: Saved products render using the existing shared `ProductCard` in the standard responsive grid (2 columns on mobile, multi-column on desktop).
+- [ ] **REQ-804.4**: Removing a product directly from the grid via its heart button removes it immediately and updates the count without full-page re-render.
+- [ ] **REQ-804.5**: When 0 products are saved, display a polished empty state: `No favourites yet`, description `Save the products you love by tapping the heart icon. They'll appear here for easy shopping.`, tasteful heart illustration, and a `Discover Products` CTA button linking to `/shop`.
+- [ ] **REQ-804.6**: Safe hydration avoids server/client mismatch, count flashing, or crashes when saved product IDs no longer exist in the catalogue.
 
-### 3. Global Navigation & Discovery (NAV)
+### 5. Live Badge Synchronization & Cart Independence (REQ-E & REQ-F)
+- [ ] **REQ-805.1**: Bottom navigation heart badge updates instantly on heart toggle, item removal, or cross-tab synchronization.
+- [ ] **REQ-805.2**: Full cart independence: favouriting a product does NOT add it to the cart, and removing a favourite does NOT remove it from the cart. Existing cart quantity, checkout, and wholesale pricing gates remain intact.
 
-- [ ] **REQ-FAV-08**: Desktop floating header ([`Header.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/components/layout/Header.tsx)) integrates a Heart icon button with live dynamic counter badge in the top right utility controls row alongside Account and Cart.
-- [ ] **REQ-FAV-09**: Mobile navigation drawer ([`MobileDrawer.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/components/layout/MobileDrawer.tsx)) includes a "Saved Items" navigation link with heart icon and live item count badge.
-- [ ] **REQ-FAV-10**: Customer account page ([`/account`](file:///c:/Users/kumar/Downloads/irishweb/website/src/app/account/page.tsx)) features a "Saved Farmhouse Provisions" summary card displaying current saved count and a direct link to `/favorites`.
-
-### 4. Quality Gates & Regression Verification (QA)
-
-- [ ] **REQ-FAV-11**: Author dedicated automated test suite (`tests/phase20-favorites.test.ts`) validating reactive wishlist methods, PDP heart integration, batch cart operations, B2B pricing gating, and navigation badge counts.
-- [ ] **REQ-FAV-12**: Static toolchain verification passes 100% clean (`npm test`, `npx tsc --noEmit`, `npm run lint`, and `npm run build` compiling all routes including `/favorites`).
-- [ ] **REQ-FAV-13**: Gravitas multi-viewport browser verification across 10 viewports (360px to 1920px) confirms 0 console errors, 0 uncaught exceptions, 0 horizontal overflow (`scrollWidth <= innerWidth`), and $\ge 95\%$ visual similarity on existing approved pages.
+### 6. Automated Quality Gates & Gravitas Verification (QA)
+- [ ] **REQ-806.1**: Dedicated automated test suite (`tests/phase20-favorites.test.ts`) validates all 6-item bottom nav invariants, persistence, multi-surface heart toggles, Favourites page grid/empty state, and cart independence.
+- [ ] **REQ-806.2**: Static toolchain passes 100% clean (`npm test`, `npx tsc --noEmit`, `npm run lint`, `npm run build` compiling `/favorites`).
+- [ ] **REQ-806.3**: Gravitas multi-viewport browser testing across 10 viewports (360px–1920px) confirms 0 console errors, 0 uncaught exceptions, 0 horizontal overflow (`scrollWidth <= innerWidth`), and $\ge 95\%$ baseline visual similarity.
 
 ---
 
@@ -40,32 +58,24 @@
 
 | Feature | Reason |
 | :--- | :--- |
-| Server-side database / Shopify Customer Metafield wishlist sync | Preserves responsive, private, zero-latency standalone demo mode without requiring customer login to save items. |
-| Multiple named wishlists / boards | Single unified "Farmhouse Favourites" collection matches authentic grocery shop flow. |
+| Server-side database / live Shopify Customer Metafield sync | Preserves responsive, zero-latency standalone demo mode (`NEXT_PUBLIC_COMMERCE_MODE=demo`). |
+| Multiple named wishlists / boards | Single unified Favourites collection matches authentic grocery shop flow. |
 | Public wishlist sharing URLs / social export | Minimizes external dependencies and keeps scope focused on core shopper utility. |
-| Modification to `ProductCard.tsx` design invariants | Preserves approved card layout and touch targets. |
+| Alterations to existing desktop navigation header geometry | Desktop header remains locked to approved visual baselines. |
 
 ---
 
 ## Traceability
 
+All 17 detailed requirements map directly to **Phase 20**:
+
 | Requirement | Phase | Status |
 | :--- | :---: | :---: |
-| **REQ-FAV-01** (useWishlist expansion) | Phase 20 | Pending |
-| **REQ-FAV-02** (PDP heart integration) | Phase 20 | Pending |
-| **REQ-FAV-03** (Dedicated /favorites route) | Phase 21 | Pending |
-| **REQ-FAV-04** (Batch Add All to Basket) | Phase 21 | Pending |
-| **REQ-FAV-05** (Wholesale B2B pricing gate on batch CTA) | Phase 21 | Pending |
-| **REQ-FAV-06** (Warm farmhouse empty state) | Phase 21 | Pending |
-| **REQ-FAV-07** (Clear all & item remove actions) | Phase 21 | Pending |
-| **REQ-FAV-08** (Desktop header heart button & badge) | Phase 22 | Pending |
-| **REQ-FAV-09** (Mobile drawer Saved Items link & badge) | Phase 22 | Pending |
-| **REQ-FAV-10** (Account page Saved Provisions card) | Phase 22 | Pending |
-| **REQ-FAV-11** (Automated regression test suite) | Phase 23 | Pending |
-| **REQ-FAV-12** (Static toolchain verification) | Phase 23 | Pending |
-| **REQ-FAV-13** (Gravitas multi-viewport visual regression) | Phase 23 | Pending |
+| **REQ-801.1 – REQ-801.4** (6-Item Bottom Navigation) | Phase 20 | Pending Approval |
+| **REQ-802.1 – REQ-802.4** (Multi-Surface Heart Sync) | Phase 20 | Pending Approval |
+| **REQ-803.1 – REQ-803.5** (Persistent Storage Resilience) | Phase 20 | Pending Approval |
+| **REQ-804.1 – REQ-804.6** (Dedicated /favorites Route & Empty State) | Phase 20 | Pending Approval |
+| **REQ-805.1 – REQ-805.2** (Live Badge Sync & Cart Independence) | Phase 20 | Pending Approval |
+| **REQ-806.1 – REQ-806.3** (Automated Tests & Gravitas Verification) | Phase 20 | Pending Approval |
 
-**Coverage:**
-- Total v8.0 Requirements: 13
-- Mapped to Phases (Phases 20–23): 13 (100%)
-- Unmapped: 0
+**Coverage:** 100% mapped to Phase 20.

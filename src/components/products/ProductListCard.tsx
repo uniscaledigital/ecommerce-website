@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Check, Eye, Star } from "lucide-react";
+import { Plus, Check, Eye, Star, Heart } from "lucide-react";
 import { Product } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/hooks/useWishlist";
 import { formatMoney } from "@/lib/utils";
 
 interface ProductListCardProps {
@@ -22,7 +23,15 @@ export function ProductListCard({
 }: ProductListCardProps) {
   const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
+  const wishlisted = isWishlisted(product.id);
   const [isAdded, setIsAdded] = useState(false);
+
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product.id);
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,6 +57,24 @@ export function ProductListCard({
             className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
+
+        {/* Floating Wishlist Button in Top-Right Corner */}
+        <button
+          type="button"
+          onClick={handleWishlistClick}
+          aria-label={wishlisted ? `Remove ${product.title} from wishlist` : `Add ${product.title} to wishlist`}
+          aria-pressed={wishlisted}
+          className="absolute top-2 right-2 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white shadow-[0_2px_8px_rgba(20,83,45,0.08)] border border-[#D0E7C9]/80 flex items-center justify-center text-[#14532D] hover:scale-110 hover:shadow-md hover:bg-[#FDF4E3] active:scale-95 transition-all z-10 focus:outline-none focus:ring-2 focus:ring-[#22C55E]"
+        >
+          <Heart
+            className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
+              wishlisted
+                ? "fill-[#22C55E] text-[#22C55E]"
+                : "text-[#14532D] hover:text-[#22C55E]"
+            }`}
+            strokeWidth={1.8}
+          />
+        </button>
 
         {/* Quick View Button */}
         {onQuickView && (

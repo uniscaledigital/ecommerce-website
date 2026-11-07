@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Plus, Minus, Check, Share2, Pin, ShieldCheck } from "lucide-react";
+import { Plus, Minus, Check, Share2, Pin, ShieldCheck, Heart } from "lucide-react";
 import { Product } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/hooks/useWishlist";
 import { formatMoney } from "@/lib/utils";
 import { ProductGrid } from "@/components/products/ProductGrid";
 
@@ -37,6 +38,8 @@ export function ProductDetailsClient({
 }: ProductDetailsClientProps) {
   const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
+  const wishlisted = isWishlisted(product.id);
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     product.variants[0]?.id || ""
   );
@@ -93,6 +96,23 @@ export function ProductDetailsClient({
               sizes="(max-width: 1024px) 100vw, 55vw"
               className="object-contain p-4 sm:p-6 relative z-0"
             />
+            {/* Floating Wishlist Button */}
+            <button
+              type="button"
+              onClick={() => toggleWishlist(product.id)}
+              aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
+              aria-pressed={wishlisted}
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white shadow-[0_2px_8px_rgba(20,83,45,0.08)] border border-[#D0E7C9]/80 flex items-center justify-center text-[#14532D] hover:scale-110 hover:shadow-md hover:bg-[#FDF4E3] active:scale-95 transition-all z-10 focus:outline-none focus:ring-2 focus:ring-[#22C55E]"
+            >
+              <Heart
+                className={`w-5 h-5 transition-colors ${
+                  wishlisted
+                    ? "fill-[#22C55E] text-[#22C55E]"
+                    : "text-[#14532D] hover:text-[#22C55E]"
+                }`}
+                strokeWidth={1.8}
+              />
+            </button>
           </div>
 
           {/* Gallery Thumbnails if multiple images */}
@@ -151,12 +171,33 @@ export function ProductDetailsClient({
           <div className="space-y-4">
             {!isAuthenticated ? (
               <div className="space-y-2">
-                <Link
-                  href="/account/login"
-                  className="dashed-login-btn block w-full py-3.5 px-4 text-center text-sm font-semibold rounded-lg min-h-[44px]"
-                >
-                  <span className="underline font-bold">Log in</span> to view prices
-                </Link>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href="/account/login"
+                    className="dashed-login-btn flex-1 py-3.5 px-4 text-center text-sm font-semibold rounded-lg min-h-[44px]"
+                  >
+                    <span className="underline font-bold">Log in</span> to view prices
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => toggleWishlist(product.id)}
+                    aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
+                    aria-pressed={wishlisted}
+                    className={`h-12 w-12 min-w-[48px] min-h-[48px] rounded-lg border flex items-center justify-center transition-all shadow-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#22C55E] ${
+                      wishlisted
+                        ? "bg-[#DDF1D5] border-[#22C55E] text-[#14532D]"
+                        : "bg-white border-[#E8DFCF] text-[#14532D] hover:bg-[#FDF4E3] hover:border-[#62A86A]"
+                    }`}
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition-colors ${
+                        wishlisted
+                          ? "fill-[#22C55E] text-[#22C55E]"
+                          : "text-[#14532D]"
+                      }`}
+                    />
+                  </button>
+                </div>
                 <p className="text-xs text-[#4B5563] text-center">
                   Wholesale and customer pricing is available upon signing in.
                 </p>
@@ -227,6 +268,26 @@ export function ProductDetailsClient({
                     ) : (
                       <span>Add to Cart</span>
                     )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => toggleWishlist(product.id)}
+                    aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
+                    aria-pressed={wishlisted}
+                    className={`h-12 w-12 min-w-[48px] min-h-[48px] rounded-lg border flex items-center justify-center transition-all shadow-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#22C55E] ${
+                      wishlisted
+                        ? "bg-[#DDF1D5] border-[#22C55E] text-[#14532D]"
+                        : "bg-white border-[#E8DFCF] text-[#14532D] hover:bg-[#FDF4E3] hover:border-[#62A86A]"
+                    }`}
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition-colors ${
+                        wishlisted
+                          ? "fill-[#22C55E] text-[#22C55E]"
+                          : "text-[#14532D]"
+                      }`}
+                    />
                   </button>
                 </div>
               </div>

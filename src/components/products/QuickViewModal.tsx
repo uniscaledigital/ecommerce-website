@@ -3,10 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, Plus, Minus, Check, ArrowRight } from "lucide-react";
+import { X, Plus, Minus, Check, ArrowRight, Heart } from "lucide-react";
 import { Product } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/hooks/useWishlist";
 import { formatMoney } from "@/lib/utils";
 
 interface QuickViewModalProps {
@@ -17,6 +18,7 @@ interface QuickViewModalProps {
 export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariantId, setSelectedVariantId] = useState<string>("");
   const [isAdded, setIsAdded] = useState(false);
@@ -139,6 +141,23 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
               fill
               className="object-contain p-6"
             />
+            {/* Floating Wishlist Button */}
+            <button
+              type="button"
+              onClick={() => toggleWishlist(product.id)}
+              aria-label={isWishlisted(product.id) ? `Remove ${product.title} from wishlist` : `Add ${product.title} to wishlist`}
+              aria-pressed={isWishlisted(product.id)}
+              className="absolute top-3 right-3 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white shadow-[0_2px_8px_rgba(20,83,45,0.08)] border border-[#D0E7C9]/80 flex items-center justify-center text-[#14532D] hover:scale-110 hover:shadow-md hover:bg-[#FDF4E3] active:scale-95 transition-all z-10 focus:outline-none focus:ring-2 focus:ring-[#22C55E]"
+            >
+              <Heart
+                className={`w-5 h-5 transition-colors ${
+                  isWishlisted(product.id)
+                    ? "fill-[#22C55E] text-[#22C55E]"
+                    : "text-[#14532D] hover:text-[#22C55E]"
+                }`}
+                strokeWidth={1.8}
+              />
+            </button>
           </div>
 
           {/* Right: Details & Commerce Controls */}

@@ -4,8 +4,24 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 const WISHLIST_STORAGE_KEY = "irish_grocer_wishlist";
 
+function parseAndSanitizeWishlist(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return Array.from(
+      new Set(
+        parsed.filter((id): id is string => typeof id === "string" && id.trim().length > 0)
+      )
+    );
+  } catch {
+    return [];
+  }
+}
+
 export function useWishlist() {
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const wishlistRef = useRef<string[]>([]);
 
   // Keep ref synchronized with current state
@@ -17,37 +33,30 @@ export function useWishlist() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(WISHLIST_STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setWishlist(parsed);
-        wishlistRef.current = parsed;
-      }
+      const sanitized = parseAndSanitizeWishlist(stored);
+      setWishlist(sanitized);
+      wishlistRef.current = sanitized;
+      setIsLoaded(true);
     } catch {
       // Ignore localStorage errors (e.g. private browsing)
+      setIsLoaded(true);
     }
 
     const handleCustomEvent = () => {
       try {
         const stored = localStorage.getItem(WISHLIST_STORAGE_KEY);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          setWishlist(parsed);
-          wishlistRef.current = parsed;
-        } else {
-          setWishlist([]);
-          wishlistRef.current = [];
-        }
+        const sanitized = parseAndSanitizeWishlist(stored);
+        setWishlist(sanitized);
+        wishlistRef.current = sanitized;
       } catch {}
     };
 
     const handleStorageEvent = (e: StorageEvent) => {
       if (e.key === WISHLIST_STORAGE_KEY) {
         if (e.newValue) {
-          try {
-            const parsed = JSON.parse(e.newValue);
-            setWishlist(parsed);
-            wishlistRef.current = parsed;
-          } catch {}
+          const sanitized = parseAndSanitizeWishlist(e.newValue);
+          setWishlist(sanitized);
+          wishlistRef.current = sanitized;
         } else {
           setWishlist([]);
           wishlistRef.current = [];
@@ -65,11 +74,15 @@ export function useWishlist() {
   }, []);
 
   const toggleWishlist = useCallback((productId: string) => {
+    if (!productId || typeof productId !== "string") return;
+    const cleanId = productId.trim();
+    if (!cleanId) return;
+
     const prev = wishlistRef.current;
-    const exists = prev.includes(productId);
+    const exists = prev.includes(cleanId);
     const next = exists
-      ? prev.filter((id) => id !== productId)
-      : [...prev, productId];
+      ? prev.filter((id) => id !== cleanId)
+      : Array.from(new Set([...prev, cleanId]));
 
     wishlistRef.current = next;
     setWishlist(next);
@@ -80,11 +93,27 @@ export function useWishlist() {
     } catch {}
   }, []);
 
+  const clearWishlist = useCallback(() => {
+    wishlistRef.current = [];
+    setWishlist([]);
+
+    try {
+      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify([]));
+      window.dispatchEvent(new Event("wishlist-updated"));
+    } catch {}
+  }, []);
+
   const isWishlisted = useCallback(
     (productId: string) => wishlist.includes(productId),
     [wishlist]
   );
 
-  return { wishlist, toggleWishlist, isWishlisted };
+  return {
+    wishlist,
+    wishlistCount: wishlist.length,
+    toggleWishlist,
+    isWishlisted,
+    clearWishlist,
+    isLoaded,
+  };
 }
-
