@@ -64,24 +64,36 @@ export function MobileFilterDrawer({
 
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
 
-  // Synchronize draft with committed state whenever drawer opens
+  // Synchronize draft and manage focus/scroll strictly on drawer open/close transitions
   useEffect(() => {
     if (isOpen) {
-      setDraft(state);
-      document.body.style.overflow = "hidden";
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
+      if (!wasOpenRef.current) {
+        setDraft(state);
+        document.body.style.overflow = "hidden";
+        setTimeout(() => {
+          closeButtonRef.current?.focus();
+        }, 50);
+        wasOpenRef.current = true;
+      }
     } else {
-      document.body.style.overflow = "";
-      triggerRef?.current?.focus();
+      if (wasOpenRef.current) {
+        document.body.style.overflow = "";
+        triggerRef?.current?.focus();
+        wasOpenRef.current = false;
+      }
     }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [isOpen, state, triggerRef]);
+
+  // Ensure scroll is restored if unmounted while open
+  useEffect(() => {
+    return () => {
+      if (wasOpenRef.current) {
+        document.body.style.overflow = "";
+      }
+    };
+  }, []);
 
   // Keyboard Escape & Focus Trapping
   useEffect(() => {
@@ -237,7 +249,7 @@ export function MobileFilterDrawer({
     {
       id: "categories",
       label: "Category",
-      activeCount: draft.categories.length,
+      activeCount: draft.categories.filter((c) => !initialCategory || c !== initialCategory).length,
     },
     {
       id: "brands",

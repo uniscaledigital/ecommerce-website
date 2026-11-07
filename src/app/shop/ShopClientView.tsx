@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   SlidersHorizontal,
@@ -34,6 +35,7 @@ export function ShopClientView({
   title = "All Products",
   initialCategory,
 }: ShopClientViewProps) {
+  const router = useRouter();
   const [gridColumns, setGridColumns] = useState<3 | 4>(4);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -293,10 +295,18 @@ export function ShopClientView({
           collections={collections}
           selectedCategory={activeCategory}
           onSelectCategory={(handle) => {
-            if (!handle) {
-              commitDraftState({ ...state, categories: [] });
+            if (initialCategory) {
+              if (!handle) {
+                router.push("/shop");
+              } else {
+                router.push(`/collections/${handle}`);
+              }
             } else {
-              commitDraftState({ ...state, categories: [handle] });
+              if (!handle) {
+                commitDraftState({ ...state, categories: [] });
+              } else {
+                commitDraftState({ ...state, categories: [handle] });
+              }
             }
           }}
         />
@@ -447,7 +457,6 @@ export function ShopClientView({
           viewMode={state.viewMode}
           gridColumns={gridColumns}
           activeChips={activeChips}
-          mobileTriggerRef={mobileFilterTriggerRef}
           onOpenMobileFilter={() => setIsMobileDrawerOpen(true)}
           onSortChange={setSortBy}
           onViewModeChange={setViewMode}

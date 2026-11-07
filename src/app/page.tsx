@@ -38,7 +38,7 @@ export default async function HomePage() {
         </Suspense>
         {/* Mobile Reassurance Banner */}
         <div className="px-3 sm:px-4 mt-6">
-          <OrderConfidenceSection />
+          <OrderConfidenceSection id="order-confidence-mobile" />
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { Product } from "@/types";
 
 interface BrandItem {
   id: string;
@@ -13,6 +14,10 @@ interface BrandItem {
   image: string;
   href: string;
   count: number;
+}
+
+interface MobileBrandsCarouselProps {
+  products?: Product[];
 }
 
 const FEATURED_BRANDS: BrandItem[] = [
@@ -72,7 +77,27 @@ const FEATURED_BRANDS: BrandItem[] = [
   },
 ];
 
-export function MobileBrandsCarousel() {
+export function MobileBrandsCarousel({ products = [] }: MobileBrandsCarouselProps) {
+  const getBrandCount = (brandId: string, fallbackCount: number): number => {
+    if (!products || products.length === 0) return fallbackCount;
+    switch (brandId) {
+      case "tayto":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("tayto")).length || fallbackCount;
+      case "barrys-tea":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("barry")).length || fallbackCount;
+      case "cadbury":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("cadbury")).length || fallbackCount;
+      case "odonnells":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("odonnell")).length || fallbackCount;
+      case "bisto":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("bisto")).length || fallbackCount;
+      case "abbey-farm":
+        return products.filter((p) => p.vendor?.toLowerCase().includes("abbey")).length || fallbackCount;
+      default:
+        return fallbackCount;
+    }
+  };
+
   return (
     <section className="space-y-2.5">
       {/* Header */}
@@ -125,9 +150,14 @@ export function MobileBrandsCarousel() {
               </p>
 
               {/* Count Pill */}
-              <span className="inline-block mt-1 text-[9px] font-bold text-[#14532D] bg-[#22C55E]/15 px-2 py-0.5 rounded-full">
-                {brand.count} {brand.count === 1 ? "product" : "products"}
-              </span>
+              {(() => {
+                const count = getBrandCount(brand.id, brand.count);
+                return (
+                  <span className="inline-block mt-1 text-[9px] font-bold text-[#14532D] bg-[#22C55E]/15 px-2 py-0.5 rounded-full">
+                    {count} {count === 1 ? "product" : "products"}
+                  </span>
+                );
+              })()}
             </Link>
           ))}
         </div>

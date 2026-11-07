@@ -13,14 +13,15 @@ export function DemoCheckoutModal() {
 
   // Initial focus management & focus restoration
   useEffect(() => {
-    if (isDemoCheckoutOpen) {
-      triggerElementRef.current = document.activeElement as HTMLElement;
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-    }
+    if (!isDemoCheckoutOpen) return;
+    triggerElementRef.current = document.activeElement as HTMLElement;
+    const timer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
     return () => {
+      clearTimeout(timer);
       triggerElementRef.current?.focus();
+      triggerElementRef.current = null;
     };
   }, [isDemoCheckoutOpen]);
 

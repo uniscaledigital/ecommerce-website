@@ -141,30 +141,32 @@ export function ProductListCard({
             </div>
           )}
 
-          <button
-            type="button"
-            disabled={!product.availableForSale}
-            onClick={handleAddToCart}
-            className={`h-10 px-5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 shadow-sm min-h-[44px] ${
-              !product.availableForSale
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : isAdded
-                ? "bg-[#22C55E] text-white"
-                : "bg-[#14532D] hover:bg-[#064E3B] text-white"
-            }`}
-          >
-            {isAdded ? (
-              <>
-                <Check className="w-4 h-4" />
-                <span>Added to Basket</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-4 h-4" />
-                <span>{product.availableForSale ? "Add to Basket" : "Out of Stock"}</span>
-              </>
-            )}
-          </button>
+          {isAuthenticated && (
+            <button
+              type="button"
+              disabled={!product.availableForSale}
+              onClick={handleAddToCart}
+              className={`h-10 px-5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 shadow-sm min-h-[44px] ${
+                !product.availableForSale
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  : isAdded
+                  ? "bg-[#22C55E] text-white"
+                  : "bg-[#14532D] hover:bg-[#064E3B] text-white"
+              }`}
+            >
+              {isAdded ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Added to Basket</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4" />
+                  <span>{product.availableForSale ? "Add to Basket" : "Out of Stock"}</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </article>

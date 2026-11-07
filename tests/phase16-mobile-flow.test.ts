@@ -54,7 +54,7 @@ test("Phase 16 / Milestone v5.0: Mobile Header, Shop Discovery and Menu Reliabil
       "home-header must have position: relative and top: auto below 1024px"
     );
     assert.ok(
-      globalsCss.includes(".site-header.home-header"),
+      /@media\s*\(min-width:\s*1024px\)[\s\S]*?\.site-header[\s\S]*?position:\s*sticky;[\s\S]*?top:\s*16px;/.test(globalsCss),
       "Desktop visual lock: header must remain floating sticky at top: 16px at min-width: 1024px"
     );
   });

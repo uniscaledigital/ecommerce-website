@@ -38,11 +38,22 @@ export function Header() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    if (typeof window !== "undefined" && window.location.hash === "#menu") {
-      setIsMobileMenuOpen(true);
-    }
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      if (window.location.hash === "#menu") {
+        setIsMobileMenuOpen(true);
+      } else if (window.location.hash === "#order-confidence" && window.innerWidth < 768) {
+        document.getElementById("order-confidence-mobile")?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("hashchange", handleHash);
+    handleHash();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("hashchange", handleHash);
+    };
   }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {

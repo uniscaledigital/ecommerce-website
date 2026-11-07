@@ -27,17 +27,16 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
 
   // Store trigger element and manage focus
   useEffect(() => {
-    if (product) {
-      triggerElementRef.current = document.activeElement as HTMLElement;
-      // Focus modal close button
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-    }
+    if (!product) return;
+    triggerElementRef.current = document.activeElement as HTMLElement;
+    const timer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
 
     return () => {
-      // Restore focus on close
+      clearTimeout(timer);
       triggerElementRef.current?.focus();
+      triggerElementRef.current = null;
     };
   }, [product]);
 

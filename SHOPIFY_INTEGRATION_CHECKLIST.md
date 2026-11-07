@@ -56,7 +56,7 @@
 ## 4. Service Layer & API Client
 
 - [x] `[COMPLETE]` GraphQL request client `shopifyFetch` implemented in `src/lib/shopify/index.ts`.
-- [x] `[COMPLETE]` API version pinned to `2026-10`.
+- [x] `[COMPLETE]` API version defaulted to `2025-01` (configurable via `SHOPIFY_STOREFRONT_API_VERSION`).
 - [x] `[COMPLETE]` Dual-mode routing: automatic fallback to local 34-product mock catalog when API key is unset or network fails.
 - [x] `[COMPLETE]` Error handling and error-boundary fallbacks implemented for all commerce methods.
 - [ ] `[PARTIALLY COMPLETE]` Integrate `@shopify/hydrogen` `createStorefrontClient` for automatic client-side memoization and retry backoff.

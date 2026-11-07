@@ -29,14 +29,15 @@ export function OrderEnquiryModal() {
 
   // Initial focus management & focus restoration
   useEffect(() => {
-    if (isEnquiryOpen) {
-      triggerElementRef.current = document.activeElement as HTMLElement;
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-    }
+    if (!isEnquiryOpen) return;
+    triggerElementRef.current = document.activeElement as HTMLElement;
+    const timer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
     return () => {
+      clearTimeout(timer);
       triggerElementRef.current?.focus();
+      triggerElementRef.current = null;
     };
   }, [isEnquiryOpen]);
 

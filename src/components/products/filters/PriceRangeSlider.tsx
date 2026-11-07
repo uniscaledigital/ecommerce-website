@@ -53,7 +53,7 @@ export function PriceRangeSlider({
           step={1}
           value={localMin}
           onChange={(e) => handleMinChange(Number(e.target.value))}
-          className="absolute w-full -top-1.5 h-5 opacity-0 cursor-pointer pointer-events-auto"
+          className="dual-range absolute w-full -top-1.5 h-5 opacity-0 pointer-events-none"
           aria-label="Minimum price slider"
         />
         <input
@@ -63,7 +63,7 @@ export function PriceRangeSlider({
           step={1}
           value={localMax}
           onChange={(e) => handleMaxChange(Number(e.target.value))}
-          className="absolute w-full -top-1.5 h-5 opacity-0 cursor-pointer pointer-events-auto"
+          className="dual-range absolute w-full -top-1.5 h-5 opacity-0 pointer-events-none"
           aria-label="Maximum price slider"
         />
       </div>

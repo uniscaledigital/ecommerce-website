@@ -1,9 +1,9 @@
 import React from "react";
 import { ShieldCheck, Truck, Snowflake } from "lucide-react";
 
-export function OrderConfidenceSection() {
+export function OrderConfidenceSection({ id = "order-confidence" }: { id?: string } = {}) {
   return (
-    <section id="order-confidence" aria-label="Order with Confidence & Peace of Mind" className="w-full">
+    <section id={id} aria-label="Order with Confidence & Peace of Mind" className="w-full">
       <div className="w-full bg-[#EAF7E8] border border-[#DCE8D7] rounded-[20px] px-5 sm:px-6 md:px-7 py-[18px] sm:py-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-6 shadow-xs transition-shadow">
         {/* Left Icon + Divider + Heading */}
         <div className="flex items-center gap-3.5 sm:gap-5 shrink-0">

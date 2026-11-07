@@ -48,6 +48,7 @@ coverage/
 *.sqlite3
 *.db
 *.bak
+.data/
 
 # TypeScript build information
 *.tsbuildinfo

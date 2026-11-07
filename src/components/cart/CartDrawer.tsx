@@ -14,14 +14,15 @@ export function CartDrawer() {
 
   // Initial focus management & focus restoration
   useEffect(() => {
-    if (isCartOpen) {
-      triggerElementRef.current = document.activeElement as HTMLElement;
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-    }
+    if (!isCartOpen) return;
+    triggerElementRef.current = document.activeElement as HTMLElement;
+    const timer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
     return () => {
+      clearTimeout(timer);
       triggerElementRef.current?.focus();
+      triggerElementRef.current = null;
     };
   }, [isCartOpen]);
 

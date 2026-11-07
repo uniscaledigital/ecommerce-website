@@ -84,7 +84,7 @@ export function MobileHomeShoppingView({
       {/* SECTION 4: FEATURED IRISH BRANDS                               */}
       {/* Compact horizontal carousel for famous Irish brands            */}
       {/* ============================================================== */}
-      <MobileBrandsCarousel />
+      <MobileBrandsCarousel products={products} />
 
       {/* ============================================================== */}
       {/* SECTION 5: VISUAL CATEGORY GRID                                */}

@@ -27,14 +27,15 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
   // Initial focus management & focus restoration
   useEffect(() => {
-    if (isOpen) {
-      triggerElementRef.current = document.activeElement as HTMLElement;
-      setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-    }
+    if (!isOpen) return;
+    triggerElementRef.current = document.activeElement as HTMLElement;
+    const timer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
     return () => {
+      clearTimeout(timer);
       triggerElementRef.current?.focus();
+      triggerElementRef.current = null;
     };
   }, [isOpen]);
 

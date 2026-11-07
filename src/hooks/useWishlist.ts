@@ -41,12 +41,17 @@ export function useWishlist() {
     };
 
     const handleStorageEvent = (e: StorageEvent) => {
-      if (e.key === WISHLIST_STORAGE_KEY && e.newValue) {
-        try {
-          const parsed = JSON.parse(e.newValue);
-          setWishlist(parsed);
-          wishlistRef.current = parsed;
-        } catch {}
+      if (e.key === WISHLIST_STORAGE_KEY) {
+        if (e.newValue) {
+          try {
+            const parsed = JSON.parse(e.newValue);
+            setWishlist(parsed);
+            wishlistRef.current = parsed;
+          } catch {}
+        } else {
+          setWishlist([]);
+          wishlistRef.current = [];
+        }
       }
     };
 
