@@ -106,3 +106,4 @@ flowchart LR
 - [ ] 0 TypeScript compiler errors, 0 ESLint warnings, 0 build errors.
 - [ ] 0 horizontal overflow across all 10 viewports (360px–1920px).
 - [ ] 0 console errors, 0 uncaught exceptions in live browser testing.
+
