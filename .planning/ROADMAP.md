@@ -1,46 +1,39 @@
-# ROADMAP.md — Milestone v8.0: Favourites & Saved Products Experience
+# ROADMAP.md — Milestone v9.0: Desktop Favourites Navigation Integration
 
-**Milestone:** v8.0 — Favourites & Saved Products Experience  
-**Core Goal:** Implement a complete, end-to-end Favourites feature across The Irish Grocer website—including a 6-item mobile bottom navigation with live badge, persistent saved-products storage, multi-surface product heart interactions, a dedicated `/favorites` page with sorting and empty state, and full regression verification.  
+**Milestone:** v9.0 — Desktop Favourites Navigation Integration  
+**Core Goal:** Integrate a polished, accessible Favourites navigation action into the desktop header (`Header.tsx`) on screens $\ge 1024\text{px}$, complete with live numeric badge count, active route highlight, mobile exclusion, and comprehensive Gravitas regression verification.  
 **Commerce Mode:** `NEXT_PUBLIC_COMMERCE_MODE=demo`  
 **Frameworks:** GSD Primary + CodeRabbit Review + Gravitas Visual QA  
-**Execution Structure:** Exactly one single implementation phase: **Phase 20**.
+**Execution Structure:** Exactly one single implementation phase: **Phase 21**.
 
 ---
 
-## Milestone v8.0 Phase Overview
+## Milestone v9.0 Phase Overview
 
 ```mermaid
 flowchart TD
-    subgraph M8["Milestone v8.0: Favourites & Saved Products Experience"]
-        P20["Phase 20: Favourites Navigation & Persistent Saved Products\n(1. Wishlist Audit • 2. 6-Item Bottom Nav • 3. Multi-Surface Hearts\n4. Persistent Storage • 5. /favorites Page • 6. Live Badge Sync • 7. Gravitas QA)"]
-        DONE["Milestone v8.0 Acceptance & Completion"]
+    subgraph M9["Milestone v9.0: Desktop Favourites Navigation Integration"]
+        P21["Phase 21: Desktop Header Favourites Action & Live Badge Integration\n(1. Desktop Header Action • 2. Live Numeric Badge • 3. Responsive Lock\n4. Automated Test Suite • 5. Gravitas Multi-Viewport QA)"]
+        DONE["Milestone v9.0 Acceptance & Completion"]
     end
-    P20 --> DONE
+    P21 --> DONE
 ```
 
 ---
 
 ## Phase Details
 
-### Phase 20: Favourites Navigation & Persistent Saved Products
-- **Status:** Completed & Verified (All 4 Waves Executed, 146/146 Tests Passing, 20/20 Gravitas Browser Scenarios Verified)
-- **Primary Goal:** Implement the complete Favourites experience across mobile, tablet, and desktop:
-  1. **Existing Wishlist Architecture Audit:** Audit and harden `useWishlist.ts` with deduplication, malformed data safety, clear action, and count tracking.
-  2. **6-Item Bottom Navigation:** Update `MobileBottomNav.tsx` to 6 equal-width items (Home, Shop, Search, Favourites, Cart, Account) fitting cleanly at 360px, 390px, 430px with $\ge 44\times 44\text{px}$ touch targets and live badge.
-  3. **Multi-Surface Heart Interactions:** Ensure all product surfaces (`ProductCard`, `ProductListCard`, `QuickViewModal`, and `ProductDetailsClient`) share the exact same reactive wishlist state and toggle behavior.
-  4. **Persistent Storage:** Preserve saved products reliably in `localStorage` under `irish_grocer_wishlist` across page refresh, navigation, and cross-tab storage events.
-  5. **Dedicated Favourites Page:** Create `/favorites` with Playfair Display heading, product count, sort controls, 2-column mobile / multi-column desktop grid, and polished empty state (`No favourites yet` with `Discover Products` link).
-  6. **Live Badge Synchronization:** Ensure the bottom navigation heart badge (and page counts) update immediately on save, remove, clear, or cross-tab events.
-  7. **Quality Gates & Gravitas Verification:** 100% test pass rate on automated suite, 0 TypeScript errors, 0 ESLint warnings, 0 build errors, 0 console errors, 0 horizontal overflow across 10 viewports, and $\ge 95\%$ baseline visual similarity.
+### Phase 21: Desktop Header Favourites Action & Live Badge Integration
+- **Status:** Scoped & Ready for Planning (Planning Gate — Zero Application Code Edits)
+- **Primary Goal:** Integrate Favourites into the desktop navigation header:
+  1. **Desktop Header Action:** Add a dedicated Favourites action to `website/src/components/layout/Header.tsx` on $\ge 1024\text{px}$ viewports alongside Store, Account, and Cart.
+  2. **Icon & Label:** Use `Heart` icon from `lucide-react` (filled `#14532D` when active, outline when idle) with `Favourites` label and minimum $44\times 44\text{px}$ touch target.
+  3. **Live Numeric Badge:** Render a dynamic count badge (`#22C55E` background, `#14532D` text) when `wishlist.length > 0`, synchronized with `useWishlist`.
+  4. **Responsive Boundaries:** Strictly hide on `< 1024px` viewports (where `MobileBottomNav` operates). Preserve desktop layout geometry with 0 horizontal overflow.
+  5. **Automated Quality Gates:** Create `tests/phase21-desktop-favorites.test.ts`, update `package.json`, verify 100% pass across all 9 suites, 0 tsc errors, 0 lint warnings, 0 build errors.
+  6. **Gravitas Multi-Viewport Browser Verification:** Validate 10 viewports (360px–1920px), 0 console errors, 0 uncaught exceptions, 0 overflow, and $\ge 95\%$ desktop visual similarity.
 - **Files Modified/Created:**
-  - `website/src/components/layout/MobileBottomNav.tsx`
-  - `website/src/hooks/useWishlist.ts`
-  - `website/src/components/products/ProductListCard.tsx`
-  - `website/src/components/products/QuickViewModal.tsx`
-  - `website/src/app/products/[handle]/ProductDetailsClient.tsx`
-  - `website/src/app/favorites/page.tsx` *(new)*
-  - `website/src/app/favorites/FavoritesClientView.tsx` *(new)*
-  - `website/tests/phase20-favorites.test.ts` *(new)*
+  - `website/src/components/layout/Header.tsx`
+  - `website/tests/phase21-desktop-favorites.test.ts` *(new)*
   - `website/package.json`
-- **Stop Condition:** Stop after Phase 20. Do not start Phase 21 or another milestone.
+- **Stop Condition:** Stop after Phase 21. Do not start Phase 22 or another milestone.
