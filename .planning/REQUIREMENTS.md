@@ -1,43 +1,71 @@
-# Milestone v2.0 Requirements: Advanced Product Filtering & Discovery
+# Requirements: Milestone v8.0 — Favourites & Saved Products Experience
 
-## Requirements Overview
-This document defines the functional and non-functional requirements for the Advanced Product Filtering & Discovery milestone on The Irish Grocer storefront.
+**Defined:** November 7, 2026  
+**Core Value:** Deliver an authentic, delightful, and friction-free Irish grocery shopping experience where customers can effortlessly discover, save, and batch-purchase their favorite imported pantry staples across mobile, tablet, and desktop.  
+**Milestone:** v8.0  
+**Status:** Scoped & Approved  
 
 ---
 
-### REQ-FILTER-01: Filter Dimensions & Data Mapping
-- **REQ-01.1 (Availability)**: Filter by "In Stock" (`availableForSale === true`) and "Out of Stock" (`availableForSale === false`).
-- **REQ-01.2 (Categories)**: Multi-select filtering across the 16 storefront departments, with live search inside the category list.
-- **REQ-01.3 (Brand / Vendor)**: Multi-select filtering across all 24 unique vendors/brands, with live search inside the brand list.
-- **REQ-01.4 (Price Range)**: Dual-bound filtering with numeric inputs (min and max) plus dual-thumb range slider, operating over `priceRange.minVariantPrice.amount`.
-- **REQ-01.5 (Product Type)**: Multi-select filtering across all distinct `productType` values present in the catalogue.
-- **REQ-01.6 (Dietary & Lifestyle)**: Multi-select filtering by product attributes (`Gluten-Free`, `Vegetarian`, `Vegan`, `Irish Made`, `Artisanal`, `Multipack`) mapped to normalized product tags.
-- **REQ-01.7 (Customer Rating)**: Minimum star rating filter (4★ & above, 3★ & above, 2★ & above, 1★ & above) mapped to `product.rating.value`.
+## v8.0 Requirements
 
-### REQ-FILTER-02: Filtering Logic & Calculations
-- **REQ-02.1 (Boolean Logic)**: Apply AND logic between different filter groups (e.g. Category = Crisps AND Brand = Tayto AND Rating >= 4), and OR logic within multi-select groups (e.g. Brand = Tayto OR Walkers).
-- **REQ-02.2 (Dynamic Facet Counts)**: Every filter option must display the dynamic count of matching products based on the current catalogue context. No hardcoded or fake counts.
-- **REQ-02.3 (Empty & Zero-Result Handling)**: When no products match the combined active filters, display a graceful zero-results state with a "Clear Filters" CTA.
+### 1. State & Hook Architecture (STATE)
 
-### REQ-FILTER-03: Desktop Filter Sidebar & Toolbar
-- **REQ-03.1 (Sidebar Layout)**: Left-side vertical sidebar with clean Irish Grocer styling (deep green `#14532D`, cream `#FFFAF1`, border `#E8DFCF`).
-- **REQ-03.2 (Active Filter Chips)**: Horizontal bar of removable chips above product grid displaying active selections with quick 'X' dismiss controls.
-- **REQ-03.3 (Clear All Action)**: Prominent "Clear All" action in sidebar and chips bar resetting all filter dimensions simultaneously.
-- **REQ-03.4 (Sorting Control)**: Dropdown supporting Alphabetical A-Z, Alphabetical Z-A, Price Low to High, Price High to Low, and Rating Highest First.
-- **REQ-03.5 (Grid / List View Switcher)**: Toggle allowing users to switch between 3/4-column Grid view and horizontal List view.
+- [ ] **REQ-FAV-01**: `useWishlist` hook provides complete reactive methods: `wishlist` (array of product IDs), `wishlistCount` (number), `isWishlisted(id)` (boolean), `toggleWishlist(id)` (void), and `clearWishlist()` (void), with synchronized `localStorage` (`irish_grocer_wishlist`) and cross-tab storage events.
+- [ ] **REQ-FAV-02**: Product Details Page ([`ProductDetailsClient.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/app/products/[handle]/ProductDetailsClient.tsx)) integrates a dedicated, touch-accessible ($\ge 44\times 44\text{px}$) styled Heart toggle button alongside the quantity selector and Add to Basket actions, supporting active heart styling, visual feedback, and screen reader announcements.
 
-### REQ-FILTER-04: Mobile Flipkart-Style Filter Drawer
-- **REQ-04.1 (Slide-in Drawer)**: Smooth slide-in drawer with dark backdrop overlay and body scroll-lock.
-- **REQ-04.2 (Expandable Accordion / Dual-Pane)**: Intuitive mobile layout allowing users to browse and toggle filter sections easily.
-- **REQ-04.3 (Sticky Apply Footer)**: Sticky bottom bar with a primary "Apply Filters (N)" button reflecting real-time matching product count, alongside a "Clear All" secondary action.
-- **REQ-04.4 (Touch & Accessibility Standards)**: Tap targets $\ge 44 \times 44\text{px}$, Escape key dismissal, initial focus trapping, and focus restoration to filter trigger button.
+### 2. Dedicated Favourites Destination & Batch Operations (ROUTE)
 
-### REQ-FILTER-05: Discovery Integration & State Synchronization
-- **REQ-05.1 (Shared Filter State)**: Unified custom hook (`useProductFilters`) synchronizing state between desktop sidebar, mobile drawer, and URL params.
-- **REQ-05.2 (Deep Linking & Bookmarking)**: Filter state serialized to URL search parameters (e.g. `?brand=tayto,walkers&min_price=5&rating=4&view=list`).
-- **REQ-05.3 (Integration Coverage)**: Active on `/shop` and `/collections/[handle]` routes, fully preserving existing cart, wishlist, and quick-view functionality.
+- [ ] **REQ-FAV-03**: Dedicated `/favorites` route (`src/app/favorites/page.tsx` and `FavoritesClientView.tsx`) renders all saved items in the standard responsive product grid (2-column mobile, multi-column desktop) with page header, item count, and individual remove actions.
+- [ ] **REQ-FAV-04**: Dedicated `/favorites` page features a prominent "Add All to Basket" batch action that adds all in-stock wishlisted items to the active basket in a single tap and opens the CartDrawer.
+- [ ] **REQ-FAV-05**: Batch cart actions strictly honor B2B wholesale pricing gates: unauthenticated visitors are prompted to log in before adding items to basket.
+- [ ] **REQ-FAV-06**: When 0 items are saved, `/favorites` renders a warm farmhouse empty state card in Warm Cream (`#FFFAF1`) with Playfair Display heading, reassuring copy, and 4 quick-link shortcut pills to popular Irish aisles (Crisps & Snacks, Tea & Coffee, Biscuits & Cakes, Cadbury).
+- [ ] **REQ-FAV-07**: Individual item remove button and a secondary "Clear All Saved" confirmation action allow easy wishlist curation.
 
-### REQ-FILTER-06: Verification & Automated Testing
-- **REQ-06.1 (Unit & Integration Tests)**: Dedicated automated test suite (`tests/filtering.test.ts`) validating boolean logic, edge-case price bounds, facet counts, chip removals, and URL serialization.
-- **REQ-06.2 (Zero Regressions)**: All 38 existing remediation tests pass (`tests/remediation.test.ts`), `npx tsc --noEmit` exits 0, `npm run lint` exits 0, and `npm run build` exits 0.
+### 3. Global Navigation & Discovery (NAV)
 
+- [ ] **REQ-FAV-08**: Desktop floating header ([`Header.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/components/layout/Header.tsx)) integrates a Heart icon button with live dynamic counter badge in the top right utility controls row alongside Account and Cart.
+- [ ] **REQ-FAV-09**: Mobile navigation drawer ([`MobileDrawer.tsx`](file:///c:/Users/kumar/Downloads/irishweb/website/src/components/layout/MobileDrawer.tsx)) includes a "Saved Items" navigation link with heart icon and live item count badge.
+- [ ] **REQ-FAV-10**: Customer account page ([`/account`](file:///c:/Users/kumar/Downloads/irishweb/website/src/app/account/page.tsx)) features a "Saved Farmhouse Provisions" summary card displaying current saved count and a direct link to `/favorites`.
+
+### 4. Quality Gates & Regression Verification (QA)
+
+- [ ] **REQ-FAV-11**: Author dedicated automated test suite (`tests/phase20-favorites.test.ts`) validating reactive wishlist methods, PDP heart integration, batch cart operations, B2B pricing gating, and navigation badge counts.
+- [ ] **REQ-FAV-12**: Static toolchain verification passes 100% clean (`npm test`, `npx tsc --noEmit`, `npm run lint`, and `npm run build` compiling all routes including `/favorites`).
+- [ ] **REQ-FAV-13**: Gravitas multi-viewport browser verification across 10 viewports (360px to 1920px) confirms 0 console errors, 0 uncaught exceptions, 0 horizontal overflow (`scrollWidth <= innerWidth`), and $\ge 95\%$ visual similarity on existing approved pages.
+
+---
+
+## Out of Scope
+
+| Feature | Reason |
+| :--- | :--- |
+| Server-side database / Shopify Customer Metafield wishlist sync | Preserves responsive, private, zero-latency standalone demo mode without requiring customer login to save items. |
+| Multiple named wishlists / boards | Single unified "Farmhouse Favourites" collection matches authentic grocery shop flow. |
+| Public wishlist sharing URLs / social export | Minimizes external dependencies and keeps scope focused on core shopper utility. |
+| Modification to `ProductCard.tsx` design invariants | Preserves approved card layout and touch targets. |
+
+---
+
+## Traceability
+
+| Requirement | Phase | Status |
+| :--- | :---: | :---: |
+| **REQ-FAV-01** (useWishlist expansion) | Phase 20 | Pending |
+| **REQ-FAV-02** (PDP heart integration) | Phase 20 | Pending |
+| **REQ-FAV-03** (Dedicated /favorites route) | Phase 21 | Pending |
+| **REQ-FAV-04** (Batch Add All to Basket) | Phase 21 | Pending |
+| **REQ-FAV-05** (Wholesale B2B pricing gate on batch CTA) | Phase 21 | Pending |
+| **REQ-FAV-06** (Warm farmhouse empty state) | Phase 21 | Pending |
+| **REQ-FAV-07** (Clear all & item remove actions) | Phase 21 | Pending |
+| **REQ-FAV-08** (Desktop header heart button & badge) | Phase 22 | Pending |
+| **REQ-FAV-09** (Mobile drawer Saved Items link & badge) | Phase 22 | Pending |
+| **REQ-FAV-10** (Account page Saved Provisions card) | Phase 22 | Pending |
+| **REQ-FAV-11** (Automated regression test suite) | Phase 23 | Pending |
+| **REQ-FAV-12** (Static toolchain verification) | Phase 23 | Pending |
+| **REQ-FAV-13** (Gravitas multi-viewport visual regression) | Phase 23 | Pending |
+
+**Coverage:**
+- Total v8.0 Requirements: 13
+- Mapped to Phases (Phases 20–23): 13 (100%)
+- Unmapped: 0
