@@ -166,60 +166,61 @@ export function ShopClientView({
           </p>
         </div>
 
-        {/* Compact Search & Action Toolbar (Screenshot 2 Reference) */}
+        {/* Compact Search & Action Toolbar (Screenshot 2 Reference — 3-Row Usability Polish) */}
         <div className="sticky top-2 z-30 bg-[#FFFAF1]/95 backdrop-blur-md p-2.5 rounded-2xl border border-[#E8DFCF] shadow-xs space-y-2">
-          <div className="flex items-center gap-2">
-            {/* Search Input Capsule */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSearchQuery(mobileSearchInput.trim());
+          {/* ROW 1: Full-width product search input & clear action */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchQuery(mobileSearchInput.trim());
+            }}
+            className="w-full relative flex items-center bg-white rounded-xl border border-[#14532D]/20 shadow-2xs px-3 py-1.5 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 transition-all min-h-[44px]"
+          >
+            <Search className="w-4 h-4 text-[#14532D]/70 shrink-0 mr-2" />
+            <input
+              type="text"
+              placeholder={initialCategory ? `Search in ${title}...` : "Search products..."}
+              value={mobileSearchInput}
+              onChange={(e) => {
+                setMobileSearchInput(e.target.value);
+                if (e.target.value === "") {
+                  setSearchQuery("");
+                }
               }}
-              className="flex-1 relative flex items-center bg-white rounded-xl border border-[#14532D]/20 shadow-2xs px-3 py-1.5 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 transition-all min-h-[44px]"
-            >
-              <Search className="w-4 h-4 text-[#14532D]/70 shrink-0 mr-2" />
-              <input
-                type="text"
-                placeholder={initialCategory ? `Search in ${title}...` : "Search products..."}
-                value={mobileSearchInput}
-                onChange={(e) => {
-                  setMobileSearchInput(e.target.value);
-                  if (e.target.value === "") {
-                    setSearchQuery("");
-                  }
+              className="w-full bg-transparent text-xs sm:text-sm text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none"
+              aria-label={initialCategory ? `Search products in ${title}` : "Search products in shop"}
+            />
+            {mobileSearchInput && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileSearchInput("");
+                  setSearchQuery("");
                 }}
-                className="w-full bg-transparent text-xs text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none"
-                aria-label={initialCategory ? `Search products in ${title}` : "Search products in shop"}
-              />
-              {mobileSearchInput && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileSearchInput("");
-                    setSearchQuery("");
-                  }}
-                  className="w-8 h-8 flex items-center justify-center text-[#42634A] hover:text-[#14532D] rounded-full min-w-[36px] min-h-[36px]"
-                  aria-label="Clear search"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </form>
+                className="w-8 h-8 flex items-center justify-center text-[#42634A] hover:text-[#14532D] rounded-full min-w-[44px] min-h-[44px] shrink-0"
+                aria-label="Clear search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </form>
 
+          {/* ROW 2: Filter button with active count & Saved-items bookmark toggle with live count */}
+          <div className="grid grid-cols-2 gap-2">
             {/* Filter Trigger Button with Active Count Badge */}
             <button
               ref={mobileFilterTriggerRef}
               type="button"
               onClick={() => setIsMobileDrawerOpen(true)}
-              className={`min-w-[44px] min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs ${
+              className={`w-full min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs ${
                 activeChips.length > 0
                   ? "bg-[#14532D] text-white border-[#14532D]"
                   : "bg-white text-[#14532D] border-[#E8DFCF] hover:bg-[#F7EBD8]"
               }`}
               aria-label={`Open filter drawer${activeChips.length > 0 ? `, ${activeChips.length} active filters` : ""}`}
             >
-              <SlidersHorizontal className="w-4 h-4" />
-              <span className="hidden xs:inline">Filters</span>
+              <SlidersHorizontal className="w-4 h-4 shrink-0" />
+              <span>Filters</span>
               {activeChips.length > 0 && (
                 <span
                   className={`w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center ${
@@ -237,7 +238,7 @@ export function ShopClientView({
             <button
               type="button"
               onClick={() => setShowOnlyWishlisted((prev) => !prev)}
-              className={`min-w-[44px] min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs ${
+              className={`w-full min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs ${
                 showOnlyWishlisted
                   ? "bg-[#14532D] text-white border-[#14532D]"
                   : "bg-white text-[#14532D] border-[#E8DFCF] hover:bg-[#F7EBD8]"
@@ -245,8 +246,8 @@ export function ShopClientView({
               aria-label={`Filter by saved items, ${wishlist.length} saved`}
               aria-pressed={showOnlyWishlisted}
             >
-              <Bookmark className={`w-4 h-4 ${showOnlyWishlisted ? "fill-current" : ""}`} />
-              <span className="hidden xs:inline">Saved</span>
+              <Bookmark className={`w-4 h-4 shrink-0 ${showOnlyWishlisted ? "fill-current" : ""}`} />
+              <span>Saved Items</span>
               {wishlist.length > 0 && (
                 <span
                   className={`w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center ${
@@ -261,7 +262,7 @@ export function ShopClientView({
             </button>
           </div>
 
-          {/* Sort Dropdown Row */}
+          {/* ROW 3: Product count & Sort dropdown */}
           <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#E8DFCF]/70 text-xs">
             <span className="text-[#42634A] font-semibold">
               {wishlistedFilteredProducts.length}{" "}

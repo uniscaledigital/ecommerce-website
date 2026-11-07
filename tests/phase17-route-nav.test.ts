@@ -38,6 +38,11 @@ test("Phase 17 / Milestone v6.0: Route-Specific Mobile Navigation & Homepage Lay
     "utf-8"
   );
 
+  const accountPageCode = fs.readFileSync(
+    path.resolve(__dirname, "../src/app/account/page.tsx"),
+    "utf-8"
+  );
+
   const productCardCode = fs.readFileSync(
     path.resolve(__dirname, "../src/components/products/ProductCard.tsx"),
     "utf-8"
@@ -70,6 +75,12 @@ test("Phase 17 / Milestone v6.0: Route-Specific Mobile Navigation & Homepage Lay
     assert.ok(
       globalsCss.includes(".site-header.account-header {\n    display: block;\n    position: sticky;\n    top: 16px;"),
       "Desktop visual lock: account header must be sticky at top: 16px at min-width: 1024px"
+    );
+
+    // 5. Account page orders null-safety guard
+    assert.ok(
+      accountPageCode.includes("(customer.orders || []).map"),
+      "Account page must include defensive null check for customer.orders"
     );
   });
 
@@ -124,7 +135,7 @@ test("Phase 17 / Milestone v6.0: Route-Specific Mobile Navigation & Homepage Lay
       "Shop toolbar search input must support contextual placeholder on collection pages"
     );
     assert.ok(
-      shopViewCode.includes('min-w-[44px] min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs'),
+      shopViewCode.includes('min-h-[44px] px-3 flex items-center justify-center gap-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs'),
       "Filter and Bookmark buttons must guarantee >= 44x44px touch bounding boxes"
     );
     assert.ok(
