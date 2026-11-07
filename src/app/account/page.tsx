@@ -112,7 +112,7 @@ export default function AccountPage() {
           </div>
 
           <div className="space-y-4">
-            {customer.orders.map((order) => (
+            {(customer.orders || []).map((order) => (
               <div
                 key={order.id}
                 className="border border-[#E8DFCF] rounded-xl p-4 space-y-3 bg-[#FFFAF1]"

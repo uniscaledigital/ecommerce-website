@@ -18,6 +18,10 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
   const [activeTab, setActiveTab] = useState<"products" | "collections" | "blog" | "pages">("products");
   const [sortBy, setSortBy] = useState("relevance");
 
+  React.useEffect(() => {
+    setSearchTerm(query);
+  }, [query]);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -27,8 +31,8 @@ export function SearchClientView({ query, products }: SearchClientViewProps) {
 
   return (
     <div className="space-y-8">
-      {/* Search Input Box */}
-      <div className="max-w-2xl mx-auto">
+      {/* Search Input Box (Desktop only; on mobile, global header search capsule is the single search input) */}
+      <div className="hidden lg:block max-w-2xl mx-auto">
         <form onSubmit={handleSearchSubmit} className="flex items-center shadow-xs">
           <input
             type="text"

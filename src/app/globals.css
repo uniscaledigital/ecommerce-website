@@ -308,6 +308,12 @@ a {
   top: auto;
 }
 
+/* On mobile profile/account page (< 1024px), header is completely removed with zero margin/offset */
+.site-header.account-header {
+  display: none;
+  margin: 0;
+}
+
 @media (min-width: 640px) {
   .site-header {
     top: 14px;
@@ -319,7 +325,9 @@ a {
 
 @media (min-width: 1024px) {
   .site-header,
-  .site-header.home-header {
+  .site-header.home-header,
+  .site-header.account-header {
+    display: block;
     position: sticky;
     top: 16px;
     width: calc(100% - clamp(28px, 5.4vw, 88px));

@@ -180,7 +180,7 @@ export function ShopClientView({
               <Search className="w-4 h-4 text-[#14532D]/70 shrink-0 mr-2" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder={initialCategory ? `Search in ${title}...` : "Search products..."}
                 value={mobileSearchInput}
                 onChange={(e) => {
                   setMobileSearchInput(e.target.value);
@@ -189,7 +189,7 @@ export function ShopClientView({
                   }
                 }}
                 className="w-full bg-transparent text-xs text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none"
-                aria-label="Search products in shop"
+                aria-label={initialCategory ? `Search products in ${title}` : "Search products in shop"}
               />
               {mobileSearchInput && (
                 <button
@@ -198,7 +198,7 @@ export function ShopClientView({
                     setMobileSearchInput("");
                     setSearchQuery("");
                   }}
-                  className="w-8 h-8 flex items-center justify-center text-[#42634A] hover:text-[#14532D] rounded-full min-w-[32px] min-h-[32px]"
+                  className="w-8 h-8 flex items-center justify-center text-[#42634A] hover:text-[#14532D] rounded-full min-w-[36px] min-h-[36px]"
                   aria-label="Clear search"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -272,7 +272,7 @@ export function ShopClientView({
               <select
                 value={state.sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="appearance-none bg-white border border-[#E8DFCF] rounded-lg px-2.5 py-1.5 pr-7 text-xs font-semibold text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D] min-h-[36px]"
+                className="appearance-none bg-white border border-[#E8DFCF] rounded-lg px-3 py-2 pr-8 text-xs font-semibold text-[#1F2937] focus:outline-none focus:ring-1 focus:ring-[#14532D] min-h-[44px]"
                 aria-label="Sort products"
               >
                 <option value="relevance">Featured</option>

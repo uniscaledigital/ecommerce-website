@@ -1,14 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search, Store, User, ShoppingBag, Menu, MapPin, X } from "lucide-react";
 import { SITE_CONFIG, CATEGORY_NAVIGATION_LINKS } from "@/lib/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { MobileDrawer } from "./MobileDrawer";
+
+function HeaderSearchSync({ setSearchQuery }: { setSearchQuery: (q: string) => void }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (pathname === "/search") {
+      setSearchQuery(searchParams.get("q") || "");
+    }
+  }, [pathname, searchParams, setSearchQuery]);
+
+  return null;
+}
 
 export function Header() {
   const router = useRouter();
@@ -51,15 +64,24 @@ export function Header() {
   };
 
   const isHomepage = pathname === "/";
+  const isAccountRoute = pathname.startsWith("/account");
+  const isShopOrCollectionRoute = pathname === "/shop" || pathname.startsWith("/collections");
 
   return (
     <header
       className={`site-header ${
-        isHomepage ? "home-header relative lg:sticky" : "sticky"
+        isAccountRoute
+          ? "account-header hidden lg:block"
+          : isHomepage
+          ? "home-header relative lg:sticky"
+          : "sticky"
       } z-[1000] transition-all duration-200 ${
         isScrolled ? "is-scrolled" : ""
       }`}
     >
+      <Suspense fallback={null}>
+        <HeaderSearchSync setSearchQuery={setSearchQuery} />
+      </Suspense>
       {/* ============================================================== */}
       {/* FLOATING ROUNDED STICKY NAVIGATION (Two Connected Rows)        */}
       {/* Unified container with 34px rounded corners and soft shadow    */}
@@ -230,38 +252,40 @@ export function Header() {
                 </div>
               </div>
 
-              {/* SECOND ROW: Compact Full-Width Search Capsule */}
-              <div className="w-full">
-                <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
-                  <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-2xs px-3 py-1 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 transition-all">
-                    <Search className="w-3.5 h-3.5 text-[#14532D]/60 shrink-0 mr-2" />
-                    <input
-                      type="text"
-                      placeholder="Search imported teas, crisps, sweets..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-xs text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-0.5"
-                      aria-label="Search products"
-                    />
-                    {searchQuery && (
+              {/* SECOND ROW: Compact Full-Width Search Capsule (Hidden on Shop and Collections where dedicated toolbar is present) */}
+              {!isShopOrCollectionRoute && (
+                <div className="w-full">
+                  <form onSubmit={handleSearchSubmit} className="relative w-full flex items-center">
+                    <div className="relative w-full flex items-center bg-white rounded-full border border-[#14532D]/18 shadow-2xs px-3 py-1 focus-within:border-[#14532D] focus-within:ring-2 focus-within:ring-[#14532D]/15 transition-all">
+                      <Search className="w-3.5 h-3.5 text-[#14532D]/60 shrink-0 mr-2" />
+                      <input
+                        type="text"
+                        placeholder="Search imported teas, crisps, sweets..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-transparent text-xs text-[#173B2A] placeholder-[#52665B]/65 focus:outline-none py-0.5"
+                        aria-label="Search products"
+                      />
+                      {searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery("")}
+                          className="p-1 text-[#42634A] hover:text-[#14532D] rounded-full mr-1"
+                          aria-label="Clear search"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      )}
                       <button
-                        type="button"
-                        onClick={() => setSearchQuery("")}
-                        className="p-1 text-[#42634A] hover:text-[#14532D] rounded-full mr-1"
-                        aria-label="Clear search"
+                        type="submit"
+                        className="bg-[#14532D] hover:bg-[#064E3B] text-white px-3 py-1 rounded-full text-[11px] font-bold tracking-tight transition-all shadow-xs shrink-0"
                       >
-                        <X className="w-3 h-3" />
+                        Search
                       </button>
-                    )}
-                    <button
-                      type="submit"
-                      className="bg-[#14532D] hover:bg-[#064E3B] text-white px-3 py-1 rounded-full text-[11px] font-bold tracking-tight transition-all shadow-xs shrink-0"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -16,24 +16,27 @@ test("Phase 14 / v4-P3: Mobile Homepage Shopping Sections Architecture", async (
   await t.test("Section Order: enforces strictly ordered mobile shopping sequence", () => {
     const promoIdx = homeViewCode.indexOf("<MobilePromoBanner");
     const stripIdx = homeViewCode.indexOf("<MobileStoreConfidenceStrip");
-    const catGridIdx = homeViewCode.indexOf("<MobileCategoryGrid");
     const spotlightsIdx = homeViewCode.indexOf("<MobileProductSpotlight");
     const brandsIdx = homeViewCode.indexOf("<MobileBrandsCarousel");
+    const catGridIdx = homeViewCode.indexOf("<MobileCategoryGrid");
     const ctaIdx = homeViewCode.indexOf('href="/shop"');
 
     assert.ok(promoIdx !== -1, "Section 1: MobilePromoBanner must be present");
     assert.ok(stripIdx !== -1, "Section 2: MobileStoreConfidenceStrip must be present");
-    assert.ok(catGridIdx !== -1, "Section 3: MobileCategoryGrid must be present");
-    assert.ok(spotlightsIdx !== -1, "Section 4: MobileProductSpotlight must be present");
-    assert.ok(brandsIdx !== -1, "Section 5: MobileBrandsCarousel must be present");
-    assert.ok(ctaIdx !== -1, "Section 6: Shop All Groceries CTA must be present");
+    assert.ok(spotlightsIdx !== -1, "Section 3: MobileProductSpotlight must be present");
+    assert.ok(brandsIdx !== -1, "Section 4: MobileBrandsCarousel must be present");
+    assert.ok(catGridIdx !== -1, "Section 5: MobileCategoryGrid must be present");
+    assert.equal(ctaIdx, -1, "Separate green Shop All Groceries CTA card must be completely removed");
 
     // Strictly verify sequence order
     assert.ok(promoIdx < stripIdx, "Section 1 (Promo) must precede Section 2 (Store Confidence)");
-    assert.ok(stripIdx < catGridIdx, "Section 2 (Store Confidence) must precede Section 3 (Category Grid)");
-    assert.ok(catGridIdx < spotlightsIdx, "Section 3 (Category Grid) must precede Section 4 (Product Spotlights)");
-    assert.ok(spotlightsIdx < brandsIdx, "Section 4 (Product Spotlights) must precede Section 5 (Brands Carousel)");
-    assert.ok(brandsIdx < ctaIdx, "Section 5 (Brands Carousel) must precede Section 6 (Shop CTA)");
+    assert.ok(stripIdx < spotlightsIdx, "Section 2 (Store Confidence) must precede Section 3 (Product Spotlights)");
+    assert.ok(spotlightsIdx < brandsIdx, "Section 3 (Product Spotlights) must precede Section 4 (Brands Carousel)");
+    assert.ok(brandsIdx < catGridIdx, "Section 4 (Brands Carousel) must precede Section 5 (Category Grid)");
+
+    // Ensure exactly ONE instance of Category Grid
+    const catGridCount = (homeViewCode.match(/<MobileCategoryGrid/g) || []).length;
+    assert.equal(catGridCount, 1, "Exactly ONE instance of MobileCategoryGrid must be rendered");
   });
 
   await t.test("Section 1: MobilePromoBanner invariants & non-seasonal rule", () => {
