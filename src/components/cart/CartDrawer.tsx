@@ -3,14 +3,22 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { formatMoney } from "@/lib/utils";
+import { generateWhatsAppOrderUrl } from "@/lib/whatsapp/orderMessage";
 
 export function CartDrawer() {
-  const { cart, isCartOpen, closeCart, updateQuantity, removeItem, openEnquiry, checkout } = useCart();
+  const { cart, isCartOpen, isLoading, closeCart, updateQuantity, removeItem } = useCart();
   const triggerElementRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleWhatsAppOrder = () => {
+    if (isLoading || !cart.lines || cart.lines.length === 0) return;
+    const url = generateWhatsAppOrderUrl(cart);
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
 
   // Initial focus management & focus restoration
   useEffect(() => {
@@ -121,6 +129,11 @@ export function CartDrawer() {
                   <p className="text-[11px] text-[#4B5563] mt-0.5">
                     {item.merchandise.product.vendor}
                   </p>
+                  {item.merchandise.title && item.merchandise.title !== "Default Title" && (
+                    <span className="text-[10px] text-[#42634A] font-medium block mt-0.5">
+                      Option: {item.merchandise.title}
+                    </span>
+                  )}
 
                   <div className="flex items-center justify-between mt-3">
                     {/* Stepper */}
@@ -143,17 +156,6 @@ export function CartDrawer() {
                         <Plus className="w-3 h-3" />
                       </button>
                     </div>
-
-                    {/* Price */}
-                    <div className="text-right">
-                      <span className="text-xs font-bold text-[#14532D]">
-                        {formatMoney({
-                          amount: (
-                            parseFloat(item.merchandise.price.amount) * item.quantity
-                          ).toFixed(2),
-                        })}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -164,36 +166,33 @@ export function CartDrawer() {
         {/* Footer */}
         {cart.lines.length > 0 && (
           <div className="p-4 border-t border-[#E8DFCF] bg-[#F7EBD8] space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-[#1F2937] font-medium">Estimated Subtotal</span>
-              <span className="text-base font-bold text-[#14532D]">
-                {formatMoney(cart.cost.subtotalAmount)}
+            <div className="flex items-center justify-between text-xs sm:text-sm">
+              <span className="text-[#1F2937] font-semibold">Basket Summary</span>
+              <span className="text-xs sm:text-sm font-bold text-[#14532D]">
+                {cart.lines.length} {cart.lines.length === 1 ? "product" : "products"} | {cart.totalQuantity} {cart.totalQuantity === 1 ? "item" : "items"}
               </span>
             </div>
             <p className="text-[11px] text-[#4B5563] leading-tight">
-              Taxes and delivery / shipping fees will be verified prior to payment link issuance.
+              Order directly with our Marshfield store via WhatsApp for fast pickup or delivery confirmation.
             </p>
 
             <div className="space-y-2 pt-1">
               <button
-                onClick={() => {
-                  closeCart();
-                  checkout();
-                }}
-                className="w-full bg-[#14532D] hover:bg-[#0F3D21] text-white py-2.5 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                type="button"
+                onClick={handleWhatsAppOrder}
+                disabled={cart.lines.length === 0 || isLoading}
+                className="w-full bg-[#14532D] hover:bg-[#0F3D21] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-4 text-xs sm:text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer min-h-[44px] active:scale-[0.99]"
               >
-                <span>Proceed to Checkout</span>
-                <ArrowRight className="w-4 h-4 text-[#22C55E]" />
+                <MessageCircle className="w-4 h-4 text-[#22C55E]" />
+                <span>{isLoading ? "Syncing basket..." : "Order via WhatsApp"}</span>
               </button>
 
               <button
-                onClick={() => {
-                  closeCart();
-                  openEnquiry();
-                }}
-                className="w-full border border-[#14532D]/30 bg-[#FDF4E3] hover:bg-white text-[#14532D] py-2 px-4 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                type="button"
+                onClick={closeCart}
+                className="w-full border border-[#14532D]/30 bg-[#FDF4E3] hover:bg-white text-[#14532D] py-2.5 px-4 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
               >
-                <span>Review Basket &amp; Request Confirmation</span>
+                <span>Continue Shopping</span>
               </button>
 
               <Link

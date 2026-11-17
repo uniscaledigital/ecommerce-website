@@ -92,24 +92,22 @@ test("Phase 19 / Milestone v7.0 Code Quality & Stability Hardening Suite", async
   });
 
   // --------------------------------------------------------------------------
-  // WP-2: Business Logic & B2B Pricing Gate
+  // WP-2: Business Logic & B2B Pricing Gate (Superseded by Pricing Removal)
   // --------------------------------------------------------------------------
-  await t.test("DEF-02: ProductListCard gates Add to Basket button behind authentication", () => {
+  await t.test("DEF-02: ProductListCard renders Add to Basket button without visible pricing", () => {
     const listCardCode = fs.readFileSync(
       path.join(projectRoot, "src/components/products/ProductListCard.tsx"),
       "utf-8"
     );
 
     assert.ok(
-      listCardCode.includes("{isAuthenticated && (") &&
       listCardCode.includes("Add to Basket"),
-      "ProductListCard must wrap Add to Basket button inside {isAuthenticated && ...}"
+      "ProductListCard must render Add to Basket button"
     );
 
     assert.ok(
-      listCardCode.includes("!isAuthenticated ?") &&
-      listCardCode.includes("Log in to view price"),
-      "ProductListCard must show Log in to view price when unauthenticated"
+      !listCardCode.includes("formatMoney") && !listCardCode.includes("minVariantPrice"),
+      "ProductListCard must not render price amounts"
     );
   });
 
@@ -326,18 +324,21 @@ test("Phase 19 / Milestone v7.0 Code Quality & Stability Hardening Suite", async
   });
 
   // --------------------------------------------------------------------------
-  // Safety Invariants: Design Preservation
+  // Safety Invariants: Design Preservation & Pricing Removal
   // --------------------------------------------------------------------------
-  await t.test("Safety Invariant: ProductCard.tsx remains untouched and protected", () => {
+  await t.test("Safety Invariant: ProductCard.tsx preserves Add to Cart and removes pricing", () => {
     const cardCode = fs.readFileSync(
       path.join(projectRoot, "src/components/products/ProductCard.tsx"),
       "utf-8"
     );
     assert.ok(cardCode.length > 0, "ProductCard.tsx must exist");
-    // Ensure ProductCard preserves authentication gating
     assert.ok(
-      cardCode.includes("Log in to view prices") && cardCode.includes("!isAuthenticated"),
-      "ProductCard.tsx must strictly preserve its login-gated customer pricing contract"
+      cardCode.includes("Add to Cart") && cardCode.includes("<Plus"),
+      "ProductCard.tsx must preserve Add to Cart button and Plus icon"
+    );
+    assert.ok(
+      !cardCode.includes("formatMoney") && !cardCode.includes("minVariantPrice"),
+      "ProductCard.tsx must not render price amounts"
     );
   });
 });

@@ -5,10 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Plus, Minus, Check, Share2, Pin, ShieldCheck, Heart } from "lucide-react";
 import { Product } from "@/types";
-import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/hooks/useWishlist";
-import { formatMoney } from "@/lib/utils";
 import { ProductGrid } from "@/components/products/ProductGrid";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -36,7 +34,6 @@ export function ProductDetailsClient({
   product,
   relatedProducts,
 }: ProductDetailsClientProps) {
-  const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
   const { isWishlisted, toggleWishlist } = useWishlist();
   const wishlisted = isWishlisted(product.id);
@@ -167,131 +164,92 @@ export function ProductDetailsClient({
             </div>
           </div>
 
-          {/* Pricing & Cart Action Block */}
-          <div className="space-y-4">
-            {!isAuthenticated ? (
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <Link
-                    href="/account/login"
-                    className="dashed-login-btn flex-1 py-3.5 px-4 text-center text-sm font-semibold rounded-lg min-h-[44px]"
-                  >
-                    <span className="underline font-bold">Log in</span> to view prices
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => toggleWishlist(product.id)}
-                    aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
-                    aria-pressed={wishlisted}
-                    className={`h-12 w-12 min-w-[48px] min-h-[48px] rounded-lg border flex items-center justify-center transition-all shadow-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#22C55E] ${
-                      wishlisted
-                        ? "bg-[#DDF1D5] border-[#22C55E] text-[#14532D]"
-                        : "bg-white border-[#E8DFCF] text-[#14532D] hover:bg-[#FDF4E3] hover:border-[#62A86A]"
+          {/* Cart Action Block */}
+          <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-xs sm:text-sm font-semibold text-[#14532D]">
+                Marshfield, Massachusetts Store
+              </span>
+              <div className="text-right">
+                <span
+                  className={`inline-flex items-center gap-1.5 text-xs font-semibold ${
+                    product.availableForSale
+                      ? "text-[#14532D]"
+                      : "text-red-600"
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      product.availableForSale
+                        ? "bg-[#22C55E]"
+                        : "bg-red-500"
                     }`}
-                  >
-                    <Heart
-                      className={`w-5 h-5 transition-colors ${
-                        wishlisted
-                          ? "fill-[#22C55E] text-[#22C55E]"
-                          : "text-[#14532D]"
-                      }`}
-                    />
-                  </button>
-                </div>
-                <p className="text-xs text-[#4B5563] text-center">
-                  Wholesale and customer pricing is available upon signing in.
-                </p>
+                  />
+                  {product.availableForSale ? "In stock" : "Out of stock"}
+                </span>
               </div>
-            ) : (
-              <div className="bg-[#FFFAF1] border border-[#E8DFCF] rounded-xl p-4 sm:p-5 space-y-4 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xl sm:text-2xl font-bold text-[#14532D]">
-                      {formatMoney(currentVariant.price)}
-                    </span>
-                    <span className="text-xs text-[#4B5563] block mt-0.5">
-                      Prices in USD • Marshfield, Massachusetts Store
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold ${
-                        product.availableForSale
-                          ? "text-[#14532D]"
-                          : "text-red-600"
-                      }`}
-                    >
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          product.availableForSale
-                            ? "bg-[#22C55E]"
-                            : "bg-red-500"
-                        }`}
-                      />
-                      {product.availableForSale ? "In stock" : "Out of stock"}
-                    </span>
-                  </div>
-                </div>
+            </div>
 
-                {/* Quantity & Add to Cart */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-                  <div className="flex items-center justify-between sm:justify-start border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] h-12">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
-                      aria-label="Decrease quantity"
-                    >
-                      <Minus className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="px-3 text-sm font-bold text-[#1F2937] min-w-[28px] text-center">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
-                      aria-label="Increase quantity"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={!product.availableForSale}
-                    className="flex-1 bg-[#14532D] hover:bg-[#064E3B] text-white h-12 px-6 text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50"
-                  >
-                    {isAdded ? (
-                      <>
-                        <Check className="w-4 h-4 text-[#22C55E]" />
-                        <span>Added to Cart!</span>
-                      </>
-                    ) : (
-                      <span>Add to Cart</span>
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => toggleWishlist(product.id)}
-                    aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
-                    aria-pressed={wishlisted}
-                    className={`h-12 w-12 min-w-[48px] min-h-[48px] rounded-lg border flex items-center justify-center transition-all shadow-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#22C55E] ${
-                      wishlisted
-                        ? "bg-[#DDF1D5] border-[#22C55E] text-[#14532D]"
-                        : "bg-white border-[#E8DFCF] text-[#14532D] hover:bg-[#FDF4E3] hover:border-[#62A86A]"
-                    }`}
-                  >
-                    <Heart
-                      className={`w-5 h-5 transition-colors ${
-                        wishlisted
-                          ? "fill-[#22C55E] text-[#22C55E]"
-                          : "text-[#14532D]"
-                      }`}
-                    />
-                  </button>
-                </div>
+            {/* Quantity & Add to Cart */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+              <div className="flex items-center justify-between sm:justify-start border border-[#E8DFCF] rounded-lg bg-[#FFFAF1] h-12">
+                <button
+                  type="button"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
+                  aria-label="Decrease quantity"
+                >
+                  <Minus className="w-3.5 h-3.5" />
+                </button>
+                <span className="px-3 text-sm font-bold text-[#1F2937] min-w-[28px] text-center">
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-12 h-12 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
+                  aria-label="Increase quantity"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                </button>
               </div>
-            )}
+
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                disabled={!product.availableForSale}
+                className="flex-1 bg-[#14532D] hover:bg-[#064E3B] text-white h-12 px-6 text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs disabled:opacity-50 cursor-pointer"
+              >
+                {isAdded ? (
+                  <>
+                    <Check className="w-4 h-4 text-[#22C55E]" />
+                    <span>Added to Cart!</span>
+                  </>
+                ) : (
+                  <span>Add to Cart</span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => toggleWishlist(product.id)}
+                aria-label={wishlisted ? `Remove ${product.title} from Favourites` : `Save ${product.title} to Favourites`}
+                aria-pressed={wishlisted}
+                className={`h-12 w-12 min-w-[48px] min-h-[48px] rounded-lg border flex items-center justify-center transition-all shadow-xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#22C55E] ${
+                  wishlisted
+                    ? "bg-[#DDF1D5] border-[#22C55E] text-[#14532D]"
+                    : "bg-white border-[#E8DFCF] text-[#14532D] hover:bg-[#FDF4E3] hover:border-[#62A86A]"
+                }`}
+              >
+                <Heart
+                  className={`w-5 h-5 transition-colors ${
+                    wishlisted
+                      ? "fill-[#22C55E] text-[#22C55E]"
+                      : "text-[#14532D]"
+                  }`}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Variant Selector */}

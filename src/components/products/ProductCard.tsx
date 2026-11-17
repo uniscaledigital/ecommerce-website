@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Plus, Check } from "lucide-react";
 import { Product } from "@/types";
-import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { formatMoney } from "@/lib/utils";
 import { ProductImage } from "./ProductImage";
 
 export interface ProductCardProps {
@@ -22,7 +20,6 @@ export function ProductCard({
   priority = false,
   variant = "standard",
 }: ProductCardProps) {
-  const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
@@ -102,48 +99,26 @@ export function ProductCard({
           </div>
         </div>
 
-        {/* Pricing / CTA Experience */}
+        {/* CTA Experience */}
         <div className="mt-3 sm:mt-4 pt-1">
-          {!isAuthenticated ? (
-            <Link
-              href="/account/login"
-              className="w-full min-h-[44px] h-11 sm:h-11 md:h-12 px-2 rounded-full border border-[#62A86A] bg-white/80 hover:bg-white text-[#14532D] font-semibold text-[11px] xs:text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs hover:border-[#14532D] text-center"
-            >
-              <span>Log in to view prices</span>
-            </Link>
-          ) : (
-            <div className="space-y-1.5 sm:space-y-2">
-              <div className="flex items-center justify-between px-1">
-                <span className="text-sm sm:text-base font-bold text-[#14532D]">
-                  {formatMoney(product.priceRange.minVariantPrice)}
-                </span>
-                {product.variants[0]?.title &&
-                  product.variants[0]?.title !== "Default Title" && (
-                    <span className="text-[10px] sm:text-[11px] text-[#42634A] font-medium truncate max-w-[100px] sm:max-w-[120px]">
-                      {product.variants[0].title}
-                    </span>
-                  )}
-              </div>
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={!product.availableForSale}
-                className="w-full min-h-[44px] h-11 sm:h-11 md:h-12 px-2 rounded-full bg-[#14532D] hover:bg-[#0F3D21] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 transition-colors disabled:opacity-50 shadow-xs active:scale-[0.99]"
-              >
-                {isAdded ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#22C55E]" />
-                    <span>Added!</span>
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span>Add to Cart</span>
-                  </>
-                )}
-              </button>
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={!product.availableForSale}
+            className="w-full min-h-[44px] h-11 sm:h-11 md:h-12 px-2 rounded-full bg-[#14532D] hover:bg-[#0F3D21] text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 transition-colors disabled:opacity-50 shadow-xs active:scale-[0.99]"
+          >
+            {isAdded ? (
+              <>
+                <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#22C55E]" />
+                <span>Added!</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>Add to Cart</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
     </article>

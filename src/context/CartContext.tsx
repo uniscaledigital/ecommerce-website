@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { Cart, CartLineItem, Product } from "@/types";
+import { generateWhatsAppOrderUrl } from "@/lib/whatsapp/orderMessage";
 
 interface CartContextType {
   cart: Cart;
@@ -542,21 +543,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const checkout = () => {
-    const url = cartRef.current.checkoutUrl;
-    if (!IS_PRODUCTION) {
-      setIsDemoCheckoutOpen(true);
-      return;
-    }
+    if (cartRef.current.lines.length === 0) return;
     if (pendingRef.current > 0) {
-      setError("Your basket is still syncing. Please try checkout again in a moment.");
+      setError("Your basket is still syncing. Please wait a moment before completing your order.");
       return;
     }
-    if (url && url.startsWith("https://")) {
-      window.location.href = url;
-      return;
+    const whatsappUrl = generateWhatsAppOrderUrl(cartRef.current);
+    if (typeof window !== "undefined") {
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     }
-    setError("Checkout is temporarily unavailable. Please request confirmation instead.");
-    setIsEnquiryOpen(true);
   };
 
   return (

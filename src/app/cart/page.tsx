@@ -3,13 +3,21 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Plus, Minus, Trash2, ShoppingBag, ArrowRight, ShieldCheck, ArrowLeft } from "lucide-react";
+import { Plus, Minus, Trash2, ShoppingBag, ArrowRight, MessageCircle } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { formatMoney } from "@/lib/utils";
+import { generateWhatsAppOrderUrl } from "@/lib/whatsapp/orderMessage";
 import { OrderConfidenceSection } from "@/components/home/OrderConfidenceSection";
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeItem, clearCart, openEnquiry, checkout } = useCart();
+  const { cart, isLoading, updateQuantity, removeItem, clearCart } = useCart();
+
+  const handleWhatsAppOrder = () => {
+    if (isLoading || !cart.lines || cart.lines.length === 0) return;
+    const url = generateWhatsAppOrderUrl(cart);
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <div className="section-inner py-8 space-y-12">
@@ -34,7 +42,7 @@ export default function CartPage() {
           <div className="pt-2">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 bg-[#14532D] hover:bg-[#064E3B] text-white px-6 py-3 text-xs font-semibold rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#14532D] hover:bg-[#0F3D21] text-white px-6 py-3 text-xs font-semibold rounded-lg transition-colors shadow-sm"
             >
               <span>Explore The Shop</span>
               <ArrowRight className="w-4 h-4 text-[#22C55E]" />
@@ -80,20 +88,22 @@ export default function CartPage() {
                       >
                         {item.merchandise.product.title}
                       </Link>
-                      <p className="text-xs text-[#14532D] font-bold mt-1">
-                        {formatMoney(item.merchandise.price)}
-                      </p>
+                      {item.merchandise.title && item.merchandise.title !== "Default Title" && (
+                        <p className="text-xs text-[#42634A] font-medium mt-0.5">
+                          Option: {item.merchandise.title}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  {/* Right: Stepper, Line Total, Remove */}
+                  {/* Right: Stepper, Remove */}
                   <div className="flex items-center justify-between sm:justify-end gap-6 pt-2 sm:pt-0 border-t sm:border-0 border-[#E8DFCF]/40">
                     {/* Stepper */}
                     <div className="flex items-center border border-[#E8DFCF] rounded-md bg-[#FFFAF1]">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
-                        aria-label="Decrease quantity"
+                        aria-label={`Decrease quantity for ${item.merchandise.product.title}`}
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
@@ -103,28 +113,17 @@ export default function CartPage() {
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className="w-8 h-8 flex items-center justify-center text-[#1F2937] hover:text-[#14532D]"
-                        aria-label="Increase quantity"
+                        aria-label={`Increase quantity for ${item.merchandise.product.title}`}
                       >
                         <Plus className="w-3.5 h-3.5" />
                       </button>
-                    </div>
-
-                    {/* Total */}
-                    <div className="text-right min-w-[70px]">
-                      <span className="text-sm font-bold text-[#14532D]">
-                        {formatMoney({
-                          amount: (
-                            parseFloat(item.merchandise.price.amount) * item.quantity
-                          ).toFixed(2),
-                        })}
-                      </span>
                     </div>
 
                     {/* Remove */}
                     <button
                       onClick={() => removeItem(item.id)}
                       className="text-[#4B5563] hover:text-red-600 p-2 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-md hover:bg-red-50 transition-colors"
-                      aria-label="Remove item"
+                      aria-label={`Remove ${item.merchandise.product.title}`}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -137,55 +136,52 @@ export default function CartPage() {
           {/* Right Summary */}
           <div className="lg:col-span-4 bg-[#FFFAF1] border border-[#E8DFCF] rounded-2xl p-6 space-y-5 shadow-xs">
             <h2 className="font-serif-display text-lg font-bold text-[#1F2937] border-b border-[#E8DFCF] pb-3">
-              Farmhouse Order Summary
+              Farmhouse Basket Summary
             </h2>
 
-            <div className="space-y-2.5 text-xs text-[#4B5563]">
-              <div className="flex justify-between">
-                <span>Items Subtotal</span>
+            <div className="space-y-3 text-xs text-[#4B5563]">
+              <div className="flex justify-between items-center">
+                <span>Unique Products</span>
                 <span className="font-bold text-[#1F2937]">
-                  {formatMoney(cart.cost.subtotalAmount)}
+                  {cart.lines.length} {cart.lines.length === 1 ? "Product" : "Products"}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span>Massachusetts Sales Tax</span>
-                <span>Calculated on enquiry</span>
+              <div className="flex justify-between items-center">
+                <span>Total Items</span>
+                <span className="font-bold text-[#1F2937]">
+                  {cart.totalQuantity} {cart.totalQuantity === 1 ? "Item" : "Items"}
+                </span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <span>Marshfield Store Pickup</span>
-                <span className="text-[#14532D] font-bold">Free (2-Hour Ready)</span>
+                <span className="text-[#14532D] font-bold">Free (Ready daily)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Direct Order Method</span>
+                <span className="text-[#14532D] font-bold">WhatsApp Direct</span>
               </div>
             </div>
 
-            <div className="border-t border-[#E8DFCF] pt-3 flex justify-between items-center text-sm">
-              <span className="font-bold text-[#1F2937]">Estimated Total</span>
-              <span className="text-xl font-bold text-[#14532D]">
-                {formatMoney(cart.cost.subtotalAmount)}
-              </span>
+            <div className="border-t border-[#E8DFCF] pt-3 text-[11px] text-[#4B5563] leading-relaxed">
+              Orders are submitted directly to our Marshfield storefront team via WhatsApp for stock confirmation and fulfillment.
             </div>
 
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-2.5 pt-1">
               <button
-                onClick={checkout}
-                className="w-full bg-[#14532D] hover:bg-[#064E3B] text-white py-3 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                type="button"
+                onClick={handleWhatsAppOrder}
+                disabled={cart.lines.length === 0 || isLoading}
+                className="w-full bg-[#14532D] hover:bg-[#0F3D21] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-4 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer min-h-[44px] active:scale-[0.99]"
               >
-                <ShieldCheck className="w-4 h-4 text-[#22C55E]" />
-                <span>Proceed to Checkout</span>
-              </button>
-
-              <button
-                onClick={openEnquiry}
-                className="w-full bg-[#F7EBD8] hover:bg-[#EADFC9] text-[#14532D] border border-[#14532D]/30 py-2.5 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <span>Review Basket &amp; Request Confirmation</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#22C55E]" />
+                <MessageCircle className="w-4 h-4 text-[#22C55E]" />
+                <span>{isLoading ? "Syncing basket..." : "Order via WhatsApp"}</span>
               </button>
 
               <Link
                 href="/shop"
-                className="w-full block text-center text-xs text-[#4B5563] hover:text-[#14532D] pt-2"
+                className="w-full inline-flex items-center justify-center border border-[#14532D]/30 bg-[#FDF4E3] hover:bg-white text-[#14532D] py-2.5 px-4 text-xs font-semibold rounded-xl transition-colors min-h-[44px]"
               >
-                ← Continue shopping
+                Continue Shopping
               </Link>
             </div>
           </div>

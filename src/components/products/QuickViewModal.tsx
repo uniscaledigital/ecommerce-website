@@ -5,10 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { X, Plus, Minus, Check, ArrowRight, Heart } from "lucide-react";
 import { Product } from "@/types";
-import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/hooks/useWishlist";
-import { formatMoney } from "@/lib/utils";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -16,7 +14,6 @@ interface QuickViewModalProps {
 }
 
 export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
-  const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
   const { isWishlisted, toggleWishlist } = useWishlist();
   const [quantity, setQuantity] = useState(1);
@@ -218,77 +215,62 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
 
             {/* Bottom Commerce Controls */}
             <div className="pt-6 border-t border-[#D0E7C9] space-y-4">
-              {!isAuthenticated ? (
-                <div className="space-y-2">
-                  <Link
-                    href="/account/login"
-                    onClick={onClose}
-                    className="w-full h-11 rounded-full border border-[#62A86A] bg-white/70 hover:bg-white text-[#14532D] font-semibold text-xs sm:text-sm flex items-center justify-center transition-colors shadow-xs"
-                  >
-                    Log in to view prices
-                  </Link>
-                  <p className="text-[11px] text-center text-[#42634A]">
-                    Prices are reserved for registered customers.
-                  </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-[#14532D] font-semibold">
+                    Farmhouse Provision
+                  </span>
+                  <span className="text-xs text-[#22C55E] font-semibold flex items-center gap-1.5">
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        product.availableForSale ? "bg-[#22C55E]" : "bg-red-500"
+                      }`}
+                    />
+                    {product.availableForSale ? "In stock" : "Out of stock"}
+                  </span>
                 </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-[#14532D]">
-                      {formatMoney(currentVariant.price)}
-                    </span>
-                    <span className="text-xs text-[#22C55E] font-semibold flex items-center gap-1.5">
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          product.availableForSale ? "bg-[#22C55E]" : "bg-red-500"
-                        }`}
-                      />
-                      {product.availableForSale ? "In stock" : "Out of stock"}
-                    </span>
-                  </div>
 
-                  <div className="flex items-center gap-3">
-                    {/* Stepper */}
-                    <div className="flex items-center border border-[#D0E7C9] rounded-full bg-white px-1.5 py-0.5">
-                      <button
-                        type="button"
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
-                        aria-label="Decrease quantity"
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <span className="px-3 text-xs font-bold text-[#14532D]">
-                        {quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setQuantity(quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
-                        aria-label="Increase quantity"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
+                <div className="flex items-center gap-3">
+                  {/* Stepper */}
+                  <div className="flex items-center border border-[#D0E7C9] rounded-full bg-white px-1.5 py-0.5">
                     <button
                       type="button"
-                      onClick={handleAddToCart}
-                      disabled={!product.availableForSale}
-                      className="flex-1 h-11 rounded-full bg-[#14532D] hover:bg-[#064E3B] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
+                      aria-label="Decrease quantity"
                     >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-4 h-4 text-[#22C55E]" />
-                          <span>Added to Cart!</span>
-                        </>
-                      ) : (
-                        <span>Add to Cart</span>
-                      )}
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="px-3 text-xs font-bold text-[#14532D]">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="w-8 h-8 flex items-center justify-center text-[#14532D] hover:text-[#064E3B] rounded-full hover:bg-[#DDF1D5]/40 transition-colors"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
                     </button>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddToCart}
+                    disabled={!product.availableForSale}
+                    className="flex-1 h-11 rounded-full bg-[#14532D] hover:bg-[#064E3B] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-xs cursor-pointer"
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="w-4 h-4 text-[#22C55E]" />
+                        <span>Added to Cart!</span>
+                      </>
+                    ) : (
+                      <span>Add to Cart</span>
+                    )}
+                  </button>
                 </div>
-              )}
+              </div>
 
               <Link
                 href={`/products/${product.handle}`}

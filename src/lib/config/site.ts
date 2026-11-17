@@ -9,6 +9,8 @@ export const SITE_CONFIG = {
     "Imported Irish and UK grocery favourites in Marshfield, Massachusetts. Delivered straight from Dublin and Cork to New England weekly.",
   phone: "(774) 699-0889",
   phoneRaw: "7746990889",
+  whatsapp: "+1 (774) 699-0889",
+  whatsappRaw: "17746990889",
   email: "irishgrocer@gmail.com",
   address: {
     street: "1899 Ocean St",

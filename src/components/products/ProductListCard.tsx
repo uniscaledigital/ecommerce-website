@@ -5,10 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Plus, Check, Eye, Star, Heart } from "lucide-react";
 import { Product } from "@/types";
-import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/hooks/useWishlist";
-import { formatMoney } from "@/lib/utils";
 
 interface ProductListCardProps {
   product: Product;
@@ -21,7 +19,6 @@ export function ProductListCard({
   onQuickView,
   priority = false,
 }: ProductListCardProps) {
-  const { isAuthenticated } = useAuth();
   const { addItem } = useCart();
   const { isWishlisted, toggleWishlist } = useWishlist();
   const wishlisted = isWishlisted(product.id);
@@ -40,8 +37,6 @@ export function ProductListCard({
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
   };
-
-  const firstVariant = product.variants[0];
 
   return (
     <article className="group relative flex flex-col sm:flex-row items-stretch rounded-2xl border border-[#D0E7C9] bg-[#EDF8E9] shadow-[0_4px_14px_rgba(20,83,45,0.07)] overflow-hidden transition-all duration-200 hover:shadow-[0_10px_20px_rgba(20,83,45,0.12)] hover:border-[#14532D]/30">
@@ -148,52 +143,32 @@ export function ProductListCard({
           )}
         </div>
 
-        {/* Pricing & Add to Cart Action */}
-        <div className="pt-3 border-t border-[#D0E7C9] flex flex-wrap items-center justify-between gap-3">
-          {!isAuthenticated ? (
-            <Link
-              href="/account/login"
-              className="h-10 px-4 rounded-xl border border-[#62A86A] bg-white hover:bg-[#F7EBD8] text-[#14532D] font-semibold text-xs flex items-center justify-center transition-colors shadow-xs"
-            >
-              Log in to view price
-            </Link>
-          ) : (
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg sm:text-xl font-bold text-[#14532D]">
-                {formatMoney(product.priceRange.minVariantPrice)}
-              </span>
-              {firstVariant?.title && firstVariant.title !== "Default Title" && (
-                <span className="text-xs text-[#42634A]">({firstVariant.title})</span>
-              )}
-            </div>
-          )}
-
-          {isAuthenticated && (
-            <button
-              type="button"
-              disabled={!product.availableForSale}
-              onClick={handleAddToCart}
-              className={`h-10 px-5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 shadow-sm min-h-[44px] ${
-                !product.availableForSale
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : isAdded
-                  ? "bg-[#22C55E] text-white"
-                  : "bg-[#14532D] hover:bg-[#064E3B] text-white"
-              }`}
-            >
-              {isAdded ? (
-                <>
-                  <Check className="w-4 h-4" />
-                  <span>Added to Basket</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4" />
-                  <span>{product.availableForSale ? "Add to Basket" : "Out of Stock"}</span>
-                </>
-              )}
-            </button>
-          )}
+        {/* Add to Basket Action */}
+        <div className="pt-3 border-t border-[#D0E7C9] flex items-center justify-end">
+          <button
+            type="button"
+            disabled={!product.availableForSale}
+            onClick={handleAddToCart}
+            className={`h-10 px-5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 shadow-sm min-h-[44px] ${
+              !product.availableForSale
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : isAdded
+                ? "bg-[#22C55E] text-white"
+                : "bg-[#14532D] hover:bg-[#064E3B] text-white"
+            }`}
+          >
+            {isAdded ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span>Added to Basket</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-4 h-4" />
+                <span>{product.availableForSale ? "Add to Basket" : "Out of Stock"}</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
     </article>
